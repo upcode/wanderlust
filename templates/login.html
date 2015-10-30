@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>login Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+
+  <body>
+    <form id="login" action="/login" method="post">
+      <div class="two-thirds column" id="main">
+        <feildset>
+          <legend>Login</legend>
+          <label for="username">Username:</label>
+          <input type="text" id="username" usernames="username"placeholder="Username" name="username">
+          <label for="pwd">Password:</label>
+          <input type="password" id="pwd" pwd="pwd"/>
+          <input type="submit" type="submit" value="Login">
+          <input type="checkbox" id="showPwd">
+          <label
+         <feildset>
+         </div><!--END wo-thirds column-->
+       </form>
+       <script src="static/js/register.js"></script>
+       <script src="static/js/submit-event.js"></script>
+<script>
+       (function(){  // get form element
+    var form = document.getElementById('login');  // when user subits from
+    addEvent(form, 'submit', function(e) {  //stop it from being sent
+        e.preventDefault();
+        var elements = this.elements; // get all the form elements
+        var username = elements.username.value;  // select username entered
+        var msg = 'Welcome' + username; //create welcom message
+        document.getElementById('main').textContent = msg; //write welcome message
+    });
+}());
+       </script>
+
+      </body>
+      </html>

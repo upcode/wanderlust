@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+    var autocomplete = new google.maps.places.Autocomplete($('#input[name="location"')[0], {types: ['geocode']});
+
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    var place = autocomplete.getPlace();
+    $('input[name="location_id"]').val(place.id);
+    $('input[name="location_lat"]').val(place.geometry.location.lat());
+    $('input[name="location_lng"]').val(place.geometry.location.lng());
+    $('input[name="location_country"]').val(findComponent(place, 'country'));
+    $('input[name="location_state"]').val(findComponent(place, 'administrative_area_level_1'));
+    $('input[name="location_city"]').val(findComponent(place, 'administrative_area_level_3') || findComponent(place, 'locality'));
+});
+
+function findComponent(result, type) {
+  var component = _.find(result.address_components, function(component) {
+    return _.include(component.types, type);
+  });
+  return component && component.short_name;
+}
+</script>
+</head>
+<body>
+        <!--###################POST CARD FORM ########## -->
+
+<!--GOOGLE PLACE AUTOCOMPLETE SEARCH BOX-->
+<form>
+<lable>
+    Search:
+    <input name="location" type="text" placeholder="City, State, Country">
+</label>
+<input name="location_city" type="hidden">
+<input name="location_state" type="hidden">
+<input name="location_country" type="hidden">
+<input name="location_lat" type="hidden">
+<input name="location_lng" type="hidden">
+<input name="location_id" type="hidden">
+<input type="submit" value="Search">
+<br/>
+<!--DESCRIPTION BOX-->
+<lable>
+    Description:
+</lable>
+<br/>
+
+<textarea name="description" cols="30" rows="5">
+This textbox has been given a name of "myTextBox". This can be used by any script that process the contents of this textbox (once it's been submitted to the server).
+</textarea>
+<br/>
+<!--GOOGLE MAP IMAGE-->
+
+<lable>
+    Map:
+<div id="map"></div>
+<!-- users can upload image of map to the back of desciitpion-->
+</label>
+</br>
+<!--IMAGE UPLOADER FOR FRONT OF POST CARD-->
+  <input type="file" name="postcard_image" accept="image/*">
+  <br/>
+  <img id="preview" src="#" alt="your image" />
+  <br/>
+  <!--example of image prievew-->
+  <img style="border:10px solid gray;" src="http://www.html.am/images/image-codes/milford_sound_t.jpg" width="225" height="151" alt="Photo of Milford Sound in New Zealand" />
+  <br/>
+  <input type="submit">
+</form>
+</body>
+
