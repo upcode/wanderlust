@@ -73,11 +73,11 @@ class State(db.Model):
 ##############################################################################
 
 
-class UserStates(db.Model):
+class UserState(db.Model):
     """users and states relationship table"""
-    __tablename__ = "userstates"
+    __tablename__ = "user_states"
 
-    userstate_id = db.Column(db.Integer, nullable=True, primary_key=True)
+    user_state_id = db.Column(db.Integer, nullable=True, primary_key=True)
     user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
     state_code = db.Column(db.String(2), db.ForeignKey('states.state_code'), nullable=False)
     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
@@ -120,9 +120,9 @@ class Landmark(db.Model):
 ##############################################################################
 
 
-class UserLandmarks(db.Model):
+class UserLandmark(db.Model):
     """users and states relationship table"""
-    __tablename__ = "userlandmarks"
+    __tablename__ = "user_landmarks"
 
     user_landmark_id = db.Column(db.Integer, nullable=True, primary_key=True)
 

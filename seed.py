@@ -4,6 +4,10 @@ from model import Landmark
 from model import connect_to_db, db
 from routes import app
 
+# helper function, comment out print to disable debugging
+def debug(msg):
+    print msg
+
 ###############################################################################
 # STATES
 
@@ -29,7 +33,7 @@ def load_states():
     # commit session
     db.session.commit()
 
-    print "Ya! Success!"
+    debug "Ya! Success!"
 
 
 ###############################################################################
@@ -54,6 +58,8 @@ def load_users():
         print "USER_ID: %s, FIRST_NAME: %s, LAST_NAME: %s, EMAIL: %s, USERNAME: %s,PASSWORD: %s, STATE: %s" % (user_id, first_name, last_name, email, username, password, state)
         # make State(....) object
         user = User(user_id=user_id, first_name=first_name, last_name=last_name, email=email, username=username, password=password, state=state)
+
+        # TODO: handle empty lines at the end
 
         # add to session and store users from CSV file
         db.session.add(user)

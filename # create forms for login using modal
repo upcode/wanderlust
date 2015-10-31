@@ -1,0 +1,42 @@
+# create forms for login using modal
+# routes
+
+
+A user should be able to log in
+a logged in should be able to log out
+a new user should be able to sugn up
+
+<form method="POST" action="/">
+{{ form.csrf_token }}
+{{ form.name.label }} {{ form.name(size=20) }}
+<input type="submit" value="Go">
+</form>
+
+
+routes
+
+@app.route('/submit', methods=('GET', 'POST'))
+def submit():
+    form = Myform()
+    if form.valdiate_on_submit():
+        return redirect('/success')
+    return render_template('submit.html')
+
+
+UPLOAD PICTURE
+
+from werkzeug import secure_filename
+from flask_wtf.file import FileField
+
+class PhotoForm(form):
+    photo = FileFild('Your photo')
+
+@app.route('/upload/', methods=('GET', 'POST'))
+def upload():
+    form = Photoform()
+    if form.validate_on_submit
+        filename = serure_filename(form.photo.data.filename)
+        form.photo.data.save('uploads/' + filename)
+    else:
+        filename = None
+    return render_template('upload.html', form=form, filename=filename)
