@@ -23,8 +23,9 @@ def submit():
     return render_template('submit.html')
 
 
-UPLOAD PICTURE
+<!---UPLOAD PICTURE-->
 
+//Routes
 from werkzeug import secure_filename
 from flask_wtf.file import FileField
 
@@ -40,3 +41,8 @@ def upload():
     else:
         filename = None
     return render_template('upload.html', form=form, filename=filename)
+
+VIEW JINGA
+<from action="/upload/" methods="post" enctype="multiple/form-data">
+    ....
+</form>
