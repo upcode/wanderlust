@@ -32,32 +32,20 @@ def landing_page():
 ##############################################################################
 
 
-# @app.route("/login")
-# def login_form():
-#     username = request.form.get("username")
-#     pwd = request.form.get("pwd")
-#     return render_template("login.html", username=username, pwd=pwd)
-
-
-##############################################################################
-
-# @app.route("/register")
-# def login_form():
-#     username = request.form.get("username")
-#     pwd = request.form.get("pwd")
-#     return render_template("login.html", username=username, pwd=pwd)
-
 @app.route('/map')
 def google_map():
     """google map"""
     print "map is working!!!! NAILED IT!!!!"
     return render_template('google_map.html')
 
+##############################################################################
+
 
 @app.route('/states')
 def state_list():
-
-    """Show list of states"""
+    """Show list of states, when user clicks on the state
+     D3 map color will change from grey to color of users choice
+     indicating they have visited that state"""
 
     # states in table name State is my class querying all us states and returning
     # states with name
@@ -68,6 +56,9 @@ def state_list():
 #TODO RENDER landmark to this page
     landmarks = Landmark.query.all()
     return render_template("states.html", states_in_html=states, landmarks_in_html=landmarks)
+
+
+##############################################################################
 
 # @app.route('/postcard', methods=["GET", "POST"])
 # def postcard():

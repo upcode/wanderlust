@@ -72,8 +72,8 @@
 
 function initAutocomplete() {
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 36.0340477, lng: -92.9695286},
-    zoom: 4,
+    center: {lat: -33.8688, lng: 151.2195},
+    zoom: 13,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
@@ -136,12 +136,8 @@ function initAutocomplete() {
 }
 
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initMap"
+        async defer></script>
 
-
-<!--TO DO PUT IFRAME HERE FOR MAP-->
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&libraries=places&callback=initAutocomplete"
-      async defer>
-    </script>
   </body>
 </html>
