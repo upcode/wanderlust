@@ -21,6 +21,9 @@
   color: #000;
 }
 
+.earth {
+
+}
 .earth:after {
   content: "";
   position: absolute;
@@ -53,6 +56,8 @@
 
 
 
+
+
 /*END CSS GLOBE */
 body,
 html {
@@ -77,7 +82,7 @@ h6 {
     color: #696969;
 }
 
-}
+
 
 .topnav {
     font-size: 14px;
@@ -88,7 +93,7 @@ h6 {
     font-weight: 400;
 }
 
-}
+
 .intro-header {
     padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
     padding-bottom: 50px;
@@ -99,8 +104,10 @@ h6 {
 
 .intro-message {
     position: relative;
-    padding-top: 20%;
+   padding-top: 50%;
     padding-bottom: 20%;
+
+
 }
 
 .intro-message > h1 {
@@ -127,7 +134,6 @@ h6 {
   height: 100px;
   margin: 1em;
 }
-}
 
 
 
@@ -140,3 +146,5 @@ footer {
 p.copyright {
     margin: 15px 0 0;
 }
+
+

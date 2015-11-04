@@ -1,0 +1,31 @@
+class UserPostcard(db.Model):
+    """user upload their picture and send it to social media"""
+
+    __tablename__ = "user_postcards"
+
+    user_postcard_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.ForeignKey('postcards.user_id'))
+    postcard_id = db.Column(db.Integer, db.ForeignKey('postcards.postcard_id'))
+    user_postcard_title = db.Column(db.Unicode(64))
+    created_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+    description = db.Column(db.Text)
+    user_postcard_photo = db.Column(db.Unicode(128))
+
+    #Define the relationship to user
+    user_postcards = db.relationship("User", backref=db.backref("user_postcards.postcarduser_id", order_by=postcard_user_id))
+    #Define the relationship to user table
+    users = db.relationship("User", backref=db.backref("user_landmarks", order_by=user_id))
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Postcard postcard_id=%s user_id=%s address=%s>" % (self.postcard_id, self.user_id, self.address)
+
+
+#     postcard_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     user_id = db.Column(db.ForeignKey('postcards.user_id'))
+#     created_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+#     Address = db.Column(db.String(64))
+#     description = db.Column(db.Text)
+#     postcard_photo = db.Column(db.Unicode(128))
+s
