@@ -15,7 +15,6 @@ db = SQLAlchemy()
                 ##### MODEL FOR USER TABLE ####
 ##############################################################################
 
-
 class User(db.Model):
     __tablename__ = 'users'
 
@@ -24,19 +23,17 @@ class User(db.Model):
     last_name = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     username = db.Column(db.String(20), nullable=False)
-    password = db.Column(db.String(10), nullable=False)
+    password = db.Column(db.String(128), nullable=False, unique=True)
     state = db.Column(db.String(64), nullable=False)
     user_image = db.Column(db.Unicode(128))
 
-    def __init__(self, username, password):
-        self.username = username
-        self.set_password(password)
+    # @hybrid_property
+    # def password(self):
+    #     return self._password
 
-    def set_password(self, password):
-        self.pw_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.pw_hash, password)
+    # @password.setter
+    # def _set_password(self, plaintext):
+    #     self._password = bcrypt.generate_password_hash(plaintext)
 
 #############################################################################
         #### RELATIONSHIP TABLE FOR USER AND STATE ####

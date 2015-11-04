@@ -51,3 +51,15 @@ $(document).ready(function(){
    $('#myglobe').dialog({ autoOpen: false })
    $('#').click(function(){ $('div.thedialog').dialog('open'); });
 });
+
+
+
+
+
+// MODAL WINDOW PASSWORD
+$(function(){
+  $('#loginform').submit(function(e){
+    return false;
+  });
+$('#modaltrigger').leanModal({ top: 110, overlay: 0.45, closeButton: ".hidemodal" });
+});

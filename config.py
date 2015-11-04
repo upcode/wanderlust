@@ -1,0 +1,2 @@
+BCRYPT_LOG_ROUNDS = 12
+

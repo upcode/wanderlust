@@ -55,9 +55,6 @@
 }
 
 
-
-
-
 /*END CSS GLOBE */
 body,
 html {
@@ -65,86 +62,43 @@ html {
     height: 100%;
 
 }
-body{
+#footer,body{
      background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
 
 }
 
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 700;
-    color: #696969;
+#button1, #button2 {
+  display: inline block;
+
+}
+
+
+.words {
+  font-family: 'Waiting for the Sunrise', cursive;
+  text-align: center; text-shadow: 0 1px 1px #fff;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
 
 
-.topnav {
-    font-size: 14px;
+.siginiture {
+    margin: 10px 0 0;
 }
 
-.lead {
-    font-size: 18px;
-    font-weight: 400;
-}
-
-
-.intro-header {
-    padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
-    padding-bottom: 50px;
-    text-align: center;
-    color: #f8f8f8;
-    background-size: cover;
-}
-
-.intro-message {
-    position: relative;
-   padding-top: 50%;
-    padding-bottom: 20%;
-
-
-}
-
-.intro-message > h1 {
-    margin: 0;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-size: 5em;
-    text-align: center;
-}
-
-.intro-divider {
-    width: 400px;
-    border-top: 1px solid #f8f8f8;
-    border-bottom: 1px solid rgba(0,0,0,0.4);
-}
-
-.intro-message > h3 {
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+.title {
+  color: #2E8B57; font-family: "Great Vibes", cursive; font-size: 50px; line-height: 50px; font-weight: normal; margin-bottom: 0px; margin-top: 40px; text-align: center; text-shadow: 0 1px 1px #fff;
 }
 
 
-.list-inline{
-    display: inline-block;
-    width: 200px;
-  height: 100px;
-  margin: 1em;
+.subtitle {
+
+  color: #2E8B57; font-family: "Calligraffitti", cursive;; font-size: 20px; line-height: 20px; font-weight: normal; margin-bottom: 0px; margin-top: 10px; text-align: center; text-shadow: 0 1px 1px #fff;
 }
 
-
-
-footer {
-    padding: 50px 0;
-   /* background-color: #f8f8f8;*/
-    background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
+.siginiture
+{
+  text-align: center;
 }
-
-p.copyright {
-    margin: 15px 0 0;
-}
-
-
+/*a { color: #d54d7b; font-family: "Great Vibes", cursive; font-size: 165px; line-height: 160px; font-weight: normal; margin-bottom: 0px; margin-top: 40px; text-align: center; text-shadow: 0 1px 1px #fff; }
+*/
