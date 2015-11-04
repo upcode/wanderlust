@@ -1,9 +1,42 @@
 <!DOCTYPE html>
-<hmtl>
-  <head>
 <meta charset="utf-8">
+<!--     /// BOOTSTRAP CND ///  -->
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+<!--     /// BOOTSTRAP CND ///  -->
+
 <style>
 
+body{
+     background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
+
+}
+
+body {
+  padding: 200px;
+}
+#logo(max-width: 767px) {
+
+}
+.navbar-brand {
+        padding: 10;
+        margin: 10px 0px 0px 10px;
+    }
+ .navbar-brand img {
+        margin-top: 5px;
+        margin-left: 5px;
+    }
+}
+.navbar-toggle {
+   margin: 30px 0;
+}
 .background {
   fill: none;
   pointer-events: all;
@@ -27,12 +60,46 @@
 }
 
 </style>
-</head>
 <body>
+  <!--NAV BAR-->
+  <section>
+    <nav class="navbar navbar-default navbar-fixed-top topnav role="navigation"">
+  <div class="container-fluid">
+    <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            <img src="/static/img/logo.jgp" height="80" width="80">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right" style="display:inline: block, float: left">
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+              </div>
+            </div>
+            </div>
+          </div>
+</nav>
 
-  HELLO
+
+
+    <header>
+      <h1>United States</h1>
+    </header>
+  </section>
+<br/>
+<br/>
+<br/></br>
+
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
+
+<div>
 <script>
 
 var width = 960,
@@ -58,7 +125,8 @@ svg.append("rect")
 
 var g = svg.append("g");
 
-d3.json("static/us.json", function(error, us) {
+// WHERE US MAP JOSON DATA IS
+d3.json("static/d3mapdata/us.json", function(error, us) {
   if (error) throw error;
 
   g.append("g")
@@ -75,8 +143,6 @@ d3.json("static/us.json", function(error, us) {
       .attr("d", path);
 });
 
-//
-
 function clicked(d) {
   var x, y, k;
 
@@ -86,8 +152,6 @@ function clicked(d) {
     y = centroid[1];
     k = 4;
     centered = d;
-    console.log(d.id);
-    console.log(state_name_dict[d.id]);
   } else {
     x = width / 2;
     y = height / 2;
@@ -103,8 +167,10 @@ function clicked(d) {
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
       .style("stroke-width", 1.5 / k + "px");
 }
+
 // state dic
 var state_name_dict = {
+
   1: ["AL", "Alabama"],
   2: ["AK", "Alaska"],
   4: ["AZ", "Arizona"],
@@ -157,8 +223,6 @@ var state_name_dict = {
   55: ["WI", "Wisconsin"],
   56: ["WY", "Wyoming"]
 };
-
-
 </script>
 </body>
 </html>

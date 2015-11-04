@@ -1,65 +1,56 @@
-// //Js to open modal windown from form
-// var formErrors = {% if form_errors %}true{% else %}false{% endif %};
-// $(document).ready(function(){
-//     if (formErrors) {
-//         $('.modal').modal('show');
-//     }
-// });
+//
+//min length of 8 char
+//contains lowercase letter
+//contains uppercase letter
+//contains number special char
+(function() {
 
-// $('#myModal').on('shown.bs.modal', function () {
-//   $('#myInput').focus()
-// })
+}) ();
+// set up vaiables to idetify different parts of the form
+var password =
+document.querySelector('.password');
+var helperText = {  // password lengh has greater then 8
+  charLength: document.querySelector ('.helper-text .length'),
 
+  uppercase:
+  document.querySelector('.helper-text .uppercase'),
 
-
-
-//Jquery for modal
-    //$(#myglobe:hidden).onclick(function(){
-        //show
-
-//     }; function()
-//     //onhide
-// });
+  special:
+  document.querySelector('.helper-text .special'),
+};
 
 
+//VALIDATION OBJECT
 
-    $(document).click(function(){
-        alert("Hello")
-    });
+var pattern = {
+    charLength: function() {
+        if( password.value.length >= 8 ) {
+            return true;
+        }
+    },
 
-    $("#myglobe").click(function(e))
-    e.stopPropagation();
-    return false;
+lowercase: function() {
+  var regex = /^ (?=>*[a-z].+$/;
+    if( regex.test(password.value) ) {
+            return true;
+        }
 
-});
+},
+uppercase: function() {
 
-var handler = function(event){
-  // if the target is a descendent of container do nothing
-  if($(event.target).is(".container, .container *")) return;
-
-  // remove event handler from document
-  $(document).off("click", handler);
-
-  // dostuff
 }
 
-$(document).on("click", handler);
+
+// $(document).on("click", handler);
 
 
 
-$(document).ready(function(){
-   $('#myglobe').dialog({ autoOpen: false })
-   $('#').click(function(){ $('div.thedialog').dialog('open'); });
-});
+// $(document).ready(function(){
+//    $('#myglobe').dialog({ autoOpen: false })
+//    $('#').click(function(){ $('div.thedialog').dialog('open'); });
+// });
 
 
 
 
 
-// MODAL WINDOW PASSWORD
-$(function(){
-  $('#loginform').submit(function(e){
-    return false;
-  });
-$('#modaltrigger').leanModal({ top: 110, overlay: 0.45, closeButton: ".hidemodal" });
-});

@@ -10,6 +10,14 @@
     <meta name="author" content="">
 
     <title>Landing Page - Wanderlust App</title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -37,11 +45,11 @@
 <body>
 <!--###########   LANDING PAGE CONTENT  #########-->
     <section>
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
             <div>
-              <figure id="myglobe" data-toggle="modal" data-target="#globe" class="earth"><span class="shadow"></span></figure>
+              <figure id="myglobe" data-toggle="modal" data-target="#myModal" class="earth"><span class="shadow"></span></figure>
               <!--TITLE-->
                 <h1 class="title">Wanderlust</h1>
                   <h3 class="subtitle">Not all those who wander are lost</h3>
@@ -49,114 +57,119 @@
                   <hr class="intro-divider">
             </div>
 <!-- Modal -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <header>
-                        <h4 class="modal-title" id="myModalLabel">About Wanderlust App</h4>
-                        <img src="static/img/logo.jpg" width="100" height="100">
-                    </header>
-                    </div>
-                  <div class="modal-body">
-                    <p>Windows talking painted pasture yet its express parties use. Sure last upon he same as knew next. Of believed or diverted no rejoiced. End friendship sufficient assistance can prosperous met. As game he show it park do. Was has unknown few certain ten promise. No finished my an likewise cheerful packages we. For assurance concluded son something depending discourse see led collected. Packages oh no denoting my advanced humoured. Pressed be so thought natural.<p>
-                  </div>
+            <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>Windows talking painted pasture yet its express parties use. Sure last upon he same as knew next. Of believed or diverted no rejoiced. End friendship sufficient assistance can prosperous met. As game he show it park do. Was has unknown few certain ten promise. No finished my an likewise cheerful packages we. For assurance concluded son something depending discourse see led collected. Packages oh no denoting my advanced humoured. Pressed be so thought natural.<p>
+
+      </div>
+
+
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><a href="mailto:uma.petersen@gmail.com">Contact Us</a>
                     contact us</span></button>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div><!--END MODAL-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
     </section><!--END SECTION-->
-    <section>
-      <div class="row">
-        <div class="col-md-12">
-        <!--#########SIGN IN MODAL WINDO################-->
-        <!--SIGN IN MODAL BUTTON-->
 
-          <button style="display: inline" type="button" id="button1"class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Sign In</button>
-          <!-- Large modal -->
-          <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="singin">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                    <header>
-                        <h4 class="modal-title" id="myModalLabel">Sign In</h4>
-                        <img src="static/img/logo.jpg" width="100" height="100">
-                    </header>
-                  </div>
-                      <form>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputFile">File input</label>
-                                <input type="file" id="exampleInputFile">
-                                <p class="hlp-block">Example block-level help text here.</p>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                  <input type="checkbox">Check me out
-                                </label>
-                            </div>
-                                <button type="submit" class="btn btn-default">Submit</button>
-                      </form>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-              </div>
-            </div>
-          </div><!--/ .end col-->
-<!--#########SIGN IN MODAL WINDO################-->
-          <button style="display: inline" type="button" id="button2"class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Sign Up</button>
-          <!-- Large modal -->
-          <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="signup">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                    <header>
-                        <h4 class="modal-title" id="myModalLabel">Sign In</h4>
-                        <img src="static/img/logo" height="100" width="80">
-                    </header>
-                  </div>
-                      <form>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputFile">File input</label>
-                                <input type="file" id="exampleInputFile">
-                                <p class="hlp-block">Example block-level help text here.</p>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                  <input type="checkbox">Check me out
-                                </label>
-                            </div>
-                                <button type="submit" class="btn btn-default">Submit</button>
-                      </form>
-                      <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  </div>
-              </div>
-            </div>
-          </div><!--/ .end col-->
+<!--SIGN IN MODAL-->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
+<!-- Small modal -->
 
-        </div><!-- / .end row-->
-    </section>
-    <!--END MODAL SECTION-->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <form class="form-inline">
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputEmail3">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label class="sr-only" for="password">Password</label>
+    <input type="text" autofocus name="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+        <ul class="helper-text">
+          <li class="length">Must be at least 8 characters long</li>
+          <li class="lowercase">Must contain a lowercase letter</li>
+          <li class="uppercase">Must contain an uppercase letter</li>
+          <li class="special">Must contain a number or special character</li>
+          </ul>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Remember me
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default">Sign in</button>
+</form>
+    </div>
+  </div>
+</div>
+
+
+<!--SIGN UP-->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
+<!-- Small modal -->
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          </div>
+          <div class="form-group">
+    <label class="sr-only" for="password">Password</label>
+    <input type="text" autofocus name="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+        <ul class="helper-text">
+          <li class="length">Must be at least 8 characters long</li>
+          <li class="lowercase">Must contain a lowercase letter</li>
+          <li class="uppercase">Must contain an uppercase letter</li>
+          <li class="special">Must contain a number or special character</li>
+          </ul>
+  </div>
+          <div class="form-group">
+            <label for="exampleInputFile">File input</label>
+            <input type="file" id="exampleInputFile">
+            <p class="help-block">Example block-level help text here.</p>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox"> Check me out
+            </label>
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+</form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+          </section>
   <section>
     <nav class="navbar navbar-default navbar-fixed-bottom topnav" role="navigation" id="footer">
             <div class="container topnav">

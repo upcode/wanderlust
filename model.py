@@ -1,7 +1,6 @@
 """ Models and Database fucntions for Wanderlust app"""
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from werkzeug.security import generate_password_hash, check_password_hash
 
 # This is the connection to the SQLite database; we're getting this through
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
@@ -27,13 +26,6 @@ class User(db.Model):
     state = db.Column(db.String(64), nullable=False)
     user_image = db.Column(db.Unicode(128))
 
-    # @hybrid_property
-    # def password(self):
-    #     return self._password
-
-    # @password.setter
-    # def _set_password(self, plaintext):
-    #     self._password = bcrypt.generate_password_hash(plaintext)
 
 #############################################################################
         #### RELATIONSHIP TABLE FOR USER AND STATE ####

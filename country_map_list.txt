@@ -1,6 +1,5 @@
-id  name
-4   Afghanistan
-8   Albania
+4 Afghanistan
+8 Albania
 12  Algeria
 24  Angola
 10  Antarctica

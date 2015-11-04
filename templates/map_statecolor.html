@@ -1,0 +1,237 @@
+<!-- user:
+user clicks on svg element
+svg element is mapped to id and name of the element ie state
+user then changes color of element
+state name can be added or not or colored
+user clicks visit is first vist == boolean true or false.
+if true vist is stored into db and updated to table in user dashboard of number of visited states  -->
+<!-- view:
+
+Form:
+steps: user clicks on state
+user changes color grey  ==>color
+if user state color changes ==>state visit is added to DB and added to dashboard table in user profile
+user can choose to have state name displyed
+
+Ajax:
+
+Routes:
+routes querying DB
+Model:
+user
+state
+datastored in userstate relationship table
+
+profile view:
+state vist added to table in dashboard
+
+STEPS:
+1. create a form
+    add prevent default
+    console log form inputs
+2. ajax request
+    print ajax request in terminal
+
+3. then make query in routes
+
+color = d3.scale.ordinal()
+    .domain(YOUR_DATA_CATEGORIES)
+    .range(["#30c514", "#9321ff", ...]);
+CREATING FORM: -->
+
+<form action="demo_form.asp" method="get">
+    <header>
+        <label>State:</lable>
+    </header>
+<lable>Please select color pallet
+    <div class="radio">
+  <label>color pallet 1
+    <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">
+  </label>
+</div>
+<div class="radio">
+  <label>color pallet 2
+    <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">
+  </label>
+</div>
+<div class="radio">
+  <label>color pallet 3
+    <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">
+  </label>
+</div>
+<div class="radio">
+  <label>color pallet 4
+    <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">
+  </label>
+<label>Add State Name to Map?</lable>
+<label class="checkbox-inline">Abbreviation
+  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
+</label>State Name
+<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
+</label>None
+<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
+</label>
+
+</form>
+
+
+<lable>Please select color pallet<label>
+<label class="checkbox-inline">color pallet <!--hover over color pallet label display alert of color pallet for users view-->
+  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
+</label>
+<label class="checkbox-inline">color pallet
+  <input type="checkbox" id="inlineCheckbox2" value="option2"> 2
+</label>
+<label class="checkbox-inline">color pallet
+  <input type="checkbox" id="inlineCheckbox3" value="option3"> 3
+</label>
+
+<label class="radio-inline">color pallet
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+</label>
+<label>Display Label on Map</lable>
+<label class="checkbox-inline">Abbreviation
+  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
+</label>State Name
+<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
+</label>None
+<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
+</label>
+
+
+
+<form action="demo_form.asp" method="get">
+    <header>
+        <label>State:</lable>
+    </header>
+<lable>Please select color pallet<label>
+<div class="list-group">
+  <a href="#" class="list-group-item active">
+    <h4 class="list-group-item-heading">List group item heading</h4>
+    <p class="list-group-item-text">...</p>
+  </a>
+</div>
+div class="list-group">
+  <a href="#" class="list-group-item active">
+    <h4 class="list-group-item-heading">List group item heading</h4>
+    <p class="list-group-item-text">...</p>
+  </a>
+</div>
+div class="list-group">
+  <a href="#" class="list-group-item active">
+    <h4 class="list-group-item-heading">List group item heading</h4>
+    <p class="list-group-item-text">...</p>
+  </a>
+</div>
+div class="list-group">
+  <a href="#" class="list-group-item active">
+    <h4 class="list-group-item-heading">List group item heading</h4>
+    <p class="list-group-item-text">...</p>
+  </a>
+</div>
+<label>Display Label on Map</lable>
+<label class="checkbox-inline">Abbreviation
+  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
+</label>State Name
+<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
+</label>None
+<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
+</label>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Sign in</button>
+    </div>
+</form>
+
+
+Constructs a new ordinal scale with a range of ten categorical colors:
+color pallet: one
+1f77b4 #1f77b4
+ff7f0e #ff7f0e
+2ca02c #2ca02c
+d62728 #d62728
+9467bd #9467bd
+8c564b #8c564b
+e377c2 #e377c2
+7f7f7f #7f7f7f
+bcbd22 #bcbd22
+17becf #17becf
+
+# d3.scale.category20()
+
+Constructs a new ordinal scale with a range of twenty categorical colors:
+color pallet: two
+
+1f77b4 #1f77b4
+aec7e8 #aec7e8
+ff7f0e #ff7f0e
+ffbb78 #ffbb78
+2ca02c #2ca02c
+98df8a #98df8a
+d62728 #d62728
+ff9896 #ff9896
+9467bd #9467bd
+c5b0d5 #c5b0d5
+8c564b #8c564b
+c49c94 #c49c94
+e377c2 #e377c2
+f7b6d2 #f7b6d2
+7f7f7f #7f7f7f
+c7c7c7 #c7c7c7
+bcbd22 #bcbd22
+dbdb8d #dbdb8d
+17becf #17becf
+9edae5 #9edae5
+
+# d3.scale.category20b()
+
+Constructs a new ordinal scale with a range of twenty categorical colors:
+color pallet: three
+
+393b79 #393b79
+5254a3 #5254a3
+6b6ecf #6b6ecf
+9c9ede #9c9ede
+637939 #637939
+8ca252 #8ca252
+b5cf6b #b5cf6b
+cedb9c #cedb9c
+8c6d31 #8c6d31
+bd9e39 #bd9e39
+e7ba52 #e7ba52
+e7cb94 #e7cb94
+843c39 #843c39
+ad494a #ad494a
+d6616b #d6616b
+e7969c #e7969c
+7b4173 #7b4173
+a55194 #a55194
+ce6dbd #ce6dbd
+de9ed6 #de9ed6
+
+# d3.scale.category20c()
+
+Constructs a new ordinal scale with a range of twenty categorical colors:
+color pallet: four
+
+3182bd #3182bd
+6baed6 #6baed6
+9ecae1 #9ecae1
+c6dbef #c6dbef
+e6550d #e6550d
+fd8d3c #fd8d3c
+fdae6b #fdae6b
+fdd0a2 #fdd0a2
+31a354 #31a354
+74c476 #74c476
+a1d99b #a1d99b
+c7e9c0 #c7e9c0
+756bb1 #756bb1
+9e9ac8 #9e9ac8
+bcbddc #bcbddc
+dadaeb #dadaeb
+636363 #636363
+969696 #969696
+bdbdbd #bdbdbd
+d9d9d9 #d9d9d9
+

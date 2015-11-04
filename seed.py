@@ -8,7 +8,8 @@ from routes import app
 
 
 def debug(msg):
-    #debug = True
+    """ return message in the console if data loaded successfully"""
+    debug = True
     print msg
 
 ###############################################################################
@@ -33,13 +34,12 @@ def load_states():
 
         # add to session
         db.session.add(state)
-    # commit session
+        # commit session
     db.session.commit()
 
-    #debug "Ya! Success!"
+        debug "data loaded successfully"
 
-    print "STATE: SUCCESS DATA UPLOAD"
-
+print "NAILED IT! woot woot data in DB"
 
 ###############################################################################
 #USERS
@@ -70,10 +70,8 @@ def load_users():
         db.session.add(user)
     # commit session commits transaction
     db.session.commit()
-
-    #debug "Ya! Success!"
-    print "USERS: SUCCESS DATA UPLOAD"
-
+    debug "data loaded successfully"
+print "NAILED IT! woot woot data in DB"
 
 ###############################################################################
 #LANDMARKS
@@ -111,7 +109,9 @@ def load_statelandmarks():
     # commit session
     db.session.commit()
 
-    print "LANDMARK: SUCCESS DATA UPLOAD"
+    debug "data loaded successfully"
+
+print "NAILED IT! woot woot data in DB"
 
 ###############################################################################
 #CONTURIES
@@ -142,9 +142,9 @@ def load_countires():
     # commit session commits transaction
     db.session.commit()
 
-    #debug "Ya! Success!"
-    print "COUNTRIES: SUCCESS DATA UPLOAD"
+    debug "data loaded successfully"
 
+print "NAILED IT! woot woot data in DB"
 
 ###############################################################################
 #WORLD CITY
@@ -170,7 +170,10 @@ def load_world100city():
     # commit session commits transaction
     db.session.commit()
 
-    print "WORLD100CITY: SUCCESS DATA UPLOAD"
+    debug "data loaded successfully"
+
+print "NAILED IT! woot woot data in DB"
+
 ###############################################################################
 #WONDERS
 
@@ -194,7 +197,11 @@ def load_world100wonders():
     # commit session commits transaction
     db.session.commit()
 
-print "WORLD100WONDERS: SUCCESS DATA UPLOAD"
+
+
+debug "data loaded successfully"
+
+print "NAILED IT! woot woot data in DB"
 
 
 ###############################################################################

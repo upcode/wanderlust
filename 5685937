@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>TopoJSON files for maps.</title>
+<link rel="icon" href="/favicon.png">
+<style>
+
+@import url("/style.css?20120730");
+
+header,
+footer {
+  color: #555;
+}
+
+a.gist {
+  color: #000;
+}
+
+</style>
+
+<header>
+  <a href="/KoGor">KoGor</a>’s block
+  <a class="gist" title="View gist #5685937 on GitHub" href="https://gist.github.com/KoGor/5685937">#5685937</a>
+  <span class="date">May 31, 2013</span>
+</header>
+
+<h1>TopoJSON files for maps.</h1>
+
+
+
+<div class="gist-readme"></div>
+
+<div class="gist-sources"></div>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="/highlight.min.js"></script>
+<script>
+
+var gist = {"history":[{"version":"6d5451926d307eb37b00998d805e0eec22281c9c"}],"files":{"README.md":{"language":"Markdown","type":"text/plain","filename":"README.md","size":128,"sha":"7fb66ea06d3375f61dc55442da2e37185273de27"},"russia-region-names.tsv":{"language":null,"type":"text/tab-separated-values","filename":"russia-region-names.tsv","size":3826,"sha":"997c25e078548ce8f2b921390a51f3e071536cb7"},"russia_1e-7sr.json":{"language":"JSON","type":"application/json","filename":"russia_1e-7sr.json","size":368612,"sha":"cecaa8e46da7848161b75b028eb80f7669132ac0"},"world-110m-country-names.tsv":{"language":null,"type":"text/tab-separated-values","filename":"world-110m-country-names.tsv","size":2611,"sha":"e3e042ac394c841bf7a2a83ff0fce6256573800e"},"world-110m.json":{"language":"JSON","type":"application/json","filename":"world-110m.json","size":119410,"sha":"a1ce852de6f2713c94c0c284039506ca2d4f3dee"}},"created_at":"2013-05-31T15:50:33.000Z","updated_at":"2015-08-29T13:50:15.000Z","description":"TopoJSON files for maps.","owner":{"login":"KoGor"},"id":"5685937"};
+
+var files = d3.values(gist.files)
+    .sort(function(a, b) { return (b.filename === "index.html") - (a.filename === "index.html") || a.filename.localeCompare(b.filename); });
+
+var readme = d3.selectAll(".gist-readme")
+    .data(files.filter(function(d) { return /^readme\b/i.test(d.filename) && d.language === "Markdown"; }))
+    .each(function(d) {
+      var readme = d3.select(this);
+      d3.text("/KoGor/raw/5685937/6d5451926d307eb37b00998d805e0eec22281c9c/" + d.filename, function(error, content) {
+        readme.html(new Showdown.converter().makeHtml(content));
+        readme.selectAll("code").each(function() { hljs.highlightBlock(this); });
+      });
+    });
+
+var source = d3.select(".gist-sources").selectAll(".gist-source")
+    .data(files.filter(function(d) { return !/^readme\b/i.test(d.filename) && d.size < 50000 && text(d.type); }))
+  .enter().append("div")
+    .attr("class", "gist-source");
+
+source.append("h2")
+    .text(function(d) { return d.filename; })
+  .append("a")
+    .attr("name", function(d) { return d.filename; })
+    .attr("href", function(d) { return "#" + d.filename; })
+    .text("#");
+
+source.append("pre").append("code")
+    .attr("class", function(d) { return d.language && (d.language === "JSON" ? "javascript" : d.language.toLowerCase()); })
+    .each(function(d) {
+      var code = d3.select(this);
+      d3.text("/KoGor/raw/5685937/6d5451926d307eb37b00998d805e0eec22281c9c/" + (d.filename === "index.html" ? "" : d.filename), function(error, content) {
+        code.text(content);
+        hljs.highlightBlock(code.node());
+      });
+    });
+
+function text(type) {
+  return /(^text\/)|(^application\/(javascript|json)$)|(^image\/svg$)|(\+xml$)/.test(type);
+}
+
+</script>
+
+<footer>
+  <a href="/KoGor">KoGor</a>’s block
+  <a class="gist" title="View gist #5685937 on GitHub" href="https://gist.github.com/KoGor/5685937">#5685937</a>
+  <span class="date">May 31, 2013</span>
+</footer>
+
+<script>
+
+GoogleAnalyticsObject = "ga", ga = function() { ga.q.push(arguments); }, ga.q = [], ga.l = +new Date;
+ga("create", "UA-48272912-1", "auto");
+ga("send", "pageview");
+
+</script>
+<script async src="//www.google-analytics.com/analytics.js"></script>

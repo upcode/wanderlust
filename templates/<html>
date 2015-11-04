@@ -1,0 +1,57 @@
+<html>
+sctipt
+(function(){
+
+})();
+
+
+var password = document.querySelector('.password');
+
+var helperText = {
+    charLength: document.querySelector('.helper-text .length'),
+    lowercase: document.querySelector('.helper-text .lowercase'),
+    uppercase: document.querySelector('.helper-text .uppercase'),
+    special: document.querySelector('.helper-text .special')
+};
+
+var pattern = {
+    charLength: function() {
+        if( password.value.length >= 8 ) {
+            return true;
+        }
+    },
+    lowercase: function() {
+        var regex = /^(?=.*[a-z]).+$/;
+
+        if( regex.test(password.value) ) {
+            return true;
+        }
+    },
+    uppercase: function() {
+        var regex = /^(?=.*[A-Z]).+$/;
+
+        if( regex.test(password.value) ) {
+            return true;
+        }
+    },
+    special: function() {
+        var regex = /^(?=.*[0-9_\W]).+$/;
+
+        if( regex.test(password.value) ) {
+            return true;
+        }
+    }
+};
+
+// HELPER FUNCTIONS
+
+<form>
+    <label for="password">Password</label>
+    <input class="password" name="password" type="text" autofocus />
+    <ul class="helper-text">
+        <li class="length">Must be at least 8 characters long</li>
+        <li class="lowercase">Must contain a lowercase letter</li>
+        <li class="uppercase">Must contain an uppercase letter</li>
+        <li class="special">Must contain a number or special character</li>
+    </ul>
+</form>

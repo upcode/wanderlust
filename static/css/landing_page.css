@@ -21,9 +21,7 @@
   color: #000;
 }
 
-.earth {
 
-}
 .earth:after {
   content: "";
   position: absolute;
@@ -67,10 +65,7 @@ html {
 
 }
 
-#button1, #button2 {
-  display: inline block;
 
-}
 
 
 .words {
