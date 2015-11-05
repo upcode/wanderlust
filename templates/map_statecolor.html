@@ -38,69 +38,17 @@ color = d3.scale.ordinal()
     .domain(YOUR_DATA_CATEGORIES)
     .range(["#30c514", "#9321ff", ...]);
 CREATING FORM: -->
+<!--JAVASCRIPT FOR HANDING FORM-->
+--add prevent default for submit button and
+console log results
+--
+ajax request for form
 
-<form action="demo_form.asp" method="get">
-    <header>
-        <label>State:</lable>
-    </header>
-<lable>Please select color pallet
-    <div class="radio">
-  <label>color pallet 1
-    <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">
-  </label>
-</div>
-<div class="radio">
-  <label>color pallet 2
-    <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">
-  </label>
-</div>
-<div class="radio">
-  <label>color pallet 3
-    <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">
-  </label>
-</div>
-<div class="radio">
-  <label>color pallet 4
-    <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">
-  </label>
-<label>Add State Name to Map?</lable>
-<label class="checkbox-inline">Abbreviation
-  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
-</label>State Name
-<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
-</label>None
-<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
-</label>
+<script>
+document.forms["myform"].submit();
+</script>
 
-</form>
-
-
-<lable>Please select color pallet<label>
-<label class="checkbox-inline">color pallet <!--hover over color pallet label display alert of color pallet for users view-->
-  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
-</label>
-<label class="checkbox-inline">color pallet
-  <input type="checkbox" id="inlineCheckbox2" value="option2"> 2
-</label>
-<label class="checkbox-inline">color pallet
-  <input type="checkbox" id="inlineCheckbox3" value="option3"> 3
-</label>
-
-<label class="radio-inline">color pallet
-  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
-</label>
-<label>Display Label on Map</lable>
-<label class="checkbox-inline">Abbreviation
-  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
-</label>State Name
-<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
-</label>None
-<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
-</label>
-
-
-
-<form action="demo_form.asp" method="get">
+<form action="statevisted" method="get">
     <header>
         <label>State:</lable>
     </header>
@@ -108,43 +56,7 @@ CREATING FORM: -->
 <div class="list-group">
   <a href="#" class="list-group-item active">
     <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">...</p>
-  </a>
-</div>
-div class="list-group">
-  <a href="#" class="list-group-item active">
-    <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">...</p>
-  </a>
-</div>
-div class="list-group">
-  <a href="#" class="list-group-item active">
-    <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">...</p>
-  </a>
-</div>
-div class="list-group">
-  <a href="#" class="list-group-item active">
-    <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">...</p>
-  </a>
-</div>
-<label>Display Label on Map</lable>
-<label class="checkbox-inline">Abbreviation
-  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
-</label>State Name
-<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
-</label>None
-<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
-</label>
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">Sign in</button>
-    </div>
-</form>
-
-
-Constructs a new ordinal scale with a range of ten categorical colors:
+    <p class="list-group-item-text">Constructs a new ordinal scale with a range of ten categorical colors:
 color pallet: one
 1f77b4 #1f77b4
 ff7f0e #ff7f0e
@@ -155,9 +67,13 @@ d62728 #d62728
 e377c2 #e377c2
 7f7f7f #7f7f7f
 bcbd22 #bcbd22
-17becf #17becf
-
-# d3.scale.category20()
+17becf #17becf</p>
+  </a>
+</div>
+div class="list-group">
+  <a href="#" class="list-group-item active">
+    <h4 class="list-group-item-heading">List group item heading</h4>
+    <p class="list-group-item-text"># d3.scale.category20()
 
 Constructs a new ordinal scale with a range of twenty categorical colors:
 color pallet: two
@@ -181,9 +97,13 @@ c7c7c7 #c7c7c7
 bcbd22 #bcbd22
 dbdb8d #dbdb8d
 17becf #17becf
-9edae5 #9edae5
-
-# d3.scale.category20b()
+9edae5 #9edae5</p>
+  </a>
+</div>
+div class="list-group">
+  <a href="#" class="list-group-item active">
+    <h4 class="list-group-item-heading">List group item heading</h4>
+    <p class="list-group-item-text"># d3.scale.category20b()
 
 Constructs a new ordinal scale with a range of twenty categorical colors:
 color pallet: three
@@ -207,9 +127,13 @@ e7969c #e7969c
 7b4173 #7b4173
 a55194 #a55194
 ce6dbd #ce6dbd
-de9ed6 #de9ed6
-
-# d3.scale.category20c()
+de9ed6 #de9ed6</p>
+  </a>
+</div>
+div class="list-group">
+  <a href="#" class="list-group-item active">
+    <h4 class="list-group-item-heading">List group item heading</h4>
+    <p class="list-group-item-text"># d3.scale.category20c()
 
 Constructs a new ordinal scale with a range of twenty categorical colors:
 color pallet: four
@@ -234,4 +158,28 @@ dadaeb #dadaeb
 969696 #969696
 bdbdbd #bdbdbd
 d9d9d9 #d9d9d9
+</p>
+  </a>
+</div>
+<label>Display Label on Map</lable>
+<label class="checkbox-inline">Abbreviation
+  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
+</label>State Name
+<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
+</label>None
+<input type="checkbox" id="inlineCheckbox1" value="option1"> 2
+</label>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button id="myform" type="submit" class="btn btn-default">Sign in</button>
+    </div>
+</form>
+
+
+
+
+
+
+
+
 

@@ -1,15 +1,22 @@
-from model import State, User, Country, World100Wonder, World100City, StateLandmark
-# relationships
-#from model import UserState, UserStateLandmark, UserCountry, UserTopWorldCity, UserWorldWonder
+from model import State
+from model import User
+from model import Country
+from model import World_100_Wonder
+from model import World_100_City
+from model import State_Landmark
 from model import connect_to_db, db
 from routes import app
+#  relationships
 
+#  from model import UserState, UserStateLandmark, UserCountry, UserTopWorldCity, UserWorldWonder
 # helper function, comment out print to disable debugging
 
 
-def debug(msg):
+def debug():
     """ return message in the console if data loaded successfully"""
-    debug = True
+
+    msg = "wanderlust db is seeded"
+
     print msg
 
 ###############################################################################
@@ -37,47 +44,46 @@ def load_states():
         # commit session
     db.session.commit()
 
-        debug "data loaded successfully"
-
-print "NAILED IT! woot woot data in DB"
+    debug()
 
 ###############################################################################
-#USERS
+#USERS DID NOT USE
 
-def load_users():
-    """opeing csv file and parsing data to enter into database"""
-    # open csv file (users)
-    user_file = open("data/users.csv")
-    #read each line
-    #i = 0
-    for line in user_file:
-        #i += 1
-        # split on "| "   --> list
-        line_list = line.strip().split("|")
-        #print "THE LENGTH IS", len(line_list)
-        #print "i is", i
-        #print "the line is", line
-        for i in range(len(line_list)):
-            line_list[i] = line_list[i].strip()
-        user_id, first_name, last_name, email, username, password, state = line_list[0], line_list[1], line_list[2], line_list[3], line_list[4], line_list[5], line_list[6]
-        print "USER_ID: %s, FIRST_NAME: %s, LAST_NAME: %s, EMAIL: %s, USERNAME: %s, PASSWORD: %s, STATE: %s" % (user_id, first_name, last_name, email, username, password, state)
-        # make State(....) object
-        user = User(user_id=user_id, first_name=first_name, last_name=last_name, email=email, username=username, password=password, state=state)
 
-        # TODO: handle empty lines at the end
+# def load_users():
+#     """opeing csv file and parsing data to enter into database"""
+#     # open csv file (users)
+#     user_file = open("data/users.csv")
+#     #read each line
+#     #i = 0
+#     for line in user_file:
+#         #i += 1
+#         # split on "| "   --> list
+#         line_list = line.strip().split("|")
+#         #print "THE LENGTH IS", len(line_list)
+#         #print "i is", i
+#         #print "the line is", line
+#         for i in range(len(line_list)):
+#             line_list[i] = line_list[i].strip()
+#         user_id, first_name, last_name, email, username, password, state = line_list[0], line_list[1], line_list[2], line_list[3], line_list[4], line_list[5], line_list[6]
+#         print "USER_ID: %s, FIRST_NAME: %s, LAST_NAME: %s, EMAIL: %s, USERNAME: %s, PASSWORD: %s, STATE: %s" % (user_id, first_name, last_name, email, username, password, state)
+#         # make State(....) object
+#         user = User(user_id=user_id, first_name=first_name, last_name=last_name, email=email, username=username, password=password, state=state)
 
-        # add to session and store users from CSV file
-        db.session.add(user)
-    # commit session commits transaction
-    db.session.commit()
-    debug "data loaded successfully"
-print "NAILED IT! woot woot data in DB"
+#         # add to session and store users from CSV file
+#         db.session.add(user)
+#     # commit session commits transaction
+#     db.session.commit()
+#     #debug "data loaded successfully"
+
+    # debug()
+
 
 ###############################################################################
 #LANDMARKS
 
 
-def load_statelandmarks():
+def load_state_landmarks():
     """opening csv file and parsing data to enter into database"""
     # open csv file (state_landmarks)
     state_landmark_file = open("data/us_state_landmarks.csv")
@@ -102,16 +108,14 @@ def load_statelandmarks():
             state_id = tup[0]
 
         # make State(....) object
-        landmark = StateLandmark(state_id=state_id, state_landmark_name=state_landmark_name)
+        landmark = State_Landmark(state_id=state_id, state_landmark_name=state_landmark_name)
 
         # add to session
         db.session.add(landmark)
     # commit session
     db.session.commit()
 
-    debug "data loaded successfully"
-
-print "NAILED IT! woot woot data in DB"
+    debug()
 
 ###############################################################################
 #CONTURIES
@@ -142,47 +146,49 @@ def load_countires():
     # commit session commits transaction
     db.session.commit()
 
-    debug "data loaded successfully"
+    debug()
 
-print "NAILED IT! woot woot data in DB"
 
 ###############################################################################
 #WORLD CITY
 
 
-def load_world100city():
+def load_world_100_city():
     """opeing csv file and parsing data to enter into database"""
     # open csv file (users)
-    #city_list = []
-    top_city_file = open("data/world_100_cities.csv")
-    for line in top_city_file:
-        city_list = line.split()
-        #city_list = city_list.strip()
-        #city_list.append(line)
-        for i in range(len(city_list)):
-            city_list[i] = city_list[i].strip()
-            city_name = city_list[0]
-        print "CITY_NAME: %s" % (city_name)
-    city = World100City(city_name=city_name)
+    city_file = open("data/world_100_best_cities.csv")
+    #read each line
+    #i = 0
+    for line in city_file:
+        #i += 1
+        # split on "| "   --> list
+        line_list = line.strip().split("|")
+        #print "THE LENGTH IS", len(line_list)
+        #print "i is", i
+        #print "the line is", line
+        for i in range(len(line_list)):
+            line_list[i] = line_list[i].strip()
+            world_city_name, world_country_name = line_list[0], line_list[1]
+        print "WORLD_CITY_NAME: %s, WORLD_COUNTRY_NAME: %s" % (world_city_name, world_country_name)
+        # make country(....) object
+        world_100_city = World_100_City(world_city_name=world_city_name, world_country_name=world_country_name)
 
-    # add to session and store users from CSV file
-    db.session.add(city)
+        # add to session and store users from CSV file
+        db.session.add(world_100_city)
     # commit session commits transaction
     db.session.commit()
 
-    debug "data loaded successfully"
-
-print "NAILED IT! woot woot data in DB"
+    debug()
 
 ###############################################################################
 #WONDERS
 
 
-def load_world100wonders():
+def load_world_100_wonders():
     """opeing csv file and parsing data to enter into database"""
     # open csv file (users)
     #city_list = []
-    wonder_file = open("data/world_100_wonders.csv")
+    wonder_file = open("data/world_100_best_wonders.csv")
     for line in wonder_file:
         wonder_list = line.split()
         #wonder_list = wonder_list.strip()
@@ -191,17 +197,14 @@ def load_world100wonders():
             wonder_list[i] = wonder_list[i].strip()
             world_wonder_name = wonder_list[0]
         print "WONDER_NAME: %s" % (world_wonder_name)
-    wonder = World100Wonder(world_wonder_name=world_wonder_name)
+    wonder = World_100_Wonder(world_wonder_name=world_wonder_name)
 
     db.session.add(wonder)
+
     # commit session commits transaction
     db.session.commit()
 
-
-
-debug "data loaded successfully"
-
-print "NAILED IT! woot woot data in DB"
+    debug()
 
 
 ###############################################################################
@@ -214,10 +217,10 @@ if __name__ == "__main__":
     # In case tables haven't been created, create them
     db.create_all()
 
+    #S EED ALL DATA IS COMPLETE
     # Import different types of data
-    #load_states()  # DONE
-    load_users()
-    #load_statelandmarks()  # DONE
-    #load_countires()  # DONE
-    #load_world100wonders()  # DONE
-    #load_world100city()  # DONE
+    # load_states()
+    # load_state_landmarks()
+    # load_countires()
+    # load_world_100_city()
+    # load_world_100_wonders()
