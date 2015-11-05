@@ -1,177 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <link rel="stylesheet" type="text/css" href="/static/css/landing_page.css">
     <title>Landing Page - Wanderlust App</title>
-    <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
     <!--CSS Animation Globe CSS-->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
     <link rel="stylesheet" href="http://cdn.jsdelivr.net/animatecss/2.1.0/animate.min.css"><!-- load animate -->
     <link rel="stylesheet" href="css/style.css">
-    <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Calligraffitti|Waiting+for+the+Sunrise' rel='stylesheet' type='text/css'>
-    <!-- External Custom CSS -->
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/static/css/landing_page.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/modal.css">
-    <!-- LASTEST: compiled and minified JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-    <!-- Javascript External -->
-    <script src="landing_page.js"></script>
-    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-</head>
+  </head>
+  <!--################################///////###############################-->
 
-<body>
-<!--###########   LANDING PAGE CONTENT  #########-->
-    <section>
+  <body>
+    <script>
+    $(document).off('.data-api')
+    </script>
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
             <div>
-              <figure id="myglobe" data-toggle="modal" data-target="#myModal" class="earth"><span class="shadow"></span></figure>
-              <!--TITLE-->
+                <figure id="myglobe" data-toggle="modal" data-target="#myModal" class="earth"><span class="shadow"></span>
+                </figure>
+                <!--TITLE-->
                 <h1 class="title">Wanderlust</h1>
                   <h3 class="subtitle">Not all those who wander are lost</h3>
                   <p class=words>JORNAL . EXPLORE . EXPERINCE. FREEDOM</p>
                   <hr class="intro-divider">
             </div>
-<!-- Modal -->
-            <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p>Windows talking painted pasture yet its express parties use. Sure last upon he same as knew next. Of believed or diverted no rejoiced. End friendship sufficient assistance can prosperous met. As game he show it park do. Was has unknown few certain ten promise. No finished my an likewise cheerful packages we. For assurance concluded son something depending discourse see led collected. Packages oh no denoting my advanced humoured. Pressed be so thought natural.<p>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div>
+                        <div class="modal-body">
+                          <p>Windows talking painted pasture yet its express parties use. Sure last upon he same as knew next. Of believed or diverted no rejoiced. End friendship sufficient assistance can prosperous met. As game he show it park do. Was has unknown few certain ten promise. No finished my an likewise cheerful packages we. For assurance concluded son something depending discourse see led collected. Packages oh no denoting my advanced humoured. Pressed be so thought natural.<p>
+                        </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><a href="mailto:uma.petersen@gmail.com">Contact Us</a>
+                            contact us</span>
+                            </button>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+       </div>
 
-      </div>
+<!--end with roating globe and globe modal pop up-->
+                  <!--SIGN IN MODAL-->
+        <div class="row">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal
+          </button>
+                  <!-- <small></small> modal -->
+            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm">
+                  <div class="modal-content">
+                    <form class="form-inline">
+                        <div class="form-group">
+                          <label class="sr-only" for="exampleInputEmail3">Email address
+                          </label>
+                          <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                          <label class="sr-only" for="password">Password
+                          </label>
+                          <input type="text" autofocus name="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+                              <ul class="helper-text">
+                                <li class="length">Must be at least 8 characters long</li>
+                                <li class="lowercase">Must contain a lowercase letter</li>
+                                <li class="uppercase">Must contain an uppercase letter</li>
+                                <li class="special">Must contain a number or special character</li>
+                                </ul>
+                          </div>
+                                <div class="checkbox">
+                                <label>
+                                  <input type="checkbox"> Remember me
+                                </label>
+                          </div>
+                            <button type="submit" class="btn btn-default">Sign in</button>
+                    </form>
+                  </div>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal
+          </button>
+                  <!-- <small></small> modal -->
+            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm">
+                  <div class="modal-content">
+                    <form class="form-inline">
+                        <div class="form-group">
+                          <label class="sr-only" for="exampleInputEmail3">Email address
+                          </label>
+                          <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                          <label class="sr-only" for="password">Password
+                          </label>
+                          <input type="text" autofocus name="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+                              <ul class="helper-text">
+                                <li class="length">Must be at least 8 characters long</li>
+                                <li class="lowercase">Must contain a lowercase letter</li>
+                                <li class="uppercase">Must contain an uppercase letter</li>
+                                <li class="special">Must contain a number or special character</li>
+                                </ul>
+                          </div>
+                                <div class="checkbox">
+                                <label>
+                                  <input type="checkbox"> Remember me
+                                </label>
+                          </div>
+                            <button type="submit" class="btn btn-default">Sign in</button>
+                    </form>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div><!-- ./end row-->
 
-
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><a href="mailto:uma.petersen@gmail.com">Contact Us</a>
-                    contact us</span></button>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
+    </div><!-- ./end container-->s
   </div>
-</div>
-    </section><!--END SECTION-->
-
-<!--SIGN IN MODAL-->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
-<!-- Small modal -->
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <form class="form-inline">
-  <div class="form-group">
-    <label class="sr-only" for="exampleInputEmail3">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
-  </div>
-  <div class="form-group">
-    <label class="sr-only" for="password">Password</label>
-    <input type="text" autofocus name="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
-        <ul class="helper-text">
-          <li class="length">Must be at least 8 characters long</li>
-          <li class="lowercase">Must contain a lowercase letter</li>
-          <li class="uppercase">Must contain an uppercase letter</li>
-          <li class="special">Must contain a number or special character</li>
-          </ul>
-  </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Remember me
-    </label>
-  </div>
-  <button type="submit" class="btn btn-default">Sign in</button>
-</form>
-    </div>
-  </div>
-</div>
-
-
-<!--SIGN UP-->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
-<!-- Small modal -->
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <form>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Username</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-          </div>
-          <div class="form-group">
-    <label class="sr-only" for="password">Password</label>
-    <input type="text" autofocus name="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
-        <ul class="helper-text">
-          <li class="length">Must be at least 8 characters long</li>
-          <li class="lowercase">Must contain a lowercase letter</li>
-          <li class="uppercase">Must contain an uppercase letter</li>
-          <li class="special">Must contain a number or special character</li>
-          </ul>
-  </div>
-          <div class="form-group">
-            <label for="exampleInputFile">File input</label>
-            <input type="file" id="exampleInputFile">
-            <p class="help-block">Example block-level help text here.</p>
-          </div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox"> Check me out
-            </label>
-          </div>
-          <button type="submit" class="btn btn-default">Submit</button>
-</form>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-          </section>
-  <section>
-    <nav class="navbar navbar-default navbar-fixed-bottom topnav" role="navigation" id="footer">
+<nav class="navbar navbar-default navbar-fixed-bottom topnav" role="navigation" id="footer">
             <div class="container topnav">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -205,11 +166,14 @@
             <!-- /.container -->
         </nav>
         <!--END NAV BAR-->
-    </section>
-
-<!--###########  END FOOTER  #########-->
 
 
-</body>
 
+  <!--################################///////###############################-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
 </html>

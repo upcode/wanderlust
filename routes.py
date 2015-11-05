@@ -14,14 +14,6 @@ from model import Postcard, connect_to_db, db
 
 #from d3worldnamefunction import country_dictionary
 
-# from . import app, db
-# from .forms import EmailPasswordForm
-# from .util import ts, send_email
-# from .models import User
-# from flask.ext.login import login_user
-
-# from . import app
-# from .forms import UsernamePasswordForm
 
 # from model import UserState, connect_to_db, db
 # from model import UserStateLandmark, connect_to_db, db
@@ -38,40 +30,46 @@ app = Flask(__name__)
 #GoogleMaps(app)
 app.secret_key = "RED PANDA"
 
+
+def debug():
+    """ return message in the console if data loaded successfully"""
+
+    msg = "route is working"
+
+    print msg
 ##############################################################################
 
 
                     ####  SERVER RUNNING ROUTE ####
 ##############################################################################
 
-# @app.route('/')
-# def server():
-#     """prints server is running and returns hello world if page loads correctly"""
-#     print "SERVER IS RUNNING"
-#     return 'HELLO WORLD!'
+@app.route('/')
+def server():
+    """prints server is running and returns hello world if page loads correctly"""
+    print "SERVER IS RUNNING"
+    return 'HELLO WORLD!'
+    debug()
 
 
                     ####  LANDING PAGE ROUTE ####
 ##############################################################################
 
-# @app.route('/landing_page')
-# def landing_page():
-#         """landing page where users can select to login or sign up"""
+@app.route('/landing_page')
+def landing_page():
+        """landing page where users can select to login or sign up"""
 
-#         return render_template('landing_page.html')
+        return render_template('landing_page.html')
+        debug()
 
 
                     ####  LANDING MODAL LOGIN/LOGOUT ####
 ##############################################################################
 
-# @app.route('/landing_page')
-# def sign_in_modal():
-#         """landing page where users can select to login or sign up"""
+@app.route('/landing_page')
+def sign_in_modal():
+        """landing page where users can select to login or sign up"""
 
-#         return render_template('landing_page.html')
-
-# # LOGIN IN PAGE
-# @app.route('/landing_page/login', methods=['GET', 'POST'])
+        return render_template('landing_page.html')
 
 
 
@@ -79,20 +77,11 @@ app.secret_key = "RED PANDA"
                     ####  STATE MAP ROUTE ####
 ##############################################################################
 
-# @app.route('/d3_state_map')
-# def state_map():
-#     """print hello world making sure sever is running"""
+@app.route('/d3_state_map')
+def state_map():
+    """print hello world making sure sever is running"""
 
-# return render_template("d3_state_map.html")
-
-
-# @app.route('/state_mapcolor')
-# def state_map():
-#     """print hello world making sure sever is running"""
-
-
-
-#     return render_template("state_mapcolor.html",)
+    return render_template("d3_state_map.html")
 
 
 
@@ -100,17 +89,19 @@ app.secret_key = "RED PANDA"
 ##############################################################################
 
 
-# @app.route('/d3_world_map')
-# def world_map():
-#     """print hello world making sure sever is running"""
+@app.route('/d3_world_map')
+def world_map():
+    """print hello world making sure sever is running"""
+
+    return render_template("d3_world_map.html")
+
 
 
 # def country_dictionary():
 #     """returns dictionary of coutry name and id into jsonify file"""
 #     country = country_dictionary()
-
 #     country = jsonfiy(country)
-#     return render_template("d3_world_map.html", country=country)
+#         return render_template("d3_world_map.html", country=country)
 
 ##############################################################################
 
