@@ -65,14 +65,6 @@ def landing_page():
                     ####  LANDING MODAL LOGIN/LOGOUT ####
 ##############################################################################
 
-@app.route('/landing_page')
-def sign_in_modal():
-        """landing page where users can select to login or sign up"""
-
-        return render_template('landing_page.html')
-
-
-
 
                     ####  STATE MAP ROUTE ####
 ##############################################################################
@@ -106,18 +98,12 @@ def world_map():
 ##############################################################################
 
 
-# @app.route('/d3_world_map2')
-# def world_map2():
-#     """print hello world making sure sever is running"""
-#     return render_template("d3_world_map2.html")
-
-
 
 ####  GOOGLE MAP POSTCARD ROUTE  ####
 ##############################################################################
 
 
-# @app.route('/map')
+# @app.route('/postcard')
 # def Postcard():
 #     """google map with drop pins where users can enter places they been"""
 #     print "map is working!!!! NAILED IT!!!!"

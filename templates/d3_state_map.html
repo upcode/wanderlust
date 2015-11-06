@@ -1,42 +1,13 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<!--     /// BOOTSTRAP CND ///  -->
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-<!--     /// BOOTSTRAP CND ///  -->
-
-<style>
+<html>
+<head>
+  <style>
 
 body{
      background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
 
 }
 
-body {
-  padding: 200px;
-}
-#logo(max-width: 767px) {
-
-}
-.navbar-brand {
-        padding: 10;
-        margin: 10px 0px 0px 10px;
-    }
- .navbar-brand img {
-        margin-top: 5px;
-        margin-left: 5px;
-    }
-}
-.navbar-toggle {
-   margin: 30px 0;
-}
 .background {
   fill: none;
   pointer-events: all;
@@ -58,6 +29,7 @@ body {
   stroke-linecap: round;
   pointer-events: none;
 }
+
 
 </style>
 <body>
@@ -168,9 +140,51 @@ function clicked(d) {
       .style("stroke-width", 1.5 / k + "px");
 }
 
-// state dic
-var state_name_dict = {
+// labels for d3 map
 
+// function draw(){
+
+//   d3.json("readme.json", function(json) {
+//     g.selectAll("path")
+//     .data(json.features)
+//     .enter()
+//     .append("path")
+//     .attr("d", path)
+//     .on("click", click);
+
+//     g.selectAll("text")
+//     .data(json.features)
+//     .enter()
+//     .append("svg:text")
+//     .text(function(d){
+//         return d.properties.name;
+//     })
+//     .attr("x", function(d){
+//         return path.centroid(d)[0];
+//     })
+//     .attr("y", function(d){
+//         return  path.centroid(d)[1];
+//     })
+//     .attr("text-anchor","middle")
+//     .attr('font-size','6pt');
+
+
+//   });
+// }
+
+///////JQuery
+
+// $.ajax({
+// method: "POST",
+// url: "some.php",
+// data: { userid: 1, state: "CA" }
+// })
+// .done(function() {
+//some JS to change the appearance of the page
+
+// });
+
+var state_name_dict = {
   1: ["AL", "Alabama"],
   2: ["AK", "Alaska"],
   4: ["AZ", "Arizona"],
@@ -226,3 +240,12 @@ var state_name_dict = {
 </script>
 </body>
 </html>
+
+
+$('#states .ca').on('click', function() {
+  $.ajax();
+
+  // update
+});
+
+

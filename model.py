@@ -27,6 +27,9 @@ class User(db.Model):
     user_image = db.Column(db.Unicode(128))
 
 
+
+
+
 #############################################################################
         #### RELATIONSHIP TABLE FOR USER AND STATE ####
         ## records users states they have visited  ###
