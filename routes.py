@@ -2,7 +2,7 @@
 ##############################################################################
                 ##### CONTROLLER, ROUTES, VIEW  ####
 ##############################################################################
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash, session
 from model import User, connect_to_db, db
 from model import State, connect_to_db, db
 from model import State_Landmark, connect_to_db, db
@@ -37,30 +37,179 @@ def debug():
     msg = "route is working"
 
     print msg
+
+##############################################################################
+# TESTING PAGE
+
+
+@app.route('/login', methods=["GET"])
+def login():
+        """show login form"""
+
+        # displaying the log in form from the GET request
+        return render_template('login.html')
+
+@app.route("/login", methods=["POST"])
+def process_login():
+    """Log user into site"""
+    email = request.form['email']
+    password = request.form['password']
+
+    user = User.query.filter_by(email=email).first()
+
+    if not user:
+        flash("Incorrect email")
+        return redirect('/login')
+
+    if user.password != password:
+        flash("Incorrect password.")
+        return redirect("/login")
+
+    print user
+
+    session["user_id"] = user.user_id
+
+    flash("Logged in.")
+    return redirect("/d3_state_map")
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    del session["user_id"]
+    flash("Logged out")
+    return redirect("/landingpage")
+
+# SIGN UP
+##############################################################################
+# SIGN UP A NEW USER
+
+@app.route('/login', methods=['GET'])
+def signup():
+    """ show from for user sign up"""
+    return render_template('login.html')
+
+
+@app.route('/login', methods=['POST'])
+def signup_processed():
+    """New user login information"""
+
+    # Get form variables from FORM in POST request
+    email = request.form.get('email')
+    password = request.form.get('password')
+    username = request.form.get('username')
+
+    new_user = User.query.filter_by(email=email, password=password, username=username).first()
+
+    print new_user
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    print new_user
+
+    flash("Thanks for joining wanderlust")
+    return redirect('/d3_state_map')
+
+
+
+
+
+
+
 ##############################################################################
 
+# @app.route('/landingpage', methods=["GET"])
+# def show_login_form():
+#         """show login form"""
 
-                    ####  SERVER RUNNING ROUTE ####
-##############################################################################
+#         # displaying the log in form from the GET request
+#         return render_template('landingpage.html')
 
-@app.route('/')
-def server():
-    """prints server is running and returns hello world if page loads correctly"""
-    print "SERVER IS RUNNING"
-    return 'HELLO WORLD!'
-    debug()
+# @app.route("/landingpage", methods=["POST"])
+# def process_login_form():
+#     """Log user into site"""
+#     email = request.form['email']
+#     password = request.form['password']
+
+#     user = User.query.filter_by(email=email).first()
+
+#     if not user:
+#         flash("Incorrect email")
+#         return redirect('/landing_page')
+
+#     if user.password != password:
+#         flash("Incorrect password.")
+#         return redirect("/landingpage")
+
+#     print user
+
+#     session["user_id"] = user.user_id
+
+#     flash("Logged in.")
+#     return redirect("/d3_state_map")
+
+# @app.route("/logout")
+# def process_logout():
+#     """Log user out"""
+
+#     del session["user_id"]
+#     flash("Logged out")
+#     return redirect("/landingpage")
+
 
 
                     ####  LANDING PAGE ROUTE ####
 ##############################################################################
 
-@app.route('/landing_page')
-def landing_page():
-        """landing page where users can select to login or sign up"""
+# @app.route('/landing_page')
+# def landing_page():
+#         """landing page where users can select to login or sign up"""
 
-        return render_template('landing_page.html')
-        debug()
+#         return render_template('landing_page.html')
 
+# # ajax request from the html page
+# pass varibles to be dictionary
+# return from DB using ajax --> to the routes
+
+# Return route below
+    # signupUser --> python method
+    # /signUpUser.json
+    # using jquery Ajax to post from data to python flask
+
+# @app.route('/signUpUser.json', methods=['POST'])
+# def signUpUser():
+#     """creating a new user"""
+
+# #QUERY MODAL TO MATCH AJAX request
+#     username = request.form.get('username')
+#     password = request.form.get('password')
+#     email = request.form.get('email')
+#     new_user = User.query.filter_by(username=username, email=email, password=password).first()
+# # If USER matches username, password, and email matches
+
+#     if new_user:
+#         return "Ok"
+#     else:
+#         return "sign up"
+
+
+
+# @app.route('/signUp')
+# def signUp():
+#     """creating a new user"""
+#     return render_template('register.html')
+
+
+
+
+# @app.route('/signUpUser', methods=['POST'])
+# def signUpUser():
+#     user =  request.form['username'];
+#     password = request.form['password'];
+#     new_user = User.query.filter_by(username=username, password=password).first()
+
+#     return json.dumps({'status':'OK','user':user,'pass':password});
 
                     ####  LANDING MODAL LOGIN/LOGOUT ####
 ##############################################################################

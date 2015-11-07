@@ -115,8 +115,16 @@ d3.json("static/d3mapdata/us.json", function(error, us) {
       .attr("d", path);
 });
 
+//MAP FUNCTION CODE TO GET ID OF THE CODE
+
 function clicked(d) {
+
   var x, y, k;
+
+  //UMA'S STUFF TO VIEW MAP
+  console.log(d);
+  console.log(d.id);
+  console.log(state_name_dict[d.id]);
 
   if (d && centered !== d) {
     var centroid = path.centroid(d);

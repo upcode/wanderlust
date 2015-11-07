@@ -3,6 +3,7 @@ mapHeight = 500,
 focused = false,
 ortho = true,
 sens = 0.25;
+console.log("d3_world_map.js loaded!");
 
 var projectionGlobe = d3.geo.orthographic()
 .scale(240)
@@ -147,6 +148,7 @@ function ready(error, world, countryData) {
   //Events processing
 
   world.on("mouseover", function(d) {
+    console.log("Mouseover happened!!");
     if (ortho === true) {
       infoLabel.text(countryById[d.id])
       .style("display", "inline");
@@ -215,8 +217,8 @@ function ready(error, world, countryData) {
   }
 };
 
- var countires {
- 1: ["AL", "Alabama"],
+var countires{
+1: ["AL", "Alabama"],
 4: , ['Afghanistan']
 8', 'Albania']
 12', '', 'Algeria']
@@ -355,7 +357,7 @@ function ready(error, world, countryData) {
 ['694', 'Sierra', 'Leone']
 ['703', 'Slovakia']
 ['705', 'Slovenia']
-['90', '', 'Solomon', 'Islands']
+['90',  ['Solomon', 'Islands']
 ['706', 'Somalia']
 ['710', 'South', 'Africa']
 ['728', 'South', 'Sudan']
