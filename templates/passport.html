@@ -2,7 +2,6 @@
 
 {% block head %}
  <link rel="stylesheet" href="static/css/list.css" />
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 
 {% endblock %}
@@ -472,7 +471,7 @@ var world_map_dict = {
 
 
     <!-- Profile Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <header><img src="/static/img/logo.jpg" id="logo">
@@ -483,12 +482,15 @@ var world_map_dict = {
                                     <p><input type='file' name='passportpic' multiple=''>
                                 <input type='submit' value='upload'>
                                     </p>
-                                </form>
+                                </form> -->
 
-                              </div><!--end modal body-->
-                        </div>
-                      </div><!--end modal content-->
-                    </div><!--end modal window-->
+                             <!--  </div> -->
+                              <!--end modal body-->
+                     <!--    </div> -->
+                 <!--      </div> -->
+                      <!--end modal content-->
+                   <!--  </div> -->
+                    <!--end modal window-->
 
 
     <!--SEECOND COL IN THE FIRST CONTAINER-->
@@ -642,9 +644,11 @@ var world_map_dict = {
                             <li id="four">Northern Lights</li>
                         </ul>
                             <div id="newItemButton"><button href="#" id="showForm">new item</button></div>
-                        <form id="newItemForm">
+                        <form id="newItemForm" action="/adventurelist">
+
                             <input type="text" id="itemDescription" name="addventurelist" placeholder="Add description" />
-                            <input type="submit" id="add" value="add" />
+
+                            <input type="submit" id="submit-button" value="add" />
                         </form>
                     </div>
                 </div>
@@ -656,14 +660,28 @@ var world_map_dict = {
 
 <script>
 // sending to my server
+// created functon called add adventure using ajax call to submit users new item on the list to be stored in the sever.
+// function addAdventure passed in evt
+//use a post method to route to sever which is form action="/adventurelist"
+// in order to pass info have to pass ajax as dictionary
+// pass fucntionn dta
+
+// method prepares the request and has three prams
+  // method get or post
+  // route path
+  // data  form is sending
 function addAdventure(evt) {
-  $.post('/adventurelist', {}, function (data){
-    console.log("added adventure");
+  evt.preventDefault();
+  var new_item = $('#itemDescription').val();
+
+  $.post('/adventurelist', {'place':new_item}, function (data){
+    console.log(data);
 
   });
 }
-$('#addAdventure').on('click', addAdventure);
-
+// do one, and only one, of these
+$('#newItemForm').on('submit', addAdventure);
+// $('#submit-button').on("click", addAdventure);
 </script>
 
 <script>

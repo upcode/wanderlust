@@ -1,0 +1,156 @@
+<script>
+function addAdventure(evt) {
+  evt.preventDefault():
+  var new_item = $('#itemDescription').val();
+
+  $.post('/adventurelist', {'place':new_item}, function (data){
+    console.log("added adventure");
+
+  });
+}
+// do one, and only one, of these
+$('#newItemForm').on('submit', addAdventure);
+// $('#submit-button').on("click", addAdventure);
+
+//
+
+</script>
+
+
+
+
+
+
+
+
+<script>
+
+$(function() {
+
+  // SETUP
+  // $ list =
+  // $newItemform = id from the form
+  // $ newItemButton = id of the button
+  var $list, $newItemForm, $newItemButton;
+  // item is an empty string
+  var item = '';
+  // unordered list
+  $list = $('ul');
+  //  add new items
+  $newItemForm = $('#newItemForm');
+  //button to show form
+  $newItemButton = $('#newItemButton');
+  // Hide list items
+
+  // list is hidden until page loads, once page is laoded then items are faded in when page loands by one by one
+  $('li').hide().each(function(index) {
+    // Then fade them in
+    $(this).delay(450 * index).fadeIn(1600);
+  });
+
+  // ITEM COUNTER
+     // Create function to update counter it counts how many items are in the list and updates to the count in the heading with the id tag counter
+  function updateCount() {
+
+  // Number of items in list
+    var items = $('li[class!=complete]').length;
+       // Added into counter circle
+    $('#counter').text(items);
+  }
+  // Call the function
+    //# my adventure is my counter in the span tag
+  updateCount();
+
+  // SETUP FORM FOR NEW ITEMS
+    // button at the bottom of the form that shows and hides
+    // have on click  function when user clicks the button reveals the item input box
+     // Show the button
+
+     // when user clicks add button new item is added to the form and update counter is called
+  $newItemButton.show();
+     // Hide the form
+  $newItemForm.hide();
+  // When click on add item button
+  $('#showForm').on('click', function() {
+  // Hide the button
+    $newItemButton.hide();
+   // Show the form
+    $newItemForm.show();
+  });
+
+  // ADDING A NEW LIST ITEM
+    // once user submits item
+    // When a new item is submitted
+    // prevent form from submitting makign sure to check inputs feild before submission
+
+    // event delectation is decated when user clicks anywhere on teh list, when user clicks on element which now is jquery object which is now called this. it then checks for the class name complete. if class name == complete, list item is animated and then removed from users view, if its not compleete it moved to the end of the list by using append method , when its added to the end its gived class name complete  then updates a count againfor the number of itmes left in the list
+  $newItemForm.on('submit', function(e) {
+    // Prevent form being submitted
+
+    e.preventDefault();
+    // Get value of text input which is the child element the little i and then append new text to the little li element
+
+    var text = $('input:text').val();
+    $list.append('<li>' + text + '</li>');
+    // Add item to end of the list
+    $('input:text').val('');
+
+    // Update the count after user clicks submit button update count will change to new count
+    updateCount();
+  });
+
+  // CLICK HANDLING - USES DELEGATION ON <ul> ELEMENT
+  // this function when user clicks on little i element puts element in jquery object if little i is complete the list will animate
+  //user can click on little i element and remove item from the list
+  //by selecting the little i
+  $list.on('click', 'li', function() {
+    // get the element in a jQuery object
+    var $this = $(this);
+    // Is item complete
+    var complete = $this.hasClass('complete');
+    // Check if item is complete
+    if (complete === true) {
+    // If so, animate opacity + padding
+      $this.animate({
+        opacity: 0.0,
+        paddingLeft: '+=180'
+      }, 500, 'swing', function() {
+       // Use callback when animation completes
+        // Then completely remove this item
+        $this.remove();
+      });
+      // Otherwise indicate it is complete
+    } else {
+    // Get the text from the list item
+    // assigned item to this object to text fucton which removes item from list
+    // append adds item to the back of the list
+    // just have fade in when page loads list fades in as it loads by loading li item one by one
+      item = $this.text();
+      // Remove the list item
+      $this.remove();
+       // Add back to end of list as complete
+      $list
+        .append('<li class=\"complete\">' + item + '</li>')
+        // Hide it so it can be faded in
+        // Update the counter
+        .hide().fadeIn(300);
+        // End of else option
+      updateCount();
+    }
+     // End of event handler
+  });
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

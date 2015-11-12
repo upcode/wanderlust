@@ -17,7 +17,7 @@ from model import D3_World_Map, D3_State_Map, Postcard, AdventureList, connect_t
 # from model import Postcard, UserPostcard, connect_to_db, db
 
 # FILE UPLOADER EXTENSION
-UPLOAD_FOLDER = 'postcarduploads/' # filepath where photos are stored
+UPLOAD_FOLDER = 'postcarduploads/'  # filepath where photos are stored
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
@@ -97,11 +97,6 @@ def process_logout():
                             # # REGISTER # #
 ##############################################################################
 
-# @app.route('/register', methods=['GET'])
-# def register_form():
-#     """ show from for user sign up"""
-
-#     return render_template('wanderlust.html')
 
 # WHERE SIGNUP FORM IS PROCESSED
 @app.route('/register-process', methods=['POST'])
@@ -125,7 +120,7 @@ def register_processed():
     same_email_user = User.query.filter(User.email == email).first()
 
     if same_email_user:
-        flash("email is registered")
+        flash("Email is already registered. Please signin to your account")
         return redirect("/login")
         # if this is None, (meaning email is not in db) -- this doesn't run.
         # if email is in the databse, this will run.
@@ -186,32 +181,15 @@ def uploaded_postcard(filename):
 
 
 
-
-# @app.route('/test', methods=["POST"])
-# def test():
-#     user_id = request.form["user_id"]
-#     postcard_id = request.form["postcard_id"]
-#     created_at = request.form["created_at"]
-#     user_image = request.form["user_image"]
-#     return json.dumps({'status': 'OK', 'user_id': user_id, "postcard_id": postcard_id, "created_at": created_at,
-#      "user_image": user_image})
-
-
-##############################################################################
-# TESTING AJAX
-@app.route('/adventure')
-def list():
-        return render_template("passport.html")
-
-
+#################################################################
 @app.route('/adventurelist', methods=['POST'])
 def process_list():
 
     user_id = session["user_id"]
-    adventure_list = request.form('adventureList')
-    print "adventurelist", adventure_list
+    new_item = request.form['place']
+    print "adventurelist", new_item
 
-    new_list_item = AdventureList(user_id=user_id, adventure_list=adventure_list)
+    new_list_item = AdventureList(user_id=user_id, adventure_item=new_item)
 
     db.session.add(new_list_item)
     db.session.commit()
