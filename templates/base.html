@@ -34,19 +34,16 @@
                                         <ul class="nav navbar-nav navbar-right" style="display:inline: block, float: left">
                                             {% if "user_id" in session %}
                                             <li>
-                                                <a href="#about">Us Map</a>
+                                                <a href="/d3_state_map">Us Map</a>
                                             </li>
                                             <li>
-                                                <a href="#services">World Map</a>
+                                                <a href="/d3_world_map">World Map</a>
                                             </li>
                                             <li>
-                                                <a href="#contact">My Passport</a>
+                                                <a href="/passport">My Passport</a>
                                             </li>
                                             <li>
-                                                <a href="#contact">My Postcards</a>
-                                            </li>
-                                            <li>
-                                                <a href="#contact">Contact</a>
+                                                <a href="#postcard">My Postcards</a>
                                             </li>
 
                                             <li>
@@ -69,6 +66,11 @@
                 </nav>
 
             </div>
+<!--#######################    FLASK FLASH    ##################-->
+
+            {% for flash in get_flashed_messages() %}
+                {{ flash }}
+            {% endfor %}
 
 <!--#######################    CONTENT   ##################-->
 
@@ -77,17 +79,12 @@
                 <!--HTML BODY CONTENT HERE-->
                 {% endblock %}
             </div>
-<!--#######################    FLASK FLASH    ##################-->
 
-            {% for flash in get_flashed_messages() %}
-                {{ flash }}
-            {% endfor %}
 <!--#######################    FOOTER   ########################-->
             <!--FOOTER-->
             <div class="footer">
-
                 <footer class="footer">
-                    <p><a href="../sticky-footer">Waunderlust</a></p>
+                    <p><a href="/contact">Waunderlust</a></p>
                     <p class="text-muted">Copyright &copy; Uma Petersen 2015. All Rights Reserved</p>
                 </footer>
                <!-- END FOOTER-->

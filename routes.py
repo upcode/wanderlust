@@ -27,74 +27,17 @@ app.secret_key = 'RED PANDA'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 ##############################################################################
-
-@app.route('/test', methods=["POST"])
-def test():
-    user_id = request.form["user_id"]
-    postcard_id = request.form["postcard_id"]
-    created_at = request.form["created_at"]
-    user_image = request.form["user_image"]
-    return json.dumps({'status': 'OK', 'user_id': user_id, "postcard_id": postcard_id, "created_at": created_at,
-     "user_image": user_image})
-
-
-##############################################################################
-# TESTING AJAX
-@app.route('/adventure')
-def list():
-        return render_template("profilepage.html")
-
-
-@app.route('/adventurelist', methods=['POST'])
-def process_list():
-
-    user_id = session["user_id"]
-    adventure_list = request.form('adventureList')
-    print "adventurelist", adventure_list
-
-    new_list_item = AdventureList(user_id=user_id, adventure_list=adventure_list)
-
-    db.session.add(new_list_item)
-    db.session.commit()
-    return "New adventure has been stored in DB"
-    # return render_template("list.html")
-
-
-##############################################################################
-# UPLOAD POSTCARD ROUTE
-
-@app.route('/postcard/<user_id>', methods=['GET', 'POST'])
-def postcard():
-
-    def allowed_file(filename):
-        return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-    if request.method == 'POST':
-        file = request.files['postcard']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
-
-    return render_template('profilepage.html')
-
-@app.route('/uploads/<filename>')
-def uploaded_postcard(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
-
-##############################################################################
 # INDEX PAGE
 
-@app.route('/')
-def index():
-    """Homepage."""
-    return render_template('helloworld.html')
+# @app.route('/')
+# def index():
+#     """Homepage."""
+#     return render_template('helloworld.html')
 
 
-
+##############################################################################
+                            # # LOGIN # #
+##############################################################################
 # Route ("/login", methods=["POST"]) process login form
 # WHERE REQUEST GOES TO FORM HTML FROM action=/login needs to match route route("/login")
 
@@ -106,7 +49,7 @@ def login_form():
 
     return render_template("wanderlust.html")
 
-@app.route('/login', methods=['POST'])
+@app.route('/login-process', methods=['POST'])
 def process_login():
     """Log user into site, find user in the DB and their
     their user id in the session then if they
@@ -137,7 +80,7 @@ def process_login():
 
     flash("Logged in")
     # return redirect('/user_id/%s' % user.user_id)
-    return redirect('/profilepage')
+    return redirect('/passport')
 
 
 # LOG OUT ROUTE
@@ -150,19 +93,18 @@ def process_logout():
     flash("Logged Out.")
     return redirect("/login")
 
-
-
+##############################################################################
+                            # # REGISTER # #
 ##############################################################################
 
+# @app.route('/register', methods=['GET'])
+# def register_form():
+#     """ show from for user sign up"""
 
-@app.route('/register', methods=['GET'])
-def register_form():
-    """ show from for user sign up"""
-
-    return render_template('wanderlust.html')
+#     return render_template('wanderlust.html')
 
 # WHERE SIGNUP FORM IS PROCESSED
-@app.route('/register', methods=['POST'])
+@app.route('/register-process', methods=['POST'])
 def register_processed():
     """New user signup form"""
 
@@ -176,46 +118,112 @@ def register_processed():
 
     # query the DB for this user
     new_user = User(email=email, username=username, password=password)
-    user = User.query.filter(User.email == email).first()
-    user = User.query.filter(User.username == username).first()
-    user = User.query.filter(User.password == password).first()
 
-    # white is varaibles, oranage is DB feildnames
+    # CHECK BY EMAIL
+    # is email in database, returns the user obj
+    # if email NOT in database, returns None
+    same_email_user = User.query.filter(User.email == email).first()
 
-    user = User.query.filter_by(email=email).first()
+    if same_email_user:
+        flash("email is registered")
+        return redirect("/login")
+        # if this is None, (meaning email is not in db) -- this doesn't run.
+        # if email is in the databse, this will run.
+        # redirct to login flash message please sign this email is registered
+
+    # CHECK BY USERNAME
+    same_username = User.query.filter(User.username == username).first()
+    if same_username:
+        flash("please pick another username")
+        return redirect("/login")
+        # if have same username register with another username <-- flash
+        # redirect login --> form
 
     db.session.add(new_user)
     db.session.commit()
 
+    # NEED TO STORE USER IN SESSION.
+        # need to get the user_id from database
     user = User.query.filter_by(username=username).first()
 
     flash("User %s added.You have successfully created an account! Welcome to Wanderlust" % email)
-    session["username"] = user.username
-    db.session.add(new_user)
-    db.session.commit()
-    return redirect("/d3_state_map")
+    session["user_id"] = user.user_id
+
+    return redirect("/passport")
 
 
-
-
-
-
-
-@app.route("/logout")
-def logout():
-    """Log user out by removing user_id from session"""
-
-    del session["user_id"]
-    flash("Logged Out.")
-    return redirect("/login")
-
-
-                    ####  STATE MAP ROUTE ####
 ##############################################################################
+                        # #  PASSPORT / PROFILE PAGE # #
+##############################################################################
+@app.route('/passport')
+def passport():
+    """User profile page"""
+    return render_template("passport.html")
 
-@app.route('/d3_state_map')
+
+@app.route('/postcard/<user_id>', methods=['GET', 'POST'])
+def postcard():
+
+    def allowed_file(filename):
+        return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+    if request.method == 'POST':
+        file = request.files['postcard']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+
+    return render_template('passport.html')
+
+@app.route('/uploads/<filename>')
+def uploaded_postcard(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
+
+
+
+
+
+# @app.route('/test', methods=["POST"])
+# def test():
+#     user_id = request.form["user_id"]
+#     postcard_id = request.form["postcard_id"]
+#     created_at = request.form["created_at"]
+#     user_image = request.form["user_image"]
+#     return json.dumps({'status': 'OK', 'user_id': user_id, "postcard_id": postcard_id, "created_at": created_at,
+#      "user_image": user_image})
+
+
+##############################################################################
+# TESTING AJAX
+@app.route('/adventure')
+def list():
+        return render_template("passport.html")
+
+
+@app.route('/adventurelist', methods=['POST'])
+def process_list():
+
+    user_id = session["user_id"]
+    adventure_list = request.form('adventureList')
+    print "adventurelist", adventure_list
+
+    new_list_item = AdventureList(user_id=user_id, adventure_list=adventure_list)
+
+    db.session.add(new_list_item)
+    db.session.commit()
+    return "New adventure has been stored in DB"
+    # return render_template("list.html")
+##############################################################################
+                            # # STATE MAP # #
+##############################################################################
+@app.route('/state_map')
 def state_map():
-    """print hello world making sure sever is running"""
+    """d3 state map where users can click on state and changes colors"""
+    return render_template("state_map.html")
 
     # get id from ajax request
 
@@ -237,32 +245,21 @@ def state_map():
     # return json.dumps({'status':'OK', 'd3statemap_id': d3statemap_iduser_id, ':user_id': user_id, 'state_code':state_code, 'state_name':state_name,'visited_at':visited_at});
 
 
-    return render_template("d3_state_map.html")
 
-
-
-
-
-
-
-
-
-
-                        ####  WORLD MAP ROUTE  ####
 ##############################################################################
-
-
-@app.route('/d3_world_map')
+                            # # WORLD MAP # #
+##############################################################################
+@app.route('/world_map')
 def world_map():
-    """print hello world making sure sever is running"""
+    """d3 state map where users can click on country and changes colors"""
 
-    return render_template("d3_world_map.html")
-
-
+    return render_template("world_map.html")
 
 
 
-
+##############################################################################
+                        # #  POSTCARDS # #
+##############################################################################
 
 ##############################################################################
 

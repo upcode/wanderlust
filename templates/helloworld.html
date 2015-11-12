@@ -1,9 +1,171 @@
-<!DOCTYPE html>
 <html>
-    <head>
-      <title>Wanderlust App</title>
-      </head>
-      <body>
-            <h2> HELLO WORLD</h2>
-      </body>
+<head>
+    <style>
+    #page{
+     border-style: groove;
+     margin: 20px 20px 20px 20px;
+    padding: 10px 20px 20px 10px;
+    }
+    </style>
+</head>
+<body>
+
+
+
+    <div class="container">
+        <div class="col-md-4">
+            <div id="page">
+                <h3 id="header">Wanderlust List</h3>
+                <h4>Travel Bucket List</h4>
+                    <ul>
+                    <li id="one" class="must">Thailand
+                        <em>Lantern Festival</em>
+                    </li>
+                    <li id="two" class="must">
+                        New York City
+                    </li>
+                    <li id="three" class="must"> Northern Lights
+                    </li>
+                    <li id="four">
+                        Coahcella
+                    </li>
+
+                </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+
+// select the element and store it in a variable
+var el = document.getElementById('one');
+//change the value of the class attribute
+el.className = 'wish';
+//find must items
+var elements = document.getElementsByClassName('must');
+ // if 3 or more are found
+if (elements.length > 2) {
+     // select thrid item form nodelist
+    var el = elements[2];
+    //change the value from of its class attr
+    el.className = 'wish';
+
+}
+
+// find li element
+var elements = document.getElementsByTagName('li');
+
+// if one or more are found select first one using an array
+if (elements.length > 0) {
+
+    var el = elements[0];
+    el.className = 'wish';
+//change the value of the class attribute
+}
+
+
+//query selectors() only returns teh first match
+var el = document.querySelector('li.must');
+el.className = 'wish';
+
+//querrySelectorall returns a node list
+//second matching element (third list item_ is slelected and changed)
+
+var els = document.querySelectAll('li.must');
+els[1].className = 'wish';
+// code notes for above code //
+
+// how page starts with li elements have class attr value is must
+//query selector method finds the first one and updates teh value of the class
+//when selector runs only two li el left who class attr are asap
+// when 2ns selector has done the DOM tree now only holds one el who attr is asap
+
+// above code notes//
+
+// looping through//
+    //store list in array
+var mustItems = document.querySelectAll('li.must');
+// if it contains an item
+if (mustItem.length > 0) {
+        // loop through each item
+    for (var i = 0; i < mustItems.length; i ++) {
+        // change the value of the class attr
+        mustItems[i].className = 'wish'
+    }
+}
+
+// select the starting point and find its siblings
+var startItem = document.getElementById('two');
+var prevItem = startItem.previousSibling;
+var nextItem = startItem.nextSibling;
+//change the value of teh siblings 'class attr'
+prevItem.className = 'complete';
+nextItem.className = 'wish';
+//select the starting point and find its childern
+var startItem = document.getElementByTageName('ul')[0];
+var firstItem = startItem.firstChild;
+var lastItem = startItem.lastChild;
+// change the values of the chilersn class attr
+firstItem.setAttribute('class', 'complete');
+lastItem.setAttribute('class', 'wish');
+
+// changing the text node
+    // get second item
+var itemTwo = document.getElementById('two');
+//get its text
+var elText = itemTwo.firstChild.nodevalue;
+// change its text content from --> to
+elText = elText.replace('New York City', 'Ireland');
+//update the list
+itemTwo.firstChild.nodeValue = el.Text;
+
+// first itme in list
+var firstItem = document.getElementById('one');
+//get values of text content
+var showTextContent = firstItem.TextContent;
+//get values of inner text
+var showInnerText = firstItem.innerText;
+
+// show contents of two properties at end of the list
+
+var msg = '<p>textContent:' + ShowTextContent + '</p>';
+msg += '<innerText: ' + showInnerText + '</p>';
+var el = document.getElementById('scriptResults');
+el.innerHTML = msg;
+// update the first time
+firstItem.textContent = 'Spain';
+
+var firstItem  document.getElementById('one');
+var itemContent = firstItem.innerHTML;
+// update the content of the first list item so its a link
+firstItem.innerHTML = '<a href=\"http://example.org\">' + itemContent +  '</a>';
+//creatae a new element and store it in variable
+var newEl = document.createElement('li');
+// attach new text node to the element
+car newText = document.createTextNode('Chicago');
+newEl.appendChild(newText);
+// find elements new position to be added
+var position = document.getElementsByTagName('ul')[0];
+// insert new element into the the position
+position.appendChild(newEl);
+
+//removing an element
+    // elelment to remove
+var removeEl = document.getElementsByTagName('li')[3];
+// its containing elelment
+var containerEL = removeEl.parentNode;
+containerEl.removeChild(removeEl);
+
+</script>
+</body>
 </html>
+
+
+<!-- prioity in the list
+red = hot
+cool = green
+normal = pink
+complete = gray -->
+
+
+

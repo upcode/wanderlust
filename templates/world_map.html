@@ -196,6 +196,9 @@ function ready(error, world, countryData) {
     infoLabel.text(countryById[d.id])
     .style("display", "inline");
 
+    var nextColor = this.style.fill == "blue" ? "magenta" : "blue";
+        d3.select(this).style("fill", nextColor);
+
     //Transforming Globe to Map
 
     if (ortho === true) {
