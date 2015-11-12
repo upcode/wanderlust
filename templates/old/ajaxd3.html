@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script>
+</head>
+<body>
+    <div class="stateAjax">
+    <div id="state"></div>
+    <div class="appendedContainer"></div>
+
+    </div>
+    <a class="LoadFromAjax" href="someurl">Load Ajax</a>
+
+<div class="appendedContainer2"></div>
+    <script>
+    var sampleSVG = d3.select("#state")
+        .append("svg")
+        .attr("width", 100)
+        .attr("height", 100);
+
+    sampleSVG.append("circle")
+        .style("stroke", "gray")
+        .style("fill", "gray")
+        .attr("r", 40)
+        .attr("cx", 50)
+        .attr("cy", 50)
+        .on("click", function(){
+            var nextColor = this.style.fill == "gray" ? "magenta" : "gray";
+            d3.select(this).style("fill", nextColor);
+        });
+
+$("#stateAjax").on("click", function(event) { alert("new link clicked!");});
+
+
+
+
+</script>
+<!--AJAX-->
+</body>
+</html>

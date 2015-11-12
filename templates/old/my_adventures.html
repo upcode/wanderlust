@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Wanderlust App</title>
+
+    <!--CSS Animation Globe CSS-->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/animatecss/2.1.0/animate.min.css"><!-- load animate -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="static/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css" />
+     <style type="text/css">
+      body{
+        background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
+        padding-top: 60px;
+              padding-bottom: 40px;
+            }
+      .container {
+        max-width: 500px;
+        padding-top: 100px;
+      }
+
+    </style>
+
+</head>
+<body>
+<div class="wrapper">
+  <header>HEADER HTML HERE
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+  <a class="navbar-brand" href="#">
+    <img src="/static/img/logo.jpg" height="80" width="80">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right" style="display:inline: float: right">
+                <li>
+                    <a href="#contact">My Passport</a>
+                </li>
+                     <li>
+                        <a href="#contact">My Postcards</a>
+                    </li>
+                    <li>
+                        <a href="#services">Sign Out</a>
+                    </li>
+                </ul>
+              </div>
+
+</div>
+
+
+  </header>
+  <aside>SIDE HTML HERE</aside>
+  <article>ARTICLE HERE </article>
+  <footer></footer>
+<div>
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+  <a class="navbar-brand" href="#">
+    <img src="/static/img/logo.jpg" height="80" width="80">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right" style="display:inline: float: right">
+                <li>
+                    <a href="#contact">My Passport</a>
+                </li>
+                     <li>
+                        <a href="#contact">My Postcards</a>
+                    </li>
+                    <li>
+                        <a href="#services">Sign Out</a>
+                    </li>
+                </ul>
+              </div>
+
+</div>
+{% endblock %}
+<div id="content">{% block content %}
+    <!--HTML BODY CONTENT HERE-->
+
+
+
+{% endblock %}</div>
+
+    <div id="footer">
+        {% block footer %}
+<nav class="navbar navbar-default navbar-fixed-bottom topnav" role="navigation" id="footer">
+          <div class="container topnav">
+                <div class="navbar-footer">
+                    <a class="navbar-brand topnav" href="#">Waunderlust</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/wanderlust" data-target=".bs-example-modal-sm">About</a>
+                        </li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                  <p class="siginiture">Copyright &copy; Uma Petersen 2015. All Rights Reserved</p>
+                </div>
+              </div>
+            <!-- /.container -->
+          </nav>
+        {% endblock %}
+    </div>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

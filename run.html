@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js">
+    $('#state').on('click', function(e){
+        e.preventDefault();
+        var nextColor = ('#state').serialize();
+        $.post('#state', nextColor, function(data){
+            $('#state').html(data)
+        });
+
+    });
+    </script>
+</head>
+
+<body>
+    <script>
+    var sampleSVG = d3.select("#viz")
+        .append("svg")
+        .attr("width", 100)
+        .attr("height", 100);
+
+    sampleSVG.append("circle")
+        .style("stroke", "gray")
+        .style("fill", "gray")
+        .attr("r", 40)
+        .attr("cx", 50)
+        .attr("cy", 50)
+        .on("click", function(){var nextColor = this.style.fill == "gray" ? "magenta" : "gray";
+        d3.select(this).style("fill", nextColor);});
+
+        $('#state').on('Click', function(e){
+            e.preventDefault();
+
+            alert("ok")
+            $.ajax({
+                type:'GET',
+                url :"/run",
+                dataType: 'json',
+                success: function(data){
+                    console.log('success', data);
+                },
+                error: function(exception){
+                    alert('Exception:' +exception);
+                }
+
+        });
+            });
+
+ </script>
+
+</body>
+</html>
+    <div id="state"></div>
+<div id="text">SVG ELEMENTS</div>
+<svg viewBox="0 0 100 100">
+    <circle data-text="red" id="circ1" cx="10" cy="50" r="10" />
+    <circle data-text="purple" id="circ2" cx="35" cy="50" r="10" />
+    <circle data-text="brown" id="circ3" cx="60" cy="50" r="10" />
+</svg>
+
+</body>
+</html>

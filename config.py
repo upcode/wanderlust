@@ -3,6 +3,13 @@ from flask.ext.session import Session
 
 app = Flask(__name__)
 # Check Configuration section for more details
-SESSION_TYPE = 'redis'
-app.config.from_object(__name__)
-Session(app)
+
+# DEBUG = False
+# SECRET_KEY = 'RED PANDA'
+# # DATABASE_URI = 'sqlite:////tmp/database.db
+# SESSION_TYPE = 'redis'
+# app.config.from_object(__name__)
+# Session(app)
+
+ALLOWED_EXTENSIONS = set(['json'])
+

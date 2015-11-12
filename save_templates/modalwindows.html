@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+  <head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Wanderlust App</title>
+
+    <!--CSS Animation Globe CSS-->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/animatecss/2.1.0/animate.min.css"><!-- load animate -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="static/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/login.css">
+    <style type="text/css">
+      body{
+        background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
+        padding-top: 60px;
+              padding-bottom: 40px;
+            }
+      .container {
+        max-width: 500px;
+        padding-top: 100px;
+      }
+
+    </style>
+    {% endblock %}
+  </head>
+
+
+  <body>
+    {% endblock %}
+<div id="content">{% block content %}
+    <!--HTML BODY CONTENT HERE-->
+
+
+{% endblock %}</div>
+
+<!--  FLASK USER _ID LOGOUT SESSION     -->
+
+{% if "user_id" in session %}
+    <a href="/logout">Logout</a>
+{% else %}
+<!--  FLASK USER _ID LOGIN SESSION     -->
+
+    <a href="/login">Login</a>
+{% endif %}
+<!--    FLASK SESSION     -->
+
+{% for flash in get_flashed_messages() %}
+  {{ flash }}
+{% endfor %}
+<!--    END FLASK SESSION     -->
+
+<!--FOOTER-->
+  <div class="footer">
+    {% block footer %}
+      <div class="container">
+          <p><a href="../sticky-footer">Waunderlust</a></p>
+        </div>
+        <footer class="footer">
+            <div class="container">
+
+              <p class="text-muted">Copyright &copy; Uma Petersen 2015. All Rights Reserved</p>
+            </div>
+        </footer>
+      </div>
+
+
+        {% endblock %}
+
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  </body>
+</html>

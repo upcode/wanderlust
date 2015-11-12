@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+
+{% block head %}
+ <link rel="stylesheet" href="static/css/list.css" />
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+  <!-- Add the extra clearfix for only the required viewport -->
+
+
+
+<!--PROFILE PICTURE-->
+<!-- <div class="container">
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="col-md-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="well well-sm">
+                            <div class="media">
+                                <a class="thumbnail pull-left" href="#">
+                                <img class="media-object" src="static/img/uma.jpg">
+                                </a>
+                                <div class="media-body">
+                                <h4 class="media-heading">Uma Petersen</h4>
+                                <strong><small>World Traveler</small></strong><br>
+                                <p>San Francisco, California</p>
+                                <p>Calvin: Everybody seeks happiness! Not me, though! That’s the difference between me and the rest of the world. Happiness isn’t good enough for me! I demand euphoria!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">.col-xs-6<br>Subsequent columns continue along the new line.</div>
+    </div>
+</div>
+
+ -->
+
+
+
+
+
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="well well-sm">
+                            <div class="media">
+                                <a class="thumbnail pull-left" href="#">
+                                <img class="media-object" src="static/img/uma.jpg">
+                                </a>
+                                <div class="media-body">
+                                <h4 class="media-heading">Uma Petersen</h4>
+                                <strong><small>World Traveler</small></strong><br>
+                                <p>San Francisco, California</p>
+                                <p>Calvin: Everybody seeks happiness! Not me, though! That’s the difference between me and the rest of the world. Happiness isn’t good enough for me! I demand euphoria!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+                    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Uplaod Photo</h4>
+                                    </div>
+                                        <div class="modal-body">
+
+                                            <form id="file-form" action="handler.php" method="POST">
+                                            <input type="file" id="file-select" name="photos[]" multiple/>
+                                            <button type="submit" id="upload-button">Upload</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+                        <p><span class="label label-info">10 photos</span> <span class="label label-primary">89 followers</span></p>
+                        <p>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Stars</a>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-heart"></span> Favorites</a>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-user"></span>Following</a>
+                             <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-ban-circle">Unfollow</span></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <div class="media">
+                    <center><a class="thumbnail pull-left" href="#">
+                        <img class="media-object" src="static/img/dashboard.jpg">
+                    </a></center>
+                    <div class="media-body">
+                    <div class="col-md-12">
+                    <center><h3>My Passport</h3></center>
+
+                    <table class="table">
+                    <tbody>
+                    <thead>
+                        <tr>
+                        <th data-field="states">Countries</th>
+                        <th data-field="states">States</th>
+                        <th data-field="capitols">Capitols</th>
+                        <th data-field="landmark">Landmarks</th>
+                        <th data-field="landmark">Wonders</th>
+                    <!--<th data-field="cities">Citites</th>-->
+                        </tr>
+
+                     </thead>
+                    </tbody>
+                            <tr>
+                            <td>5</td>
+                            <td>15</td>
+                            <td>21</td>
+                            <td>14</td>
+                            </tr>
+                    </table>
+                    </div>
+
+                        <p><span class="label label-info">10 photos</span> <span class="label label-primary">89 followers</span></p>
+                        <p>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Countries</a>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>States</a>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Capitols</a>
+                             <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Landmark</span></a>
+                              <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Wonders</span></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="well well-sm">
+                <div class="media">
+                    <a class="thumbnail pull-left" href="#">
+                        <img class="media-object" src="static/img/adventurelist.png">
+                    </a>
+                    <div class="media-body">
+
+
+<h1 id="header">Wanderlust List</h1>
+      <h3>My Adventures<span id="counter"></span></h3>
+      <ul>
+        <li id="one" class="places"><em>Lantern Festival: </em>Thailand</li>
+        <li id="two" class="places">New York City</li>
+        <li id="three" class="places">Fuji Islands</li>
+        <li id="four">Northern Lights</li>
+      </ul>
+      <div id="newItemButton"><button href="#" id="showForm">new item</button></div>
+      <form id="newItemForm">
+        <input type="text" id="itemDescription" placeholder="Add description" />
+        <input type="submit" id="add" value="add" />
+      </form>
+
+
+
+
+
+
+
+
+                        <p><span class="label label-info">10 photos</span> <span class="label label-primary">89 followers</span></p>
+                        <p>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Stars</a>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-heart"></span> Favorites</a>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-user"></span>Following</a>
+                             <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-ban-circle">Unfollow</span></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="well well-sm">
+                <div class="media">
+                    <a class="thumbnail pull-left" href="#">
+                        <img class="media-object" src="static/img/uma.jpg">
+                    </a>
+                    <div class="media-body">
+                        <form id="file-form" action="handler.php" method="POST">
+                        <input type="file" id="file-select" name="photos[]" multiple/>
+                        <button type="submit" id="upload-button" onclick="return foo();" value-="submit">Upload</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+    <div id="page">
+      <img src="static/img/logo.jpg" height="100" width="100" id="logo">
+      <h1 id="header">Wanderlust List</h1>
+      <h2>Wanderlust List<span id="counter"></span></h2>
+      <ul>
+        <li id="one" class="newplace"><em>Lantern Festival: </em>Thailand</li>
+        <li id="two" class="newplace">New York City</li>
+        <li id="three" class="newplace">Fuji Islands</li>
+        <li id="four">Northern Lights</li>
+      </ul>
+      <div id="newItemButton"><button href="#" id="showForm">new item</button></div>
+      <form id="newItemForm" action="/adventurelist" method="POST">
+        <input name="adventureList" type="text" id="itemDescription" placeholder="Add description" />
+        <input type="submit" id="addAdventure" value="add" />
+      </form>
+      <div id="adventureListResult"></div>
+
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+// $(function() {
+//   $('ul').before('<p class="notice">Just updated</p>');
+//   $('li.newplace').prepend('+ ');
+//   var $newListItem = $('<li><em>place</em>event</li>');
+//   $('li:last').after($newListItem);
+// });
+
+// sending to my server
+function addAdventure(evt) {
+  $.post('/adventurelist', {}, function (data){
+    console.log("added adventure");
+
+  });
+}
+$('#addAdventure').on('click', addAdventure);
+
+
+
+
+
+
+
+
+</script>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+
+<title>Create A Postcard</title>
+<h1>Upload new postcard</h1>
+<form action='/postcard' method="POST" enctype="multipart/form-data">
+    <p><input type='file' name='postcard' multiple=''>
+    <input type='submit' value='upload'>
+    </p>
+
+</form>
+
+
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+

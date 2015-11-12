@@ -1,127 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-<meta charset="utf-8">
+<html>
 <head>
-  <title>Globe to Map transition</title>
-  <style>
-#map {
-  position: relative;
-}
+    <link href="static/css/d3_World_map.css" rel="stylesheet">
 
-svg {
-  background: #FFF;
-  pointer-events: all;
-}
-
-.zone {
-  stroke-width: .5px;
-  stroke-linejoin: round;
-  cursor: pointer;
-}
-
-.zoneTooltip {
-  position: absolute;
-  display: none;
-  pointer-events: none;
-  background: #fff;
-  padding: 3px;
-  text-align: left;
-  border: solid #ccc 1px;
-  color: #666;
-  font-size: 12px;
-  font-family: sans-serif;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
-.infoLabel {
-  position: absolute;
-  bottom: 15px;
-  left: 10px;
-  display: none;
-  border: solid #ccc 1px;
-  color: #666;
-  background: #FFFFFF;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-box-shadow: 0px 0px 3px #66C2FF;
-  -moz-box-shadow: 0px 0px 3px #66C2FF;
-  box-shadow: 0px 0px 3px #66C2FF;
-  text-align: left;
-  padding: 2px;
-  font-size: 12px;
-  font-family: sans-serif;
-  pointer-events: none;
-}
-
-.infoLabel span {
-  margin: 0px 5px;
-}
-
-.mapData {
-  fill: #E6E6E6;
-  stroke: #ffffff;
-  stroke-width: 1px;
-}
-
-.ortho {
-  fill: #E6E6E6;
-  stroke: #E6E6E6;
-  stroke-width: 1px;
-}
-
-.mapData:hover {
-  fill: #66C2FF;
-}
-
-.focused {
-  fill: #FF7519;
-}
-</style>
 </head>
 <body>
-  <!-- start -->
-  <div id="map">
-    <link href="mapStyle.css" rel="stylesheet">
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+   <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
-    <script src="unreelGlobe2Map.js"></script>
-  </div>
-  <!-- end -->
-  <script>
-  var mapWidth = 960,
-mapHeight = 500,
-focused = false,
-ortho = true,
-sens = 0.25;
+    <script src="static/js/d3_world_map.js"></script>
+<!--   d3 World Map that unreels into flat map
+ -->
+ <div id="map"></div>
+<script>
+// d3 world map javascript
 
+// Map hight and width
+var mapWidth = 960,
+  mapHeight = 500,
+  focused = false,
+  ortho = true,
+  sens = 0.25;
+
+// world map projection
 var projectionGlobe = d3.geo.orthographic()
-.scale(240)
-.center([0, 0])
-.translate([mapWidth / 2, mapHeight / 2])
-.clipAngle(90);
+  .scale(240)
+  .center([0, 0])
+  .translate([mapWidth / 2, mapHeight / 2])
+  .clipAngle(90);
 
 var projectionMap = d3.geo.equirectangular()
-.scale(145)
-.center([0, 0])
-.translate([mapWidth / 2, mapHeight / 2])
+  .scale(145)
+  .center([0, 0])
+  .translate([mapWidth / 2, mapHeight / 2])
 
 var projection = projectionGlobe;
 
 var path = d3.geo.path()
-.projection(projection);
+  .projection(projection);
 
 var globe2map = interpolatedProjection(projectionGlobe, projectionMap),
 map2globe = interpolatedProjection(projectionMap, projectionGlobe);
 
 var svgMap = d3.select("div#map").append("svg")
-.attr("overflow", "hidden")
-.attr("width", mapWidth)
-.attr("height", mapHeight);
+  .attr("overflow", "hidden")
+  .attr("width", mapWidth)
+  .attr("height", mapHeight);
 
+// Tool Tip
 var zoneTooltip = d3.select("div#map").append("div").attr("class", "zoneTooltip"),
 pointLlabel = d3.select("div#map").append("div").attr("class", "pointLabel"),
 infoLabel = d3.select("div#map").append("div").attr("class", "infoLabel");
@@ -310,7 +236,6 @@ function ready(error, world, countryData) {
 
 var world_map_dict = {
 
-
 4: ["Afghanistan"],
 8: ["Albania"],
 12:  ["Algeria"],
@@ -487,6 +412,10 @@ var world_map_dict = {
 716: ["Zimbabwe"]
 };
 
-  </script>
+</script>
+
 </body>
 </html>
+
+
+

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+body{
+     background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
+}
+.background {
+  fill: none;
+  pointer-events: all;
+}
+#states {
+  fill: #aaa;
+}
+#states .active {
+  fill: orange;
+}
+#state-borders {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+</style>
+<body>
+  <!--NAV BAR-->
+  <section>
+    <nav class="navbar navbar-default navbar-fixed-top topnav role="navigation"">
+  <div class="container-fluid">
+    <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            <img src="/static/img/logo.jpg" height="80" width="80">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right" style="display:inline: block, float: left">
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+              </div>
+            </div>
+            </div>
+          </div>
+</nav>
+
+
+
+    <header>
+      <h1>United States</h1>
+    </header>
+  </section>
+<br/>
+<br/>
+<br/></br>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
+
+<div>
+<script>
+// width and height of Map
+var width = 960,
+    height = 500,
+    centered;
+
+    //D3 Projection
+
+var projection = d3.geo.albersUsa()
+    .scale(1070)
+    .translate([width / 2, height / 2]);
+    // Define path generator
+var path = d3.geo.path()
+    .projection(projection);
+
+  //Create SVG element and append map to the SVG
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", clicked);
+var g = svg.append("g");
+// WHERE US MAP JOSON DATA IS
+d3.json("static/d3mapdata/us.json", function(error, us) {
+  if (error) throw error;
+  g.append("g")
+      .attr("id", "states")
+    .selectAll("path")
+      .data(topojson.feature(us, us.objects.states).features)
+    .enter().append("path")
+      .attr("d", path)
+      .on("click", clicked);
+  g.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+      .attr("id", "state-borders")
+      .attr("d", path);
+});
+//MAP FUNCTION CODE TO GET ID OF THE CODE
+function clicked(d) {
+  var x, y, k;
+  //UMA'S STUFF TO VIEW MAP
+  console.log(d);
+  console.log(d.id);
+  console.log(state_name_dict[d.id]);
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 4;
+    centered = d;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
+  g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+  g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
+}
+
+
+
+
+// Bind the data to the SVG and create one path store click as visit
+// svg.selectAll("path")
+//   .data(json.features)
+//   .enter()
+//   .style("stroke", "gray")
+//   .style("fill", "white")
+//   .append("path")
+//   .attr("d", path)
+// .on("click", function(){var nextColor = this.style.fill == "white" ? "magenta" : "white";
+//   d3.select(this).style("fill", nextColor);});
+
+//   // Get data value
+//   var colorblue = visit;
+//   var visit =  d.properties.visited;
+//   if (visit) {
+//   //If value exists…
+//   return color(value);
+//   } else {
+//   //If value is undefined…
+//   return "rgb(213,222,217)";
+//   }
+// });
+
+// AJAX
+
+
+
+
+
+
+///////JQuery
+// $.ajax({
+// method: "POST",
+// url: "some.php",
+// data: { userid: 1, state: "CA" }
+// })
+// .done(function() {
+//some JS to change the appearance of the page
+// });
+var state_name_dict = {
+  1: ["AL", "Alabama"],
+  2: ["AK", "Alaska"],
+  4: ["AZ", "Arizona"],
+  5: ["AR",, "Arkansas"],
+  6: ["CA", "California"],
+  8: ["CO", "Colorado"],
+  9: ["CT", "Connecticut"],
+  10: ["DE", "Delaware"],
+  11: ["DC", "District of Washington"],
+  12: ["FL", "Florida"],
+  13: ["GA", "Georgia"],
+  15: ["HI", "Hawaii"],
+  16: ["ID", "Indiana"],
+  17: ["IL", "Illinois"],
+  18: ["IN", "Indiana"],
+  19: ["IA", "Iowa"],
+  20: ["KS", "Kansas"],
+  21: ["KY", "Kentucky"],
+  22: ["LA", "Louisiana"],
+  23: ["ME", "Maine"],
+  24: ["MD", "Maryland"],
+  25: ["MA", "Massachusetts"],
+  26: ["MI", "Michigan"],
+  27: ["MN", "Minnesota"],
+  28: ["MS", "Mississippi"],
+  29: ["MO", "Missouri"],
+  30: ["MT", "Montana"],
+  31: ["NE", "Nebraska"],
+  32: ["NV", "Nevada"],
+  33: ["NH", "New Hampshire"],
+  34: ["NJ", "New Jersey"],
+  35: ["NM", "New Mexico"],
+  36: ["NY", "New York"],
+  37: ["NC", "North Carolina"],
+  38: ["ND", "North Dakota"],
+  39: ["OH", "Ohio"],
+  40: ["OK", "Oklahoma"],
+  41: ["OR", "Oregon"],
+  42: ["PA", "Pennsylvania"],
+  44: ["RI", "Rhode Island"],
+  45: ["SC", "South Carolina"],
+  46: ["SD", "South Dakota"],
+  47: ["TN", "Tennessee"],
+  48: ["TX", "Texas"],
+  49: ["UT", "Utah"],
+  50: ["VT", "Vermont"],
+  51: ["VA", "Virginia"],
+  53: ["WA", "Washington"],
+  54: ["WV", "West Virginia"],
+  55: ["WI", "Wisconsin"],
+  56: ["WY", "Wyoming"]
+};
+</script>
+</body>
+</html>
+
+

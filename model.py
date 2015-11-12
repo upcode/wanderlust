@@ -2,6 +2,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+
 # This is the connection to the SQLite database; we're getting this through
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
 # object, where we do most of our interactions (like committing, etc.)
@@ -18,17 +19,45 @@ class User(db.Model):
     __tablename__ = 'users'
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    first_name = db.Column(db.String(64), nullable=False)
-    last_name = db.Column(db.String(64), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
-    username = db.Column(db.String(20), nullable=False)
-    password = db.Column(db.String(128), nullable=False, unique=True)
-    state = db.Column(db.String(64), nullable=False)
+    first_name = db.Column(db.String(64))
+    last_name = db.Column(db.String(64))
+    email = db.Column(db.String(50), nullable=True)
+    username = db.Column(db.String(20), nullable=True)
+    password = db.Column(db.String(128))
+    state = db.Column(db.String(64), nullable=True)
     user_image = db.Column(db.Unicode(128))
+    state_rating = db.Column(db.Integer, nullable=True)
+    country_rating = db.Column(db.Integer, nullable=True)
+
+
+class AdventureList(db.Model):
+    """adventure list where users can create a bucketlist of places they want to see"""
+
+    __tablename__ = 'adventurelists'
+
+    adventure_list_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
+    adventure_item = db.Column(db.String(64))
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<AdventureList adventure_list_id=%s user_id=%s adventure_item=%s>" % (self.adventure_list_id, self.user_id, adventure_item)
 
 
 
+# class Upload(db.Model):
+#     __tablename__ = 'upload'
 
+#     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     name = db.Column(db.Unicode(255), nullable=False)
+#     url = db.Column(db.Unicode(255), nullable=False)
+#     user_id = db.Column(db.ForeignKey('users.user_id'))
+
+# if resizer:
+#     for size in resizer.sizes.iterkeys():
+#         setattr(Upload, size + '_name', db.Column(db.Unicode(255)))
+#         setattr(Upload, size + '_url', db.Column(db.Unicode(255)))
 
 #############################################################################
         #### RELATIONSHIP TABLE FOR USER AND STATE ####
@@ -42,14 +71,14 @@ class User(db.Model):
 #     #creating table name
 #     __tablename__ = "user_states"
 
-#     # defining what table will look like in DB
-#     user_state_id = db.Column(db.Integer, autoincrement=True, nullable=True, primary_key=True)
-#     user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
-#     state_id = db.Column(db.String(2), db.ForeignKey('states.state_id'), nullable=False)
-#     state_capital_name = db.Column(db.ForeignKey('states.state_capital_name'), nullable=False)
-#     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
-#     state_id = db.Column(db.String(2), db.ForeignKey('states.state_id'), nullable=False)
-
+    # defining what table will look like in DB
+    # user_state_id = db.Column(db.Integer, autoincrement=True, nullable=True, primary_key=True)
+    # user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
+    # state_id = db.Column(db.String(2), db.ForeignKey('states.state_id'), nullable=False)
+    # state_capital_name = db.Column(db.ForeignKey('states.state_capital_name'), nullable=False)
+    # visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+    # state_id = db.Column(db.String(2), db.ForeignKey('states.state_id'), nullable=False)
+    # state_user_rating = db.Column(db.Integer,db.ForeignKey('users.user_id'))
 #    #Define the relationship to user table
 #     user = db.relationship("User", backref=db.backref("userstatecapitals", order_by=user_id))
 
@@ -100,7 +129,7 @@ class User(db.Model):
 #     user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
 #     country_id = db.Column(db.String(64), db.ForeignKey('countries.country_id'), nullable=False)
 #     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
-
+#     country_user_rating = db.Column(db.Integer,db.ForeignKey('users.user_id'))
 #    #Define the relationship to user table
 #     users = db.relationship("User", backref=db.backref("user_countries", order_by=user_id))
 
@@ -326,6 +355,7 @@ class D3_State_Map(db.Model):
     state_name = db.Column(db.String(64), nullable=True)
     user_id = db.Column(db.ForeignKey('users.user_id'))
     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+    state_rating = db.Column(db.Integer)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -347,6 +377,8 @@ class D3_World_Map(db.Model):
     country_name = db.Column(db.String(64), nullable=True)
     user_id = db.Column(db.ForeignKey('users.user_id'))
     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+    state_rating = db.Column(db.Integer)
+
 
     def __repr__(self):
         """Provide helpful representation when printed."""

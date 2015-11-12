@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wanderlust List</title>
+    <link rel="stylesheet" href="static/css/list.css" />
+    <link href='https://fonts.googleapis.com/css?family=Poiret+One|Shadows+Into+Light' rel='stylesheet' type='text/css'>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+    <div id="page">
+      <img src="static/img/logo.jpg" height="100" width="100" id="logo">
+      <h1 id="header">Wanderlust List</h1>
+      <h2>Wanderlust List<span id="counter"></span></h2>
+      <ul>
+        <li id="one" class="hot"><em>Lantern Festival: </em>Thailand</li>
+        <li id="two" class="hot">New York City</li>
+        <li id="three" class="hot">Fuji Islands</li>
+        <li id="four">Northern Lights</li>
+      </ul>
+      <div id="newItemButton"><button href="#" id="showForm">new item</button></div>
+      <form id="newItemForm" action="/list2" method="POST">
+        <input name="adventureBucketList" type="text" id="itemDescription" placeholder="Add description" />
+        <input type="submit" id="addAdventure" value="add" />
+      </form>
+      <div id="adventureBucketListResult"></div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+$(function() {
+  $('ul').before('<p class="notice">Just updated</p>');
+  $('li.hot').prepend('+ ');
+  var $newListItem = $('<li><em>Place</em>event</li>');
+  $('li:last').after($newListItem);
+});
+
+// sending to my server
+function addAdventure(evet) {
+  $.post('/list2', {}, function (data){
+    console.log("added adventure");
+
+  });
+}
+$('#addAdventure').on('click', addAdventure)
+
+
+
+
+
+
+
+
+</script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  </body>
+</html>
+
+

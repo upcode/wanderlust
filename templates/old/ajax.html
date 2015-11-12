@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Rough AJAX Test</title>
+<script>
+    function ajax_submit(evt){
+    evt.preventDefault();
+    console.log("working");
+    // get form values & serialize, send to flask, get returned Matlab.
+    var data = $("#ajaxtest").serialize();
+    $.post("/ajax2", data, function(result){
+        $("#ajaxtest").html(result);
+    });
+    $("#submit_button").show();
+}
+
+
+$("#submit_button").on("click", submit_button);
+
+
+</script>
+</head>
+<body>
+<h1>Flask AJAX Test</h1>
+<form action="/ajax" method="POST" id="ajaxtest">
+<input type="text" name="usernamename" id="username">
+
+<br/>
+<input type="text" name="firstnamename" id="firstname">
+
+<input type="button" value="Submit" id="submit_button">
+</form>
+<div id="myDiv"></div>
+</body>
+</html>

@@ -279,5 +279,5 @@ if __name__ == "__main__":
     # load_countires()
     # load_world_100_city()
     # load_world_100_wonders()
-    # load_d3_states()
-    # load_d3_world_map_countries()
+    load_d3_states()
+    load_d3_world_map_countries()

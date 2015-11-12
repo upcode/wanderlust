@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {% block head %}
             <title>Wanderlust App</title>
             <!--CSS Animation Globe CSS-->
             <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
@@ -8,31 +9,24 @@
             <!-- Bootstrap -->
             <link rel="stylesheet" type="text/css" href="static/lib/bootstrap/css/bootstrap.min.css">
             <link rel="stylesheet" type="text/css" href="static/css/login.css">
-
             <style type="text/css">
 
+            body{ background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/th emes/penandpaper/lib/images/fur ley_bg.png);}
+
             </style>
-
-            <!--  JQUERY AND JAVASCRRIPT SCRIPT CDN -->
-            <script src="http://code.jquery.com/jquery-1.10.2.min.js">
-            </script>
-            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js">
-            </script>
-
-
+            {% endblock %}
         </head><!--// END HEAD-->
         <body><!--// BODY-->
   <!--#######################   NAV BAR    ##################-->
 
             <div id="navbar">
-             <!-- Navigation -->
+                {% block navbar %}<!-- Navigation -->
                 <nav class="navbar navbar-default navbar-fixed-top topnav role="navigation"">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <a class="navbar-brand" href="/">
-                                <img src="/static/img/logo.jpg">
+                            <a class="navbar-brand" href="#">
+                                <img src="/static/img/logo.jpg" height="80" width="80">
                                         <ul class="nav navbar-nav navbar-right" style="display:inline: block, float: left">
-                                            {% if "user_id" in session %}
                                             <li>
                                                 <a href="#about">Us Map</a>
                                             </li>
@@ -48,28 +42,12 @@
                                             <li>
                                                 <a href="#contact">Contact</a>
                                             </li>
-
-                                            <li>
-                                                <a href="/logout">Logout</a>
-
-                                            </li>
-
-                                            {% else %}
-                                            <li>
-                                                <a href="/login">Login</a>
-                                            </li>
-
-                                            {% endif %}
-
-                                            </li>
-
                                         </ul>
                         </div> <!-- collapsable navbar -->
                     </div> <!-- navbar header -->
                 </nav>
-
+                {% endblock %}
             </div>
-
 <!--#######################    CONTENT   ##################-->
 
             <div id="content">
@@ -85,13 +63,18 @@
 <!--#######################    FOOTER   ########################-->
             <!--FOOTER-->
             <div class="footer">
-
+                {% block footer %}
                 <footer class="footer">
                     <p><a href="../sticky-footer">Waunderlust</a></p>
                     <p class="text-muted">Copyright &copy; Uma Petersen 2015. All Rights Reserved</p>
                 </footer>
-               <!-- END FOOTER-->
+                {% endblock %} <!-- END FOOTER-->
             </div><!--. // end container-->
+            <!--  JQUERY AND JAVASCRRIPT SCRIPT CDN -->
+            <script src="http://code.jquery.com/jquery-1.10.2.min.js">
+            </script>
+            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js">
+            </script>
         </body><!--// END BODY-->
     </html><!-- // END HTML-->
 
