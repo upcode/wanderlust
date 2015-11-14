@@ -44,6 +44,29 @@ class AdventureList(db.Model):
 
         return "<AdventureList adventure_list_id=%s user_id=%s adventure_item=%s>" % (self.adventure_list_id, self.user_id, adventure_item)
 
+#############################################################################
+                ##### MODEL D3_State_Map  ####
+##############################################################################
+# 100 Wonders of the world
+
+class D3_State_Map(db.Model):
+    """Landmark Table"""
+
+    __tablename__ = "d3_state_maps"
+
+    d3statemap_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    state_code = db.Column(db.String(2), nullable=True, primary_key=True) # abbrevation
+    state_name = db.Column(db.String(64), nullable=True)
+    user_id = db.Column(db.ForeignKey('users.user_id'))
+    visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+    state_rating = db.Column(db.Integer)
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<D3_State_Map d3_state_map_id=%s state_code=%s state_name=%s, user_id, visited_at=%s>" % (self.d3state_id, self.state_code, self.states_name, self.user_id, visited_at)
+
+
 
 
 # class Upload(db.Model):
@@ -340,27 +363,7 @@ class World_100_Wonder(db.Model):
 
 
 
-#############################################################################
-                ##### MODEL D3_State_Map  ####
-##############################################################################
-# 100 Wonders of the world
 
-class D3_State_Map(db.Model):
-    """Landmark Table"""
-
-    __tablename__ = "d3_state_maps"
-
-    d3statemap_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    state_code = db.Column(db.String(2), nullable=True, primary_key=True) # abbrevation
-    state_name = db.Column(db.String(64), nullable=True)
-    user_id = db.Column(db.ForeignKey('users.user_id'))
-    visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
-    state_rating = db.Column(db.Integer)
-
-    def __repr__(self):
-        """Provide helpful representation when printed."""
-
-        return "<D3_State_Map d3_state_map_id=%s state_code=%s state_name=%s, user_id, visited_at=%s>" % (self.d3state_id, self.state_code, self.states_name, self.user_id, visited_at)
 
 #############################################################################
                 ##### MODEL FOR 100 WONDERS OF THE WORLD ####

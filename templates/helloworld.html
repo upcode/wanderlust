@@ -1,164 +1,102 @@
-<html>
-<head>
-    <style>
-    #page{
-     border-style: groove;
-     margin: 20px 20px 20px 20px;
-    padding: 10px 20px 20px 10px;
-    }
-    </style>
-</head>
-<body>
 
 
+<div class="container-fluid" id="list">
+    <div class="row">
+        <div class="col-xs-6 col-md-4">
+            <div class="col-md-10">
+                <div class="well well-sm">
+                      <div class="media-body">
+                        <h3 class="media-heading">Wanderlust List</h3>
+                            <ul id="adventure-list">
+                            {% for place in places %}
+                              <li>{{place}}</li>
+                            {% endfor %}
 
-    <div class="container">
-        <div class="col-md-4">
-            <div id="page">
-                <h3 id="header">Wanderlust List</h3>
-                <h4>Travel Bucket List</h4>
-                    <ul>
-                    <li id="one" class="must">Thailand
-                        <em>Lantern Festival</em>
-                    </li>
-                    <li id="two" class="must">
-                        New York City
-                    </li>
-                    <li id="three" class="must"> Northern Lights
-                    </li>
-                    <li id="four">
-                        Coahcella
-                    </li>
-
-                </ul>
-        </div>
-    </div>
-</div>
+                          </ul>
+                          <form id="newItemForm" action="/adventurelist">
+                            <input type="text" id="itemDescription" name="addventurelist" placeholder="Add description" required />
+                            <input type="submit" id="submit-button" value="add" title="Minmimum 1 letters or numbers." required/>
+                        </form>
+                    </div> <!-- close "media-body" -->
+                </div> <!-- close "well well-sm" -->
+            </div> <!-- close "col-md-10" -->
+        </div> <!-- close "col-xs-6 col-md-4" -->
+    </div> <!-- close "row" -->
+</div> <!-- close class="container-fluid" id="list" -->
 
 <script>
+// sending to my server
+// created functon called add adventure using ajax call to submit users new item on the list to be stored in the sever.
+// function addAdventure passed in evt
+//use a post method to route to sever which is form action="/adventurelist"
+// in order to pass info have to pass ajax as dictionary
+// pass fucntionn dta
 
-// select the element and store it in a variable
-var el = document.getElementById('one');
-//change the value of the class attribute
-el.className = 'wish';
-//find must items
-var elements = document.getElementsByClassName('must');
- // if 3 or more are found
-if (elements.length > 2) {
-     // select thrid item form nodelist
-    var el = elements[2];
-    //change the value from of its class attr
-    el.className = 'wish';
+// method prepares the request and has three prams
+  // method get or post
+  // route path
+  // data  form is sending
+function addAdventure(evt) {
+  evt.preventDefault();
+  var new_item = $('#itemDescription').val();
 
+  $.post('/adventurelist', {'place':new_item}, function (data){
+    console.log(data);
+    $('#adventure-list').append("<li>"+ new_item +"</li>");
+  });
 }
-
-// find li element
-var elements = document.getElementsByTagName('li');
-
-// if one or more are found select first one using an array
-if (elements.length > 0) {
-
-    var el = elements[0];
-    el.className = 'wish';
-//change the value of the class attribute
-}
-
-
-//query selectors() only returns teh first match
-var el = document.querySelector('li.must');
-el.className = 'wish';
-
-//querrySelectorall returns a node list
-//second matching element (third list item_ is slelected and changed)
-
-var els = document.querySelectAll('li.must');
-els[1].className = 'wish';
-// code notes for above code //
-
-// how page starts with li elements have class attr value is must
-//query selector method finds the first one and updates teh value of the class
-//when selector runs only two li el left who class attr are asap
-// when 2ns selector has done the DOM tree now only holds one el who attr is asap
-
-// above code notes//
-
-// looping through//
-    //store list in array
-var mustItems = document.querySelectAll('li.must');
-// if it contains an item
-if (mustItem.length > 0) {
-        // loop through each item
-    for (var i = 0; i < mustItems.length; i ++) {
-        // change the value of the class attr
-        mustItems[i].className = 'wish'
-    }
-}
-
-// select the starting point and find its siblings
-var startItem = document.getElementById('two');
-var prevItem = startItem.previousSibling;
-var nextItem = startItem.nextSibling;
-//change the value of teh siblings 'class attr'
-prevItem.className = 'complete';
-nextItem.className = 'wish';
-//select the starting point and find its childern
-var startItem = document.getElementByTageName('ul')[0];
-var firstItem = startItem.firstChild;
-var lastItem = startItem.lastChild;
-// change the values of the chilersn class attr
-firstItem.setAttribute('class', 'complete');
-lastItem.setAttribute('class', 'wish');
-
-// changing the text node
-    // get second item
-var itemTwo = document.getElementById('two');
-//get its text
-var elText = itemTwo.firstChild.nodevalue;
-// change its text content from --> to
-elText = elText.replace('New York City', 'Ireland');
-//update the list
-itemTwo.firstChild.nodeValue = el.Text;
-
-// first itme in list
-var firstItem = document.getElementById('one');
-//get values of text content
-var showTextContent = firstItem.TextContent;
-//get values of inner text
-var showInnerText = firstItem.innerText;
-
-// show contents of two properties at end of the list
-
-var msg = '<p>textContent:' + ShowTextContent + '</p>';
-msg += '<innerText: ' + showInnerText + '</p>';
-var el = document.getElementById('scriptResults');
-el.innerHTML = msg;
-// update the first time
-firstItem.textContent = 'Spain';
-
-var firstItem  document.getElementById('one');
-var itemContent = firstItem.innerHTML;
-// update the content of the first list item so its a link
-firstItem.innerHTML = '<a href=\"http://example.org\">' + itemContent +  '</a>';
-//creatae a new element and store it in variable
-var newEl = document.createElement('li');
-// attach new text node to the element
-car newText = document.createTextNode('Chicago');
-newEl.appendChild(newText);
-// find elements new position to be added
-var position = document.getElementsByTagName('ul')[0];
-// insert new element into the the position
-position.appendChild(newEl);
-
-//removing an element
-    // elelment to remove
-var removeEl = document.getElementsByTagName('li')[3];
-// its containing elelment
-var containerEL = removeEl.parentNode;
-containerEl.removeChild(removeEl);
-
+// do one, and only one, of these
+$('#newItemForm').on('submit', addAdventure);
+// $('#submit-button').on("click", addAdventure);
 </script>
-</body>
-</html>
+
+
+
+
+// function profile(evt) {
+//   evt.preventDefault();
+//   var user_username = $('#username').val();
+
+//   $.post('/passport-profile', {'username':user_username}, function (data){
+//     console.log(data);
+//     $('#username').html("user_username");
+//   });
+// }
+// // do one, and only one, of these
+// $('#profile').on('submit', profile);
+
+// function profile(evt) {
+//   evt.preventDefault();
+//   var user_username = $('#username').val();
+// $.post('/passport-profile.json', {'username':username}, function(data){
+//   console.log(data);
+//     $('#username').html(username);
+//   });
+// }
+
+
+// $('#profile').on("submit", profile);
+
+
+  // var user_quote = $('#quote').val();
+  // var user_state = $('#state').val();
+  // var user_about = $('#about').val();
+  // var user_image = $('#image').val();
+  // $.post('/passport-profile.json', {'username':username, 'quote':quote, 'state':state, 'about':about,'username':username}, function (data){
+  //   console.log(data);
+  //   $('#username').html("<h4>"+ username +"</h4>");
+    // $('#quote').append("<p>"+ quote +"</p>");
+    // $('#state').append("<small>"+ quote +"</small>");
+    // $('#about').append("<h4>"+ state +"</h4>");
+    // $('#image').append("<img>"+ image +"</img>");
+
+
+//   });
+// }
+// do one, and only one, of these
+// $('#newItemForm').on('submit', addAdventure);
+// name of the form
+// $('#profile').on("submit", profile);
 
 
 <!-- prioity in the list

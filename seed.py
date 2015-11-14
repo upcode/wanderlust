@@ -1,6 +1,3 @@
-from model import State
-#from model import User
-from model import Country
 from model import World_100_Wonder
 from model import World_100_City
 from model import State_Landmark
@@ -102,12 +99,12 @@ def load_state_landmarks():
 
         print "STATE_NAME: %s, STATE_LANDMARK_NAME: %s" % (state_name, state_landmark_name)
 
-        # for each state, get the state_code
-        if state_name == "Washington D.C.":
-            state_id = "DC"
-        else:
-            tup = db.session.query(State.state_id).filter(State.state_name == state_name).one()
-            state_id = tup[0]
+        # # for each state, get the state_code
+        # if state_name == "Washington D.C.":
+        #     state_id = "DC"
+        # else:
+        #     tup = db.session.query(d3_State_Map.state_code).filter(d3_State_Map.state_name == state_name).one()
+        #     state_id = tup[0]
 
         # make State(....) object
         landmark = State_Landmark(state_id=state_id, state_landmark_name=state_landmark_name)
@@ -274,9 +271,9 @@ if __name__ == "__main__":
 
     #S EED ALL DATA IS COMPLETE
     # Import different types of data
-    # load_states()
+
     # load_state_landmarks()
-    # load_countires()
+
     # load_world_100_city()
     # load_world_100_wonders()
     load_d3_states()

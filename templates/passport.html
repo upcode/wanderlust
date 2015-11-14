@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
 {% block head %}
- <link rel="stylesheet" href="static/css/list.css" />
 
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="static/js/d3_world_map.js"></script>
+      <script src="static/js/world.js"></script>
 
 {% endblock %}
 
@@ -22,7 +26,22 @@ float:right;
 }
 </style>
 
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+<!--LAYOUT FOR PROFILE PAGE -->
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-8"></div><!-- .col-xs-12 .col-sm-6 .col-md-8-->
+          <div class="col-xs-6 col-md-4"></div><!-- end .col-xs-6 .col-md-4-->
+      </div><!--end row-->
+    </div><!-- end container-->
+
+   <!--
+#################################################################
+-->
+
+
+
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
     <script src="static/js/d3_world_map.js"></script>
@@ -36,50 +55,38 @@ float:right;
   </div>
 </div>
  <script>
-
 // d3 world map javascript
-
 // Map hight and width
 var mapWidth = 860,
   mapHeight = 400,
   focused = false,
   ortho = true,
   sens = 0.25;
-
 // world map projection
 var projectionGlobe = d3.geo.orthographic()
   .scale(140)
   .center([0, 0])
   .translate([mapWidth / 2, mapHeight / 2])
   .clipAngle(90);
-
 var projectionMap = d3.geo.equirectangular()
   .scale(145)
   .center([0, 0])
   .translate([mapWidth / 2, mapHeight / 2])
-
 var projection = projectionGlobe;
-
 var path = d3.geo.path()
   .projection(projection);
-
 var globe2map = interpolatedProjection(projectionGlobe, projectionMap),
 map2globe = interpolatedProjection(projectionMap, projectionGlobe);
-
 var svgMap = d3.select("div#map").append("svg")
   .attr("overflow", "hidden")
   .attr("width", mapWidth)
   .attr("height", mapHeight);
-
 // Tool Tip
 var zoneTooltip = d3.select("div#map").append("div").attr("class", "zoneTooltip"),
 pointLlabel = d3.select("div#map").append("div").attr("class", "pointLabel"),
 infoLabel = d3.select("div#map").append("div").attr("class", "infoLabel");
-
 var g = svgMap.append("g");
-
 //Unreelling transformation
-
 function animation(interProj) {
   defaultRotate();
   g.transition()
@@ -91,19 +98,16 @@ function animation(interProj) {
     };
   })
 }
-
 function interpolatedProjection(a, b) {
   var projection = d3.geo.projection(raw).scale(1),
   center = projection.center,
   translate = projection.translate,
   clip = projection.clipAngle,
   α;
-
   function raw(λ, φ) {
     var pa = a([λ *= 180 / Math.PI, φ *= 180 / Math.PI]), pb = b([λ, φ]);
     return [(1 - α) * pa[0] + α * pb[0], (α - 1) * pa[1] - α * pb[1]];
   }
-
   projection.alpha = function(_) {
     if (!arguments.length) return α;
     α = +_;
@@ -114,15 +118,12 @@ function interpolatedProjection(a, b) {
     if (ortho === true) {clip(180 - α * 90);}
     return projection;
   };
-
   delete projection.scale;
   delete projection.translate;
   delete projection.center;
   return projection.alpha(0);
 }
-
 //Rotate to default before animation
-
 function defaultRotate() {
   d3.transition()
   .duration(1500)
@@ -134,44 +135,32 @@ function defaultRotate() {
     };
   })
 };
-
 //Starter for function AFTER All transitions
-
 function endall(transition, callback) {
   var n = 0;
   transition
   .each(function() { ++n; })
   .each("end", function() { if (!--n) callback.apply(this, arguments); });
 }
-
 //Loading data
-
 queue()
 .defer(d3.json, "/static/d3mapdata/world-110m.json")
 .defer(d3.tsv, "/static/d3mapdata/world-110m-country-names.tsv")
 .await(ready);
-
 function ready(error, world, countryData) {
-
   var countryById = {},
   countries = topojson.feature(world, world.objects.countries).features;
-
   //Adding countries by name
-
   countryData.forEach(function(d) {
     countryById[d.id] = d.name;
   });
-
   //Drawing countries on the globe
-
   var world = g.selectAll("path").data(countries);
   world.enter().append("path")
   .attr("class", "mapData")
   .attr("d", path)
   .classed("ortho", ortho = true);
-
   //Drag event
-
   world.call(d3.behavior.drag()
     .origin(function() { var r = projection.rotate(); return {x: r[0] / sens, y: -r[1] / sens}; })
     .on("drag", function() {
@@ -186,9 +175,7 @@ function ready(error, world, countryData) {
       g.selectAll("path.ortho").attr("d", path);
       g.selectAll(".focused").classed("focused", focused = false);
     }))
-
   //Events processing
-
   world.on("mouseover", function(d) {
     if (ortho === true) {
       infoLabel.text(countryById[d.id])
@@ -219,9 +206,7 @@ function ready(error, world, countryData) {
     d3.select(this).classed("focused", focused = d);
     infoLabel.text(countryById[d.id])
     .style("display", "inline");
-
     //Transforming Globe to Map
-
     if (ortho === true) {
       defaultRotate();
       setTimeout(function() {
@@ -233,24 +218,18 @@ function ready(error, world, countryData) {
       , 1600);
     }
   });
-
   //Adding extra data when focused
-
   function focus(d) {
     if (focused === d) return reset();
     g.selectAll(".focused").classed("focused", false);
     d3.select(this).classed("focused", focused = d);
   }
-
   //Reset projection
-
   function reset() {
     g.selectAll(".focused").classed("focused", focused = false);
     infoLabel.style("display", "none");
     zoneTooltip.style("display", "none");
-
     //Transforming Map to Globe
-
     projection = map2globe;
     path.projection(projection);
     animation(projection);
@@ -258,191 +237,81 @@ function ready(error, world, countryData) {
   }
 };
 
-var world_map_dict = {
+</script>
+<script>
+// GOOGLE MAP
 
-4: ["Afghanistan"],
-8: ["Albania"],
-12:  ["Algeria"],
-24: ["Angola"],
-10:  ["Antarctica"],
-32:  ["Argentina"],
-51:  ["Armenia"],
-36:  ["Australia"],
-40:  ["Austria"],
-31:  ["Azerbaijan"],
-44:  ["Bahamas"],
-50:  ["Bangladesh"],
-112: ["Belarus"],
-56:  ["Belgium"],
-84:  ["Belize"],
-204: ["Benin"],
-64:  ["Bhutan"],
-68:  ["Bolivia"],
-70:  ["Bosnia, and Herzegovina"],
-72:  ["Botswana"],
-76:  ["Brazil"],
-96:  ["Brunei Darussalam"],
-100: ["Bulgaria"],
-854: ["Burkina Faso"],
-108: ["Burundi"],
-116: ["Cambodia"],
-120: ["Cameroon"],
-124: ["Canada"],
-140: ["Central African Republic"],
-148: ["Chad"],
-152: ["Chile"],
-156: ["China"],
-170: ["Colombia"],
-178: ["Congo"],
-180: ["The Democratic Republic of the Congo"],
-188: ["Costa Rica"],
-384: ["Cote d'Ivoire"],
-191: ["Croatia"],
-192: ["Cuba"],
-196: ["Cyprus"],
-203: ["Czech Republic"],
-208: ["Denmark"],
-262: ["Djibouti"],
-214: ["Dominican Republic"],
-218: ["Ecuador"],
-818: ["Egypt"],
-222: ["El Salvador"],
-226: ["Equatorial Guinea"],
-232: ["Eritrea"],
-233: ["Estonia"],
-231: ["Ethiopia"],
-238: ["Falkland Islands"],
-242: ["Fiji"],
-246: ["Finland"],
-250: ["France"],
-260: ["French Southern Territories"],
-266: ["Gabon"],
-270: ["Gambia"],
-268: ["Georgia"],
-276: ["Germany"],
-288: ["Ghana"],
-300: ["Greece"],
-304: ["Greenland"],
-320: ["Guatemala"],
-324: ["Guinea"],
-624: ["Guinea-Bissau"],
-328: ["Guyana"],
-332: ["Haiti"],
-340: ["Honduras"],
-348: ["Hungary"],
-352: ["Iceland"],
-356: ["India"],
-360: ["Indonesia"],
-364: ["Iran"],
-368: ["Iraq"],
-372: ["Ireland"],
-376: ["Israel"],
-380: ["Italy"],
-388: ["Jamaica"],
-392: ["Japan"],
-400: ["Jordan"],
-398: ["Kazakhstan"],
-404: ["Kenya"],
-408: ["North Korea"],
-410: ["South Korea"],
-414: ["Kuwait"],
-417: ["Kyrgyzstan"],
-418: ["Democtratic Republic of Laos"],
-428: ["Latvia"],
-422: ["Lebanon"],
-426: ["Lesotho"],
-430: ["Liberia"],
-434: ["Libya"],
-440: ["Lithuania"],
-442: ["Luxembourg"],
-807: ["Macedonia"],
-450: ["Madagascar"],
-454: ["Malawi"],
-458: ["Malaysia"],
-466: ["Mali"],
-478: ["Mauritania"],
-484: ["Mexico"],
-498: ["Moldova"],
-496: ["Mongolia"],
-499: ["Montenegro"],
-504: ["Morocco"],
-508: ["Mozambique"],
-104: ["Myanmar"],
-516: ["Namibia"],
-524: ["Nepal"],
-528: ["Netherlands"],
-540: ["New Caledonia"],
-554: ["New Zealand"],
-558: ["Nicaragua"],
-562: ["Niger"],
-566: ["Nigeria"],
-578: ["Norway"],
-512: ["Oman"],
-586: ["Pakistan"],
-275: ["Palestinian Territory, Occupied"],
-591: ["Panama"],
-598: ["Papua New Guinea"],
-600: ["Paraguay"],
-604: ["Peru"],
-608: ["Philippines"],
-616: ["Poland"],
-620: ["Portugal"],
-630: ["Puerto Rico"],
-634: ["Qatar"],
-642: ["Romania"],
-643: ["Russian Federation"],
-646: ["Rwanda"],
-682: ["Saudi Arabia"],
-686: ["Senegal"],
-688: ["Serbia"],
-694: ["Sierra Leone"],
-703: ["Slovakia"],
-705: ["Slovenia"],
-90:  ["Solomon Islands"],
-706: ["Somalia"],
-710: ["South Africa"],
-728: ["South Sudan"],
-724: ["Spain"],
-144: ["Sri Lanka"],
-729: ["Sudan"],
-740: ["Suriname"],
-748: ["Swaziland"],
-752: ["Sweden"],
-756: ["Switzerland"],
-760: ["Syrian Arab Republic"],
-158: ["Taiwan,Province of China"],
-762: ["Tajikistan"],
-834: ["Tanzania"],
-764: ["Thailand"],
-626: ["Timor-Leste"],
-768: ["Togo"],
-780: ["Trinidad and Tobago"],
-788: ["Tunisia"],
-792: ["Turkey"],
-795: ["Turkmenistan"],
-800: ["Uganda"],
-804: ["Ukraine"],
-784: ["United Arab Emirates"],
-826: ["United Kingdom"],
-840: ["United States"],
-858: ["Uruguay"],
-860: ["Uzbekistan"],
-548: ["Vanuatu"],
-862: ["Venezuela"],
-704: ["Viet Nam"],
-732: ["Western Sahara"],
-887: ["Yemen"],
-894: ["Zambia"],
-716: ["Zimbabwe"]
+// This example displays an address form, using the autocomplete feature
+// of the Google Places API to help users fill in the information.
+
+var placeSearch, autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
 };
 
+function initAutocomplete() {
+  // Create the autocomplete object, restricting the search to geographical
+  // location types.
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+      {types: ['geocode']});
+
+  // When the user selects an address from the dropdown, populate the address
+  // fields in the form.
+  autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+  // Get the place details from the autocomplete object.
+  var place = autocomplete.getPlace();
+
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false;
+  }
+
+  // Get each component of the address from the place details
+  // and fill the corresponding field on the form.
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    if (componentForm[addressType]) {
+      var val = place.address_components[i][componentForm[addressType]];
+      document.getElementById(addressType).value = val;
+    }
+  }
+}
+
+// Bias the autocomplete object to the user's geographical location,
+// as supplied by the browser's 'navigator.geolocation' object.
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer></script>
 
 <!-- PROFILE PAGE-->
-<!-- <div class="container-fluid">
+ <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-6 col-md-4">
-            <div class="col-md-7">
+        <div class="col-xs-12 col-md-6">
+            <div class="col-md-8">
                 <div class="well well-sm">
                     <div class="media">
                         <a class="thumbnail pull-left" href="#" data-toggle="modal" data-target="#myModal" class="profilepicture">
@@ -453,8 +322,8 @@ var world_map_dict = {
                         <strong><small>World Traveler</small></strong><br>
                         <p>San Francisco, California</p>
                         <p>"future belongs to those who beleive in beauity of their dreams.er</p>
-                            <!--BUTTONS-->
-                               <!--  <p><span class="label label-info">10 photos</span> <span class="label label-primary">89 followers</span></p>
+
+                                <p><span class="label label-info">10 photos</span> <span class="label label-primary">89 followers</span></p>
                         <p>
                             <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Countries</a>
                             <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>States</a>
@@ -464,9 +333,55 @@ var world_map_dict = {
                         </p>
                     </div>
                 </div>
+
+
+                        <div class="well well-sm">
+                  <div class="media">
+                    <center><a class="thumbnail center" href="#">
+                        <img class="media-object" src="static/img/adventurelist.png">
+                        </a></center>
+                          <div class="media-body">
+                            <div class="col-md-7">
+                              <h4 class="media-heading">Wanderlust List</h4>
+                            <ul id="adventure-list">
+                            {% for place in places %}
+                              <li>{{place}}</li>
+                            {% endfor %}
+
+                          </ul>
+                          <form id="newItemForm" action="/adventurelist">
+                            <input type="text" id="itemDescription" name="addventurelist" placeholder="Add description" required />
+                            <input type="submit" id="submit-button" value="add" title="Minmimum 1 letters or numbers." required/>
+                        </form>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
             </div>
         </div>
-    </div> -->
+    </div>
+    <script>
+    // sending to my server
+// created functon called add adventure using ajax call to submit users new item on the list to be stored in the sever.
+// function addAdventure passed in evt
+//use a post method to route to sever which is form action="/adventurelist"
+// in order to pass info have to pass ajax as dictionary
+// pass fucntionn dta
+
+// method prepares the request and has three prams
+  // method get or post
+  // route path
+  // data  form is sending
+function addAdventure(evt) {
+  evt.preventDefault();
+  var new_item = $('#itemDescription').val();
+
+  $.post('/adventurelist', {'place':new_item}, function (data){
+    console.log(data);
+    $('#adventure-list').append("<li>"+ new_item +"</li>");
+  });
+}
+    </script>
 <!--LIST-->
 
 
@@ -494,17 +409,10 @@ var world_map_dict = {
 
 
     <!--SEECOND COL IN THE FIRST CONTAINER-->
-        <!-- <div class="col-xs-12 col-md-8">
-            <div class="col-md-7">
-            <div class="well well-sm">
-                <div class="media">
-                    <center><a class="thumbnail center" href="#">
-                        <img class="media-object" src="static/img/dashboard.jpg">
-                    </a></center>
-                    <div class="media-body">
-                    <div class="col-md-8">
-                    <center><h3>My Passport</h3></center>
 
+                    <div class="media-body">
+                    <div class="col-md-7">
+                    <center><h3>My Passport</h3></center>
                     <table class="table">
                     <tbody>
                     <thead>
@@ -513,10 +421,9 @@ var world_map_dict = {
                         <th data-field="states">States</th>
                         <th data-field="capitols">Capitols</th>
                         <th data-field="landmark">Landmarks</th>
-                        <th data-field="landmark">Wonders</th> -->
+                        <th data-field="landmark">Wonders</th>
                     <!--<th data-field="cities">Citites</th>-->
-                        <!-- </tr>
-
+                        </tr>
                      </thead>
                     </tbody>
                             <tr>
@@ -530,48 +437,15 @@ var world_map_dict = {
                </div>
             </div>
         </div>
-    </div>
-</div>
-<br/>
-<br/> -->
 
-<!--WANDER LIST-->
-<!-- <div class="container-fluid" id="list">
-    <div class="row">
-        <div class="col-xs-6 col-md-4">
-            <div class="col-md-7">
-                <div class="well well-sm">
-                    <div class="media">
-                        <a class="thumbnail pull-left" href="#" data-toggle="modal" data-target="#myModal" class="profilepicture">
-                        <img class="media-object" src="static/img/glob33.jpg">
-                        </a>
-                        <div class="media-body">
-                        <h4 class="media-heading">Uma Petersen</h4>
 
-                        <h1 id="header">Wanderlust List</h1>
-                            <h3>My Adventures<span id="counter"></span></h3>
-                            <ul>
-                            <li id="one" class="places"><em>Lantern Festival: </em>Thailand</li>
-                            <li id="two" class="places">New York City</li>
-                            <li id="three" class="places">Fuji Islands</li>
-                            <li id="four">Northern Lights</li>
-                        </ul>
-                            <div id="newItemButton"><button href="#" id="showForm">new item</button></div>
-                        <form id="newItemForm">
-                            <input type="text" id="itemDescription" placeholder="Add description" />
-                            <input type="submit" id="add" value="add" />
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div> -->
-<!--LIST-->
+
+
+
+
 
     <!--SEECOND COL IN THE FIRST CONTAINER-->
-    <!-- <div class="container-fluid" id="postcards">
+    <div class="container-fluid" id="postcards">
       <div class="row">
         <div class="col-xs-12 col-md-8">
             <div class="row">
@@ -584,7 +458,6 @@ var world_map_dict = {
                           <div class="media-body">
                             <div class="col-md-8">
                               <center><h3>My Postcards</h3></center>
-                                  <h1>Upload new postcard</h1>
                                     <form action='/postcard' method="POST" enctype="multipart/form-data">
                                       <p><input type='file' name='postcard' multiple=''>
                                       <input type='submit' value='upload'></p>
@@ -597,92 +470,117 @@ var world_map_dict = {
           </div>
       </div>
     </div>
-</div> -->
-
-
-
-<!-- <div class="container">
-        <div class="col-md-4">
-            <div id="page">
-                <h3 id="header">Wanderlust List</h3>
-                <h4>Travel Bucket List</h4>
-                    <ul>
-                    <li id="one" class="must">Thailand
-                        <em>Lantern Festival</em>
-                    </li>
-                    <li id="two" class="must">
-                        New York City
-                    </li>
-                    <li id="three" class="must"> Northern Lights
-                    </li>
-                    <li id="four">
-                        Coahcella
-                    </li>
-
-                </ul>
-        </div>
-    </div>
 </div>
 
- -->
 
 
+<form action="dashboard">
+  <label for="" class="">
+    Dashboard
+  </label>
 
-
-<div class="container-fluid" id="list">
-    <div class="row">
-        <div class="col-xs-6 col-md-4">
-            <div class="col-md-10">
-                <div class="well well-sm">
-                        <div class="media-body">
-                        <h3 class="media-heading">Wanderlist</h3>
-                            <h4>My Adventures<span id="counter"></span></h4>
-                            <ul>
-                            <li id="one" class="must"><em>Lantern Festival: </em>Thailand</li>
-                            <li id="two" class="must">New York City</li>
-                            <li id="three" class="must">Fuji Islands</li>
-                            <li id="four">Northern Lights</li>
-                        </ul>
-                            <div id="newItemButton"><button href="#" id="showForm">new item</button></div>
-                        <form id="newItemForm" action="/adventurelist">
-
-                            <input type="text" id="itemDescription" name="addventurelist" placeholder="Add description" />
-
-                            <input type="submit" id="submit-button" value="add" />
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="ui-widget input">
+      <label for="location">Landmarks</label>
+  <input type="text" id="location" class="input" placeholder="landmarks" required>
 </div>
+
+<div class="ui-widget input">
+      <label for="location">Wonders</label>
+  <input type="text" id="location" class="input" placeholder="wonders" required>
 </div>
+
+<div class="ui-widget input">
+      <label for="location">Cities</label>
+  <input type="text" id="location" class="input" placeholder="cities" required>
+</div>
+
+<div class="ui-widget input">
+      <label for="location">Capitals</label>
+  <input type="text" id="location" class="input" placeholder="state capitals" required>
+</div>
+
+<div class="ui-widget input">
+      <label for="location">Undiscovered</label>
+  <input type="text" id="location" class="input" placeholder="undiscovered" required>
+</div>
+
+  <div class="col-sm-offset-2 col-sm-10">
+    <button type="submit" class="btn btn-default">Update</button>
+  </div>
+
+</form>
+
+
+</script>
+
+
+
 
 <script>
-// sending to my server
-// created functon called add adventure using ajax call to submit users new item on the list to be stored in the sever.
-// function addAdventure passed in evt
-//use a post method to route to sever which is form action="/adventurelist"
-// in order to pass info have to pass ajax as dictionary
-// pass fucntionn dta
-
-// method prepares the request and has three prams
-  // method get or post
-  // route path
-  // data  form is sending
-function addAdventure(evt) {
-  evt.preventDefault();
-  var new_item = $('#itemDescription').val();
-
-  $.post('/adventurelist', {'place':new_item}, function (data){
-    console.log(data);
-
-  });
-}
-// do one, and only one, of these
-$('#newItemForm').on('submit', addAdventure);
-// $('#submit-button').on("click", addAdventure);
+  //location autofill
+$(function() {
+    // assigned var places to empty list
+   var places = [];
+      // jinja for place in places
+       {% for location in locations %}
+        // added new list item to end of the array
+     places.push("{{location.location}}");
+       {% endfor %}
+       // autocomplete #location
+$( "#location" ).autocomplete({
+ source: availableTags
+});
+});
 </script>
+
+AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww
+
+
+
+
+          <td class="label">Description</td>
+        <td class="wideField" colspan="3">
+        <textarea class="class="field"" rows="3" id="country"></textarea>
+      </td>
+      </tr>
+      <div id="locationField">
+      <input id="autocomplete" placeholder="Enter your address"
+             onFocus="geolocate()" type="text"></input>
+    </div>
+
+    <table id="address">
+      <tr>
+        <td class="label">Street address</td>
+        <td class="slimField"><input class="field" id="street_number"
+              disabled="true"></input></td>
+        <td class="wideField" colspan="2"><input class="field" id="route"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">City</td>
+        <td class="wideField" colspan="3"><input class="field" id="locality"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">State</td>
+        <td class="slimField"><input class="field"
+              id="administrative_area_level_1" disabled="true"></input></td>
+        <td class="label">Zip code</td>
+        <td class="wideField"><input class="field" id="postal_code"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">Country</td>
+        <td class="wideField" colspan="3"><input class="field"
+              id="country" disabled="true"></input></td>
+      </tr>
+    </table>
+
+
+
+
+
+
 
 
 
@@ -690,5 +588,11 @@ $('#newItemForm').on('submit', addAdventure);
 
 {% block footer %}
 {% endblock %}
+
+
+
+
+
+
 
 

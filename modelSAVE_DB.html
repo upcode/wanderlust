@@ -1,0 +1,220 @@
+
+#############################################################################
+        #### RELATIONSHIP TABLE FOR USER AND STATE ####
+        ## records users states they have visited  ###
+##############################################################################
+#Associative Users and States
+
+
+# class User_State(db.Model):
+#     """Relationship table for users and states: where users states will be recorded"""
+#     #creating table name
+#     __tablename__ = "user_states"
+
+    # defining what table will look like in DB
+    # user_state_id = db.Column(db.Integer, autoincrement=True, nullable=True, primary_key=True)
+    # user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
+    # state_id = db.Column(db.String(2), db.ForeignKey('states.state_id'), nullable=False)
+    # state_capital_name = db.Column(db.ForeignKey('states.state_capital_name'), nullable=False)
+    # visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+    # state_id = db.Column(db.String(2), db.ForeignKey('states.state_id'), nullable=False)
+    # state_user_rating = db.Column(db.Integer,db.ForeignKey('users.user_id'))
+#    #Define the relationship to user table
+#     user = db.relationship("User", backref=db.backref("userstatecapitals", order_by=user_id))
+
+#     #Define the relationship to state table
+#     state = db.relationship("State", backref=db.backref("userstatecapitals", order_by=state_id))
+
+#     def __repr__(self):
+#         """Provide helpful representation when printed."""
+
+#         return "<User_State user_state_id=%s user_id=%s state_id=%s state_capital_name=%s>" % (self.user_state_id, self.user_id, self.state_id, state_capital_name)
+
+
+# ### records number of states users has visited ###
+# ##############################################################################
+
+# class User_State_Landmark(db.Model):
+#     """users and landmark relationship table"""
+
+#     __tablename__ = "user_state_landmarks"
+
+#     user_landmark_id = db.Column(db.Integer, autoincrement=True, nullable=True, primary_key=True)
+#     user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
+#     state_landmark_id = db.Column(db.ForeignKey('landmarks.state_landmark_id'), nullable=False)
+#     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+
+#    #Define the relationship to user table
+#     users = db.relationship("User", backref=db.backref("user_landmarks", order_by=user_id))
+
+#     #Define the relationship to state table
+#     states = db.relationship("State", backref=db.backref("user_landmarks", order_by=state_landmark_id))
+
+#     def __repr__(self):
+#         """Provide helpful representation when printed."""
+
+#         return "<User_State_Landmark user_landmark_id=%s user_id=%s state_landmark_id=%s visited_at=%s>" % (self.user_landmark_id, self.user_id, self.landmark_id, self.visited_at)
+
+
+
+#         ## records number of countries users has visited ###
+# # ##############################################################################
+# # many to many realtionships
+
+# class User_Country(db.Model):
+#     """users and country relationship table"""
+#     __tablename__ = "user_countries"
+
+#     user_country_id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
+#     user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
+#     country_id = db.Column(db.String(64), db.ForeignKey('countries.country_id'), nullable=False)
+#     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+#     country_user_rating = db.Column(db.Integer,db.ForeignKey('users.user_id'))
+#    #Define the relationship to user table
+#     users = db.relationship("User", backref=db.backref("user_countries", order_by=user_id))
+
+#     #Define the relationship to state table
+#     countries = db.relationship("Country", backref=db.backref("user_countries", order_by=country_id))
+
+#     def __repr__(self):
+#         """Provide helpful representation when printed."""
+
+#         return "<UserCountry user_country_id=%s user_id=%s country_id=%s>" % (self.user_country_id, self.user_id, self.country_id)
+
+#         ### records number of wold cities users has visited ###
+#  ##############################################################################
+
+
+# class User_World_100_City(db.Model):
+#     """users and states relationship table"""
+#     __tablename__ = "user_world_100_cities"
+
+#     user_world_top_city_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
+#     top_world_city_id = db.Column(db.ForeignKey('top_world_cities.top_world_city_id'), nullable=False)
+#     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+
+#    #Define the relationship to user table
+#     uers = db.relationship("User", backref=db.backref("user_world_cities", order_by=user_id))
+
+#     #Define the relationship to state table
+#     top_cities = db.relationship("TopWorldCity", backref=db.backref("user_world_cities", order_by=top_world_city_id))
+
+#     def __repr__(self):
+#         """Provide helpful representation when printed."""
+
+#         return "<UserTopWorldCity user_world_top_id=%s user_id=%s>" % (self.user_world_top_id, self.user_id,)
+
+
+
+#         ### records number of world wonders users has visited ###
+# ##############################################################################
+
+
+# class User_World_100_Wonder(db.Model):
+#     """users and world wonders relationship table"""
+#     __tablename__ = "user_world_wonders"
+
+#     user_wonder_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
+#     world_wonder_id = db.Column(db.ForeignKey("world_wonders.world_wonder_id"), nullable=True)
+#     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+
+#    #Define the relationship to user table
+#     user = db.relationship("User", backref=db.backref("user_world_wonders", order_by=user_id))
+
+#     #Define the relationship to state table
+#     wonders = db.relationship("UserWorldWonder", backref=db.backref("user_world_wonders", order_by=world_wonder_id))
+
+#     def __repr__(self):
+#         """Provide helpful representation when printed."""
+
+#         return "<UsersWorldWonder user_wonders_id=%s user_id=%s wonder_name=%s>" % (self.user_wonder_id, self.user_id, self.wonder_id)
+
+
+#                 ### records users states they have visited  ###
+# ##############################################################################
+
+# class User_Postcard(db.Model):
+#     """user upload their picture and send it to social media"""
+
+#     __tablename__ = "user_postcards"
+
+#     user_postcard_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     user_id = db.Column(db.ForeignKey('postcards.user_id'))
+#     postcard_id = db.Column(db.Integer, db.ForeignKey('postcards.postcard_id'))
+
+#     #Define the relationship to user
+#     user = db.relationship("UserPostcard", backref=db.backref("user", order_by=userpostcard.user_id))
+#     #Define the relationship to user table
+#     postcard = db.relationship("Postcard", backref=db.backref("user_postcards.postcard_id", order_by=postcards.postcard_id))
+
+#     def __repr__(self):
+#         """Provide helpful representation when printed."""
+
+#         return "<User_Postcard user_postcard_id=%s user_id=%s postcard_id>" % (self.user_postcard_id, self.user_id, postcard_id,)
+
+
+
+
+
+#############################################################################
+                ##### MODEL FOR 100 WONDERS OF THE WORLD ####
+##############################################################################
+# 100 Wonders of the world
+
+
+# class VisitDashboards(db.Model):
+#     """world map renters and user clicks on svg country and marks as visited Table"""
+#     __tablename__ = "Passport_dashboards"
+
+#     d3_world_map_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     country_code = db.Column(db.String(2), nullable=True, primary_key=True)
+#     country_name = db.Column(db.String(64), nullable=True)
+#     user_id = db.Column(db.ForeignKey('users.user_id'))
+#     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
+
+#     def __repr__(self):
+#         """Provide helpful representation when printed."""
+
+#         return "<D3_World_Map d3_world_map_id=%s country_code=%s country_name=%s user_id=%s>" % (self.d3worldmap_id, self.country_code, self.country_name, self.user_id)
+
+
+
+##############################################################################
+                ##### MODEL FOR STATES TABLE ####
+##############################################################################
+
+
+class State(db.Model):
+    """States abbrevation, state name and Capital name Table"""
+
+    __tablename__ = "states"
+
+    state_id = db.Column(db.String(2), nullable=True, primary_key=True)
+    state_name = db.Column(db.String(64), nullable=True)
+    state_capital_name = db.Column(db.String(64), nullable=True)
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+        return "<State state_id=%s state_name=%s state_capital_name=%s>" % (self.state_id, self.state_name, state_capital_name)
+
+
+        ##############################################################################
+                ##### MODEL FOR COUNTRY TABLE ####
+##############################################################################
+
+
+class Country(db.Model):
+    """Country and Capitals Table"""
+
+    __tablename__ = "countries"
+
+    country_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    country_name = db.Column(db.String(64), nullable=False)
+    country_capital_name = db.Column(db.String(64), nullable=True)
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Country country_id=%s country_name=%s, country_capital_name=%s >" % (self.country_id, self.country_name, self.country_capital_name)

@@ -9,6 +9,7 @@
       <link rel="stylesheet" type="text/css" href="static/lib/bootstrap/css/bootstrap.min.css">
       <link rel="stylesheet" type="text/css" href="static/css/login.css">
       <link rel="stylesheet" type="text/css" href="static/css/d3_state_map.css">
+      <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 
       <style>
       html{
@@ -150,92 +151,14 @@
     console.log(state_name_dict[d.id]);
 
 
-// var fillColor = "";
-// var stateColorChange = gray;
-// var gray = false;
 
-// $.ajax({
+    $.post('/test', {'key':'value'}, function(results){
+        console.log(results);
+        console.log("hi");
 
+    });
+  }
 
-//   sucess: function(results){
-//     if (results.sucess == true){
-//       stateColorChange = true;
-//       // fill in these colors
-//     }
-//   }
-// });
-
-// if (stateColorChange){
-//   d3.select($"clicked" + thisObj.currentState_id))
-//   style("fill", fillColor)
-// }
-
-
-
-
-// success : function(results){
-//   if (results.success == "true"){
-//     // no click no visit
-//   if (type == 0)
-//       fillColor = thisObj._fillColors.gray;
-//     // 1st click any other color then gray = visit
-//      if (type == 1)
-//       fillColor = thisObj._fillColors.visited;
-//     // 1st click any other color then gray = visit
-
-//     if (type == 2)
-//     else
-//       fillColor = thisObj._fillColors.gray;
-
-// (function(thisObj, fillColor){
-//       d3.selectAll($("clicked" + thisObj._currentState.id))
-//         .style("fill", fillColor)
-//     })(thisObj, fillColor);
-
-//   } else
-//     alert(results.message);
-// }
-
-// $(function(){
-//      $('clicked').click(function(d) {
-//         var user = $('#user_id').val();
-//         var state_id = $('#state_id').val();
-//         $.ajax({
-//             url: '/d3_state_map',
-//             data: $('clicked').serialize(),
-//             type: 'POST',
-//             success: function(response) {
-//                 console.log(response);
-//             },
-//             error: function(error) {
-//                 console.log(error);
-//             }
-//         });
-//     });
-// });
-//     })
-
-//     // test to pass d.id to a flask route
-//    $.post('/d3_state_map', {}, function (data) {
-//     });
-
-//   $.ajax({
-//   url: '/d3_state_map',
-//   data: {
-//     action: 'clicked', // Name of  function
-//     county: state // The state argument received from the click event handler
-//   },
-//   success: function(data) {
-//     // Populate HTML elements with the data
-//   },
-//   error: function(error) {
-//     // Populate an error message
-//   }
-// });
-
-
-
-    // end test
 
 
 
@@ -246,6 +169,8 @@
       y = centroid[1];
       k = 4;
       centered = d;
+
+
       //  on click changes svg elemeent to a new color
       // var colors = [""]
       var nextColor = this.style.fill == "blue" ? "magenta" : "blue";
@@ -267,7 +192,7 @@
         .duration(750)
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
         .style("stroke-width", 1.5 / k + "px");
-  }
+
 
 
   var state_name_dict = {
