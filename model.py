@@ -1,6 +1,7 @@
 """ Models and Database fucntions for Wanderlust app"""
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from hashlib import md5
 
 
 # This is the connection to the SQLite database; we're getting this through
@@ -25,9 +26,17 @@ class User(db.Model):
     username = db.Column(db.String(20), nullable=True)
     password = db.Column(db.String(128))
     state = db.Column(db.String(64), nullable=True)
+    city = db.Column(db.String(64), nullable=True)
     user_image = db.Column(db.Unicode(128))
+    about = db.Column(db.String(64), nullable=True)
+    quote = db.Column(db.String(64), nullable=True)
     state_rating = db.Column(db.Integer, nullable=True)
     country_rating = db.Column(db.Integer, nullable=True)
+    avatar = db.Column(db.Unicode(128))
+
+
+    def avatar(self, size):
+        return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (md5(self.email.encode('utf-8')).hexdigest(), size)
 
 
 class AdventureList(db.Model):
@@ -253,7 +262,13 @@ class Postcard(db.Model):
     image_title = db.Column(db.Unicode(64))
     postcard_image = db.Column(db.Unicode(128))
     description = db.Column(db.Text)
-    Address = db.Column(db.String(64))
+    street_address = db.Column(db.String(64))
+    route_address = db.Column(db.String(64))
+    city = db.Column(db.String(64))
+    postal_code = db.Column(db.String(64))
+    state = db.Column(db.String(64))
+    country = db.Column(db.String(64))
+    message = db.Column(db.String(64))
     state_stamp_image = db.Column(db.Unicode(128))
     world_stamp_image = db.Column(db.Unicode(128))
     google_map_pins = db.Column(db.Integer, autoincrement=True)

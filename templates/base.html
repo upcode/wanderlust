@@ -14,6 +14,11 @@
             </style>
 
             <!--  JQUERY AND JAVASCRRIPT SCRIPT CDN -->
+            <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+            <script type="text/javascript">
+            var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+            </script>
             <script src="http://code.jquery.com/jquery-1.10.2.min.js">
             </script>
             <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js">
@@ -37,13 +42,16 @@
                                                 <a href="/state_map">Us Map</a>
                                             </li>
                                             <li>
-                                                <a href="/d3_world_map">World Map</a>
+                                                <a href="/world_map">World Map</a>
                                             </li>
                                             <li>
                                                 <a href="/passport">My Passport</a>
                                             </li>
                                             <li>
-                                                <a href="#postcard">My Postcards</a>
+                                                <a href="/postcard">My Postcards</a>
+                                            </li>
+                                             <li>
+                                                <a href="/timeline">Timeline</a>
                                             </li>
 
                                             <li>

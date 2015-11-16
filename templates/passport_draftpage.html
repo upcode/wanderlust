@@ -1,0 +1,1030 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!--EXTERNAL JS FILE FOR UPDATING USERS INFO-->
+    <script src="static/js/profile-info.js"></script>
+    <!--EXTERNAL JS FILE FOR ADVENTURE LIST-->
+    <script src="static/js/adventurelist.js"></script>
+    <!--JQUERY AND AJAX SCRIPT -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <!-- EXTERNAL JS FILE FOR GOOGLE ADDRESS FORM -->
+    <script type="text/javascript" src="static/js/google-address-form.js"></script>
+  <!-- EXTERNAL CSS FILE FOR GOOGLE ADDRESS FORM -->
+    <link rel="stylesheet" type="text/css" href="static/css/postcard.css">
+     <link rel="stylesheet" type="text/css" href="static/css/passport-page-layout.css">
+
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<style>
+
+
+#list{
+float:left;
+}
+
+#postcards {
+float:right;
+
+border-style: solid;
+width: 500px;
+height:100px;
+}
+
+.dashboard {border-style: solid;
+width: 500px;
+height:100px;
+}
+</style>
+<!-- ###################################################### -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <div class="col-md-12">
+                <div class="well well-sm">
+
+                    <div class="media">
+                        <a class="thumbnail pull-left" href="#" data-toggle="modal" data-target="#myModal" class="profilepicture">
+                        <img class="media-object" src="static/img/uma.jpg">
+                        </a>
+
+                        <div class="media-body">
+                        <h4 id="name" class="media-heading"><span id="first-added"></span><span id="last-name"></h4>
+                        <strong><small id="username-added"></small></strong><br>
+                        <p id="city-added"></p>
+
+                        <p id="state-added"></p>
+
+                        <p id="quote-added"></p>
+
+                        <p id="about-added"></p>
+                        <div>
+                        <p><span class="label label-info">10 photos</span></p><p> <span class="label label-primary">89 followers</span></p>
+                            <p>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Countries</a>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>States</a>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Capitols</a>
+                             <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Landmark</span></a>
+                              <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Wonders</span></a>
+                        </p>
+                      </div><!-- // end div for buttons-->
+                    </div><!-- end media body-->
+                </div><!-- // end well well-sm-->
+
+                <div class="well well-sm">
+                  <div class="media">
+                    <center><a class="thumbnail center" href="#">
+                        <img class="media-object" src="static/img/adventurelist.png">
+                        </a></center>
+                          <div class="media-body">
+                            <div class="col-md-7">
+                              <h4 class="media-heading">Wanderlust List</h4>
+                            <ul id="adventure-list">
+                            {% for place in places %}
+                              <li>{{place}}</li>
+                            {% endfor %}
+
+                          </ul>
+                          <form id="adventurelist" action="">
+                            <input type="text" id="itemDescription" name="addventurelist" placeholder="Add description" required />
+                            <input type="submit" id="submit-button" value="add" title="Minmimum 1 letters or numbers." required/>
+                        </form>
+                            </div><!--// end col-7-->
+                          </div><!-- end // media body-->
+
+                    </div><!-- // end media-->
+                  </div><!-- // end well well sm-->
+            </div><!-- // end media-body-->
+        </div>
+    </div><!-- /// side bar -->
+
+<div>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="world_map" aria-controls="World Map" role="tab" data-toggle="tab">World Map</a></li>
+    <li role="presentation"><a href="/state_map" aria-controls="U.S. Map" role="tab" data-toggle="tab">U.S. Map</a></li>
+    <li role="presentation"><a href="/postcard" aria-controls="My Postcards" role="tab" data-toggle="tab">Postcards</a></li>
+<!--     <li role="presentation"><a href="#Passport Settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+ -->  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="World Map"></div>
+    <div role="tabpanel" class="tab-pane" id="U.S. Map"></div>
+    <div role="tabpanel" class="tab-pane" id="My Postcards">...</div>
+<!--     <div role="tabpanel" class="tab-pane" id="settings">...</div>
+ -->  </div>
+</div><!--// end tab nav bar-->
+
+</div><!-- /// END ROW-->
+</div><!-- /// END CONTAINER-->
+
+<!-- JAVSCRIPT / CALL FOR TABS IN NAV BAR -->
+
+<script>
+$('#myTabs a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+
+$('#myTabs a[href="world_map"]').tab('show') // Select tab by name
+$('#myTabs a[href="state_map"]').tab('show') // Select first tab
+$('#myTabs a[href="postcard"]').tab('show') // Select last tab
+// $('#myTabs li:eq(2) a').tab('show') // Select third tab (0-indexed)
+</script>
+
+<!-- JAVSCRIPT / CALL FOR TABS IN NAV BAR -->
+
+
+<div  class="col-xs-12 col-md-2">
+            <div class="col-md-12">
+                <div class="well well-sm">
+                  <div class="media">
+                    <center><a class="thumbnail center" href="#">
+                      <header><center>Account Profile</header></header>
+
+                        </a></center>
+                          <div class="media-body">
+                            <div class="col-md-7">
+                              <h4 class="media-heading">Profile Settings</h4>
+                          <hr>
+                          <form id="myForm" action="" method="POST">
+                            <label>First:
+                                <input type="text" name="first" id="first"/>
+                            </label>
+                            <label>Last:
+                                <input type="text" name="last" id="last" />
+                            </label>
+                            <label>Username:
+                                <input type="text" name="username" id="username"/>
+                            </label>
+                            <label>Quote:
+                              <input type="text" name="quote" id="quote" />
+                            </label>
+                            <label>City:
+                              <input type="text" name="city" id="city" />
+                            </label>
+                            <label>State:
+                              <input type="text" name="state" id="state" />
+                            </label>
+                            <label>About:
+                              <textarea name="about" id="about"></textarea>
+                            </label>
+                          <button type="submit" class="btn btn-default">submit</button>
+                          </form>
+
+
+
+                            </div><!--// end col-7-->
+                          </div><!-- end // media body-->
+
+                    </div><!-- // end media-->
+                  </div><!-- // end well well sm-->
+
+<!-- JAVSCRIPT / AJAX CALL FOR ACCOUTN SETTINGS -->
+
+
+<script>
+function profileInfo(data){
+    console.log(data);
+    $('#first-added').html(data.first);
+    $('#last-added').html(data.last);
+    $('#username-added').html(data.username);
+    $('#city-added').html(data.city);
+    $('#state-added').html(data.state);
+    $('#quote-added').html(data.quote);
+    $('#about-added').html(data.about);
+  }
+
+function profile(evt) {
+  evt.preventDefault();
+  var first = $('#first').val();
+  var last = $('#last').val();
+  var username = $('#username').val();
+  var quote = $('#quote').val();
+  var city = $('#city').val();
+  var state = $('#state').val();
+  var about = $('#about').val();
+  console.log("in profile")
+  $.post('/profile', {'first':first,'last':last,'quote':quote,
+ 'city':city,'state':state,'about':about
+  }, profileInfo);
+}
+
+$("#myForm").on('submit', profile);
+</script>
+
+<!-- END JAVSCRIPT / AJAX CALL FOR ACCOUTN SETTINGS -->
+
+
+<div class="container-fluid" class="dashboard">
+<div class="row">
+  <div class="col-sm-6 col-md-12" class="dashboard" >
+      <h3>DASHBOARD</h3>
+                    <table class="table">
+                      <tbody>
+                        <thead>
+                          <tr>
+                            <th data-field="states">Countries</th>
+                            <th data-field="states">States</th>
+                            <th data-field="capitols">Capitols</th>
+                            <th data-field="landmark">Landmarks</th>
+                            <th data-field="landmark">Wonders</th>
+                            <th data-field="cities">Citites</th>
+                          </tr>
+                        </thead>
+                      </tbody>
+                        <tr>
+                            <td>5</td>
+                            <td>15</td>
+                            <td>21</td>
+                            <td>14</td>
+                          </tr>
+                    </table>
+                     <p>
+                    <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Countries</a>
+                    <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>States</a>
+                    <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Capitols</a>
+                    <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Landmark</span></a>
+                    <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Wonders</span></a>
+                    </p>
+    </div><!--// end col-->
+  </div><!-- end // row-->
+</div><!-- // END CONTAINER-->
+
+<!--POST CARD UPLOAD-->
+<div class="container-fluid" id="postcard">
+  <div class="row">
+    <div class="col-md-12">
+      PREVIEW HERE
+      <p>Result Filename:&nbsp;<span id="resultImageFilename-added"> here</span></p>
+      <p>Result Filesize:&nbsp;<span id="resultImageFilesize-added">here</span></p>
+
+        <div>
+          <h3>My Postcards</h3>
+               <hr/>
+          <label>address:</lable>
+            <p id="street_number_added"></p>
+
+            <p id="route-address-added"></p>
+
+            <p id="city-added"></p>
+
+            <p id="postal_code-added"></p>
+
+            <p id="state-added"></p>
+
+            <p id="country-added"></p>
+          <lable>message:</label>
+            <p id="message-added"></p>
+          <lable>IMAGE:</label>
+      </div><!-- // end preview section-->
+      <!-- POST CARD UPLOAD FORM-->
+        <form action="upload" method="post" enctype="multipart/form-data">
+          <input type="file" name="file"><br /><br />
+          <input type="submit" value="Upload">
+        </form>
+        <!--UPLOAD FORM-->
+        <!--GOOGLE AUTO SERACH BOX ADDRESS FORM-->
+        <div id="google-address">
+
+            <!-- div id="locationField">
+      <input id="autocomplete" placeholder="Enter your address"
+             onFocus="geolocate()" type="text"></input>
+    </div>
+    -->
+    <form id="google-postcard-form">
+    <table id="address">
+      <div id="locationField">
+      <input id="autocomplete" placeholder="Enter your address"
+             onFocus="geolocate()" type="text"></input>
+    </div>
+      <tr>
+        <td class="label">Street address</td>
+        <td class="slimField"><input class="field" id="street_number"
+              disabled="true"></input></td>
+        <td class="wideField" colspan="2"><input class="field" id="route"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">City</td>
+        <td class="wideField" colspan="3"><input class="field" id="locality"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">State</td>
+        <td class="slimField"><input class="field"
+              id="administrative_area_level_1" disabled="true"></input></td>
+        <td class="label">Zip code</td>
+        <td class="wideField"><input class="field" id="postal_code"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">Country</td>
+        <td class="wideField" colspan="3"><input class="field"
+              id="country" disabled="true"></input></td>
+      </tr>
+      <tr>
+       <td class="label">Message</td>
+        <td class="wideField" colspan="3">
+        <textarea class="class="field"" rows="3" id="message"></textarea>
+         <button type="submit" class="btn btn-default" id="submit-postcard">submit</button>
+      </td>
+
+
+     </tr>
+    </table>
+  </form>
+        </div>
+      </div>
+    </div><!--// end col -->
+  </div><!--// end row -->
+</div><!--// END CONTAINER-->
+
+
+<!-- BEGAIN JAVASCRIPT/ AJAX CALL FOR PHOTO UPLOAD-->
+
+
+<script>
+function displayPostcardImage(data){
+    console.log(data);
+    $('#resultImageFilename-added').html(data.street_number);
+    $('#resultImageFilesize-added').html(data.route);
+
+
+function uploadPostcard(evt) {
+    evt.preventDefault();
+
+    $.post('/postcard-upload-ajax',{form_data}, displayPostcardImage);
+    var image = $('#image').val();
+        }
+      }
+
+      $('#postcard-upload').on('submit', displayPostcardImage);
+
+</script>
+
+
+<!-- END JAVASCRIPT/ AJAX CALL FOR PHOTO UPLOAD-->
+
+
+<!-- END AJAX FOR GOOGLE AUTO PLACE FORM-->
+<script>
+// this funcation is hwere i want data to be diplayed
+function displayGooglePostcard(data){
+    console.log(data);
+    $('#street-number-added').html(data.street_number);
+    $('#route-address-added').html(data.route);
+    $('#city-added').html(data.locality);
+    $('#postal-code-added').html(data.postal_code);
+    $('#state-added').html(data.postal_code);
+    $('#country-added').html(data.country);
+    $('#message-added').html(data.message);
+  }
+
+function googlePostcardForm(evt) {
+  evt.preventDefault();
+  var street_number = $('#street_number').val();
+  var route_address = $('#route').val();
+  var city = $('#locality').val();
+  var postal_code = $('#postal_code').val();
+  var state = $('#administrative_area_level_1').val();
+  var country = $('#country').val();
+  var message = $('#message').val();
+  console.log("googlePostcardForm")
+
+  $.post('/google-postcard-ajax', {"street_number": street_number, "route": route_address, "city": city, "administrative_area_level_1": state, "country": country, "message": message
+  }, (displayGooglePostcard));
+}
+
+$('#google-postcard-form').on('submit', googlePostcardForm);
+</script>
+
+<!-- END AJAX CALL FOR POSTCARD SEARCH ADDRESS FORM -->
+
+
+
+<!-- BEGAIN GOOGLE SEARCH PLACE ADDRESS FORM-->
+
+
+
+
+
+  <script>
+// This example displays an address form, using the autocomplete feature
+// of the Google Places API to help users fill in the information.
+
+var placeSearch, autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+};
+
+function initAutocomplete() {
+  // Create the autocomplete object, restricting the search to geographical
+  // location types.
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+      {types: ['geocode']});
+
+  // When the user selects an address from the dropdown, populate the address
+  // fields in the form.
+  autocomplete.addListener('place_changed', fillInAddress);
+}
+
+// [START region_fillform]
+function fillInAddress() {
+  // Get the place details from the autocomplete object.
+  var place = autocomplete.getPlace();
+
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false;
+  }
+
+  // Get each component of the address from the place details
+  // and fill the corresponding field on the form.
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    if (componentForm[addressType]) {
+      var val = place.address_components[i][componentForm[addressType]];
+      document.getElementById(addressType).value = val;
+    }
+  }
+}
+// [END region_fillform]
+
+// [START region_geolocation]
+// Bias the autocomplete object to the user's geographical location,
+// as supplied by the browser's 'navigator.geolocation' object.
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+// [END region_geolocation]
+</script>
+<!-- BEGAIN GOOGLE SEARCH PLACE ADDRESS FORM-->
+
+<!--GOOGLE ADDRESS BOX API KEY-->
+
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
+     async defer>
+     </script>
+<!--END ADDRESS BOX API KEY-->
+
+
+
+
+<!-- BEGAIN GOOGLE CUSTOM SEARCH JAVSCRIPT-->
+
+
+<!-- END GOOGLE CUSTOM SEARCH JAVSCRIPT-->
+
+
+<!--DASHBOARD CUSTOM SEARCH API KEY-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer></script>
+
+<!--END DASHBOARD CUSTOM SEARCH API KEY-->
+
+
+
+
+{% extends "base.html" %}
+
+{% block head %}
+
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!--EXTERNAL JS FILE FOR UPDATING USERS INFO-->
+    <script src="static/js/profile-info.js"></script>
+    <!--EXTERNAL JS FILE FOR ADVENTURE LIST-->
+    <script src="static/js/adventurelist.js"></script>
+    <!--JQUERY AND AJAX SCRIPT -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <!-- EXTERNAL JS FILE FOR GOOGLE ADDRESS FORM -->
+    <script type="text/javascript" src="static/js/google-address-form.js"></script>
+  <!-- EXTERNAL CSS FILE FOR GOOGLE ADDRESS FORM -->
+    <link rel="stylesheet" type="text/css" href="static/css/postcard.css">
+     <link rel="stylesheet" type="text/css" href="static/css/passport-page-layout.css">
+
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<style>
+
+
+#list{
+float:left;
+}
+
+#postcards {
+float:right;
+}
+</style>
+<!-- ###################################################### -->
+<!-- PROFILE PAGE-->
+ <div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="col-md-8">
+                <div class="well well-sm">
+                    <div class="media">
+                        <a class="thumbnail pull-left" href="#" data-toggle="modal" data-target="#myModal" class="profilepicture">
+                        <img class="media-object" src="static/img/uma.jpg">
+                        </a>
+                        <div class="media-body">
+                        <h4 id="name" class="media-heading"><span id="first-added"></span><span id="last-name"></h4>
+                        <strong><small id="username-added"></small></strong><br>
+                        <p id="city-added"></p>
+                        <p id="state-added"></p>
+                        <p id="quote-added"></p>
+                        <p id="about-added"></p>
+                          <p><span class="label label-info">10 photos</span></p><p> <span class="label label-primary">89 followers</span></p>
+                            <p>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Countries</a>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>States</a>
+                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Capitols</a>
+                             <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Landmark</span></a>
+                              <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Wonders</span></a>
+                        </p>
+                    </div>
+                </div><!-- end media body-->
+
+
+
+
+
+                          <form id="myForm" action="" method="POST">
+                            <label>First:
+                                <input type="text" name="first" id="first"/>
+                            </label>
+                            <label>Last:
+                                <input type="text" name="last" id="last" />
+                            </label>
+                            <label>Username:
+                                <input type="text" name="username" id="username"/>
+                            </label>
+                            <label>Quote:
+                              <input type="text" name="quote" id="quote" />
+                            </label>
+                            <label>City:
+                              <input type="text" name="city" id="city" />
+                            </label>
+                            <label>State:
+                              <input type="text" name="state" id="state" />
+                            </label>
+                            <label>About:
+                              <textarea name="about" id="about"></textarea>
+
+                            </label>
+                          <button type="submit" class="btn btn-default">submit</button>
+                          </form>
+
+
+
+
+
+<script>
+function profileInfo(data){
+    console.log(data);
+    $('#first-added').html(data.first);
+    $('#last-added').html(data.last);
+    $('#username-added').html(data.username);
+    $('#city-added').html(data.city);
+    $('#state-added').html(data.state);
+    $('#quote-added').html(data.quote);
+    $('#about-added').html(data.about);
+  }
+
+function profile(evt) {
+  evt.preventDefault();
+  var first = $('#first').val();
+  var last = $('#last').val();
+  var username = $('#username').val();
+  var quote = $('#quote').val();
+  var city = $('#city').val();
+  var state = $('#state').val();
+  var about = $('#about').val();
+  console.log("in profile")
+  $.post('/profile', {'first':first,'last':last,'quote':quote,
+ 'city':city,'state':state,'about':about
+  }, profileInfo);
+}
+
+$("#myForm").on('submit', profile);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="well well-sm">
+                  <div class="media">
+                    <center><a class="thumbnail center" href="#">
+                        <img class="media-object" src="static/img/adventurelist.png">
+                        </a></center>
+                          <div class="media-body">
+                            <div class="col-md-7">
+                              <h4 class="media-heading">Wanderlust List</h4>
+                            <ul id="adventure-list">
+                            {% for place in places %}
+                              <li>{{place}}</li>
+                            {% endfor %}
+
+                          </ul>
+                          <form id="adventurelist" action="">
+                            <input type="text" id="itemDescription" name="addventurelist" placeholder="Add description" required />
+                            <input type="submit" id="submit-button" value="add" title="Minmimum 1 letters or numbers." required/>
+                        </form>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+<!-- Profile Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <header><center>Account Profile</header></header>
+                          <hr>
+                          <form id="myForm" action="" method="POST">
+                            <label>First:
+                                <input type="text" name="first" id="first"/>
+                            </label>
+                            <label>Last:
+                                <input type="text" name="last" id="last" />
+                            </label>
+                            <label>Username:
+                                <input type="text" name="username" id="username"/>
+                            </label>
+                            <label>Quote:
+                              <input type="text" name="quote" id="quote" />
+                            </label>
+                            <label>City:
+                              <input type="text" name="city" id="city" />
+                            </label>
+                            <label>State:
+                              <input type="text" name="state" id="state" />
+                            </label>
+                            <label>About:
+                              <textarea name="about" id="about"></textarea>
+                            </label>
+                          <button type="submit" class="btn btn-default">submit</button>
+                          </form>
+                      </div>
+                              <!--end modal body-->
+                    </div>
+                      </div>
+                      <!--end modal content-->
+                   </div>
+                    <!--end modal window-->
+
+
+                    <div class="media-body">
+                    <div class="col-md-7">
+                    <center><h3>My Passport</h3></center>
+                    <table class="table">
+                    <tbody>
+                    <thead>
+                        <tr>
+                        <th data-field="states">Countries</th>
+                        <th data-field="states">States</th>
+                        <th data-field="capitols">Capitols</th>
+                        <th data-field="landmark">Landmarks</th>
+                        <th data-field="landmark">Wonders</th>
+                    <th data-field="cities">Citites</th>
+                        </tr>
+                     </thead>
+                    </tbody>
+                            <tr>
+                            <td>5</td>
+                            <td>15</td>
+                            <td>21</td>
+                            <td>14</td>
+                            </tr>
+                    </table>
+                    </div>
+               </div>
+            </div>
+        </div>
+
+
+
+<div class="container">
+      <div class="header">
+        <h3 class="text-muted">How To Upload a File</h3>
+      </div>
+      <hr/>
+      <div>
+
+      <form action="upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file"><br /><br />
+        <input type="submit" value="Upload">
+      </form>
+      </div>
+    </div>
+
+
+
+
+
+<div id='postcard'>
+  <label>address:</lable>
+    <p id="street_number_added"></p>
+     <p id="route-address-added"></p>
+       <p id="city-added"></p>
+      <p id="postal_code-added"></p>
+     <p id="state-added"></p>
+     <p id="country-added"></p>
+
+    <lable>message:</label>
+    <p id="message-added"></p>
+</div>
+
+
+
+<br/>
+    <!-- div id="locationField">
+      <input id="autocomplete" placeholder="Enter your address"
+             onFocus="geolocate()" type="text"></input>
+    </div>
+ -->
+    <form id="google-postcard-form">
+    <table id="address">
+      <div id="locationField">
+      <input id="autocomplete" placeholder="Enter your address"
+             onFocus="geolocate()" type="text"></input>
+    </div>
+      <tr>
+        <td class="label">Street address</td>
+        <td class="slimField"><input class="field" id="street_number"
+              disabled="true"></input></td>
+        <td class="wideField" colspan="2"><input class="field" id="route"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">City</td>
+        <td class="wideField" colspan="3"><input class="field" id="locality"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">State</td>
+        <td class="slimField"><input class="field"
+              id="administrative_area_level_1" disabled="true"></input></td>
+        <td class="label">Zip code</td>
+        <td class="wideField"><input class="field" id="postal_code"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">Country</td>
+        <td class="wideField" colspan="3"><input class="field"
+              id="country" disabled="true"></input></td>
+      </tr>
+      <tr>
+       <td class="label">Message</td>
+        <td class="wideField" colspan="3">
+        <textarea class="class="field"" rows="3" id="message"></textarea>
+         <button type="submit" class="btn btn-default" id="submit-postcard">submit</button>
+      </td>
+
+
+     </tr>
+    </table>
+  </form>
+
+
+
+<script>
+// this funcation is hwere i want data to be diplayed
+function displayGooglePostcard(data){
+    console.log(data);
+    $('#street-number-added').html(data.street_number);
+    $('#route-address-added').html(data.route);
+    $('#city-added').html(data.locality);
+    $('#postal-code-added').html(data.postal_code);
+    $('#state-added').html(data.postal_code);
+    $('#country-added').html(data.country);
+    $('#message-added').html(data.message);
+  }
+
+function googlePostcardForm(evt) {
+  evt.preventDefault();
+  var street_number = $('#street_number').val();
+  var route_address = $('#route').val();
+  var city = $('#locality').val();
+  var postal_code = $('#postal_code').val();
+  var state = $('#administrative_area_level_1').val();
+  var country = $('#country').val();
+  var message = $('#message').val();
+  console.log("googlePostcardForm")
+
+  $.post('/google-postcard-ajax', {"street_number": street_number, "route": route_address, "city": city, "administrative_area_level_1": state, "country": country, "message": message
+  }, (displayGooglePostcard));
+}
+
+$('#google-postcard-form').on('submit', googlePostcardForm);
+</script>
+
+
+
+
+<form id="postcard-upload" method="post" enctype="multipart/form-data">
+    <label for="file">Select a file</label>
+    <input name="file" type="file" id="image">
+    <button id="submit" type="button">Upload</button>
+</form>
+<p>Result Filename:&nbsp;<span id="resultImageFilename-added"> here</span></p>
+<p>Result Filesize:&nbsp;<span id="resultImageFilesize-added">here</span></p>
+<script>
+function displayPostcardImage(data){
+    console.log(data);
+    $('#resultImageFilename-added').html(data.street_number);
+    $('#resultImageFilesize-added').html(data.route);
+
+
+function uploadPostcard(evt) {
+    evt.preventDefault();
+
+    $.post('/postcard-upload-ajax',{form_data}, displayPostcardImage);
+    var image = $('#image').val();
+        }
+      }
+
+      $('#postcard-upload').on('submit', displayPostcardImage);
+
+</script>
+
+
+
+    <script>
+// This example displays an address form, using the autocomplete feature
+// of the Google Places API to help users fill in the information.
+
+var placeSearch, autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+};
+
+function initAutocomplete() {
+  // Create the autocomplete object, restricting the search to geographical
+  // location types.
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+      {types: ['geocode']});
+
+  // When the user selects an address from the dropdown, populate the address
+  // fields in the form.
+  autocomplete.addListener('place_changed', fillInAddress);
+}
+
+// [START region_fillform]
+function fillInAddress() {
+  // Get the place details from the autocomplete object.
+  var place = autocomplete.getPlace();
+
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false;
+  }
+
+  // Get each component of the address from the place details
+  // and fill the corresponding field on the form.
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    if (componentForm[addressType]) {
+      var val = place.address_components[i][componentForm[addressType]];
+      document.getElementById(addressType).value = val;
+    }
+  }
+}
+// [END region_fillform]
+
+// [START region_geolocation]
+// Bias the autocomplete object to the user's geographical location,
+// as supplied by the browser's 'navigator.geolocation' object.
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+// [END region_geolocation]
+
+    </script>
+    <!--DASHBOARD CUSTOM SEARCH API KEY-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer></script>
+        <!--GOOGLE ADDRESS BOX API KEY-->
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
+     async defer>
+
+     </script>
+
+<!-- example only -->
+     <script src="https://maps.googleapis.com/maps/api/js?key=" + {{ map_key }} + "&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer></script>
+
+
+
+
+
+
+ <div class="well well-sm">
+                  <div class="media">
+                    <center><a class="thumbnail center" href="#">
+                        <img class="media-object" src="static/img/adventurelist.png">
+                        </a></center>
+                          <div class="media-body">
+                            <div class="col-md-7">
+                              <h4 class="media-heading">Wanderlust List</h4>
+                            <ul id="adventure-list">
+                            {% for place in places %}
+                              <li>{{place}}</li>
+                            {% endfor %}
+
+                          </ul>
+                          <form id="adventurelist" action="">
+                            <input type="text" id="itemDescription" name="addventurelist" placeholder="Add description" required />
+                            <input type="submit" id="submit-button" value="add" title="Minmimum 1 letters or numbers." required/>
+                        </form>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+% endblock %}
+
+{% block footer %}
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

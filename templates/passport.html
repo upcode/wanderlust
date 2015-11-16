@@ -1,12 +1,21 @@
+
 {% extends "base.html" %}
 
 {% block head %}
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!--EXTERNAL JS FILE FOR UPDATING USERS INFO-->
+    <script src="static/js/profile-info.js"></script>
+    <!--EXTERNAL JS FILE FOR ADVENTURE LIST-->
+    <script src="static/js/adventurelist.js"></script>
+    <!--JQUERY AND AJAX SCRIPT -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <!-- EXTERNAL JS FILE FOR GOOGLE ADDRESS FORM -->
+    <script type="text/javascript" src="static/js/google-address-form.js"></script>
+  <!-- EXTERNAL CSS FILE FOR GOOGLE ADDRESS FORM -->
+    <link rel="stylesheet" type="text/css" href="static/css/postcard.css">
+     <link rel="stylesheet" type="text/css" href="static/css/passport-page-layout.css">
 
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="http://d3js.org/topojson.v1.min.js"></script>
-    <script src="http://d3js.org/queue.v1.min.js"></script>
-    <script src="static/js/d3_world_map.js"></script>
-      <script src="static/js/world.js"></script>
 
 {% endblock %}
 
@@ -16,37 +25,42 @@
 {% block content %}
 <style>
 
-
 #list{
 float:left;
 }
 
 #postcards {
 float:right;
+
+border-style: solid;
+width: 500px;
+height:100px;
 }
+
+.dashboard {border-style: solid;
+width: 500px;
+height:100px;
+}
+html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
 </style>
 
-<!--LAYOUT FOR PROFILE PAGE -->
-    <div class="container-fluid">
-      <div class="row">
-          <div class="col-xs-12 col-sm-6 col-md-8"></div><!-- .col-xs-12 .col-sm-6 .col-md-8-->
-          <div class="col-xs-6 col-md-4"></div><!-- end .col-xs-6 .col-md-4-->
-      </div><!--end row-->
-    </div><!-- end container-->
 
    <!--
-#################################################################
+################################################################################
 -->
 
-
-
-
-<script src="http://d3js.org/d3.v3.min.js"></script>
+   <!--
+################################################################################
+-->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
     <script src="static/js/d3_world_map.js"></script>
-<!--   d3 World Map that unreels into flat map
- -->
+<!-- World Map that unreels into flat map-->
 <div class="container-fluid">
     <div class="row">
          <div class="col-md-6 col-md-offset-1">
@@ -55,7 +69,8 @@ float:right;
   </div>
 </div>
  <script>
-// d3 world map javascript
+// ##########  D3 WORLD MAP JAVASCRIPT BELOW  ########//
+
 // Map hight and width
 var mapWidth = 860,
   mapHeight = 400,
@@ -236,14 +251,363 @@ function ready(error, world, countryData) {
     g.selectAll("path").classed("ortho", ortho = true);
   }
 };
+</script>
+
+<!--
+################################################################################
+
+-->
+<!-- PROFILE SIDE CONTAINER WITH WANDERLIST -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <div class="col-md-12">
+                <div class="well well-sm">
+
+                    <div class="media">
+                        <a class="thumbnail pull-left" href="#" data-toggle="modal" data-target="#myModal" class="profilepicture">
+                        <img class="media-object" src="static/img/uma.jpg"></a>
+
+                          <div class="media-body">
+                            <h4 id="name" class="media-heading"><span id="first-added"></span><span id="last-name"></h4>
+                              <strong><small id="username-added"></small></strong><br>
+                                <p id="city-added"></p>
+
+                                <p id="state-added"></p>
+
+                                <p id="quote-added"></p>
+
+                                <p id="about-added"></p>
+
+                                <p><span class="label label-info">10 photos</span></p>
+
+                                <p> <span class="label label-primary">89 followers</span></p>
+                                <p>
+                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Countries</a>
+                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>States</a>
+                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Capitols</a>
+                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Landmark</span></a>
+                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Wonders</span></a>
+                                </p>
+                          </div><!-- end media body-->
+<!-- // ended profile picture container -->
+                    <div class="well well-sm">
+
+                          <div class="media-body">
+                              <div class="col-md-7">
+                                <h4 class="media-heading">Wanderlust List</h4>
+                                  <ul id="adventure-list">
+                                    {% for place in places %}
+                                      <li>{{place}}</li>
+                                    {% endfor %}
+                                  </ul>
+                                    <form id="adventurelist" action="">
+                                      <input type="text" id="itemDescription" name="addventurelist" placeholder="Add description" required />
+                                      <input type="submit" id="submit-button" value="add" title="Minmimum 1 letters or numbers." required/>
+                                    </form>
+                              </div><!--// end col-7-->
+                          </div><!-- end // media body-->
+                        </div><!-- // end well well-sm-->
+                    </div><!-- // media -->
+                  </div><!-- well well-sm -->
+                </div><!-- //col-md-12-->
+            </div><!-- // col-xs-12 col-md-2-->
+
+<!-- AJAX CALL FOR ADVENTURE LIST  -->
+ <script>
+
+function addAdventure(evt) {
+  evt.preventDefault();
+  var new_item = $('#itemDescription').val();
+  $.post('/adventurelist', {'place':new_item}, function (data){
+    console.log(data);
+    $('#adventure-list').append("<li>"+ new_item +"</li>");
+  });
+}
+</script>
+<!-- AJAX CALL FOR ADVENTURE LIST  -->
+
+
+<!-- RIGHT SIDE WHERE TAB LIST -->
+  <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+
+        <li role="presentation" class="active"><a href="/world_map" aria-controls="World" role="tab" data-toggle="tab">World Map</a></li>
+
+        <li role="presentation"><a href="/state_map" aria-controls="U.S." role="tab" data-toggle="tab">U.S. Map</a></li>
+
+        <li role="presentation"><a href="/postcard" aria-controls="Postcards" role="tab" data-toggle="tab">Postcards</a></li>
+
+        <li role="presentation"><a href="/timeline" aria-controls="timeline" role="tab" data-toggle="tab">Timeline</a></li>
+
+      </ul>
+<!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="world"></div>
+
+        <div role="tabpanel" class="tab-pane" id="us"></div>
+
+        <div role="tabpanel" class="tab-pane" id="postcard">...</div>
+
+        <div role="tabpanel" class="tab-pane" id="timeline">...</div>
+
+      </div>
+  </div><!-- /// END ROW-->
+</div><!-- /// END CONTAINER-->
+
+
+<!-- JAVSCRIPT BEGAIN JS NAV BAR TABS -->
+<script>
+$('#myTabs a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+
+$('#myTabs a[href="/world_map]').tab('show') // Select tab by name
+$('#myTabs a[href="/state_map"]').tab('show') // Select first tab
+$('#myTabs a[href="/postcard"]').tab('show') // Select last tab
+$('#myTabs a[href="/timeline"]').tab('show') // Select third tab (0-indexed)
+</script>
+<!-- JAVSCRIPT END JS FOR NAV BAR TABS -->
+
+<div class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img src="..." alt="...">
+      <div class="caption">
+        <h3>Acount Profile</h3>
+        <form id="myForm" action="" method="POST">
+
+            <label>Firstname:
+                <input type="text" name="first" id="first"/>
+            </label>
+            <label>
+              Lastname:
+                <input type="text" name="last" id="last" />
+            </label>
+              <label>
+              Username:
+                <input type="text" name="username" id="username"/>
+
+              </label>
+              <label>
+                Quote:
+                  <input type="text" name="quote" id="quote" />
+              </label>
+              <label>
+                City:
+                  <input type="text" name="city" id="city" />
+              </label>
+              <label>
+                State:
+                  <input type="text" name="state" id="state" />
+              </label>
+              <label>
+                About:
+                  <textarea name="about" id="about"></textarea>
+              </label>
+                <button type="submit" class="btn btn-default">submit</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AJAC CALL FOR SUBMITTING POSTCARD FORM-->
+
+<script>
+function profileInfo(data){
+    console.log(data);
+    $('#first-added').html(data.first);
+    $('#last-added').html(data.last);
+    $('#username-added').html(data.username);
+    $('#city-added').html(data.city);
+    $('#state-added').html(data.state);
+    $('#quote-added').html(data.quote);
+    $('#about-added').html(data.about);
+  }
+
+function profile(evt) {
+  evt.preventDefault();
+  var first = $('#first').val();
+  var last = $('#last').val();
+  var username = $('#username').val();
+  var quote = $('#quote').val();
+  var city = $('#city').val();
+  var state = $('#state').val();
+  var about = $('#about').val();
+  console.log("in profile")
+  $.post('/profile', {'first':first,'last':last,'quote':quote,
+ 'city':city,'state':state,'about':about
+  }, profileInfo);
+}
+
+$("#myForm").on('submit', profile);
+</script>
+
+<!-- //// AJAC CALL FOR SUBMITTING POSTCARD FORM////-->
+
+<div class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img src="..." alt="...">
+      <div class="caption">
+        <h3>Postcards</h3>
+        <h3>My Postcards</h3>
+            <p>preview</p>
+              <p>Result Filename:&nbsp;<span id="resultImageFilename-added"> here</span></p>
+              </p>Result Filesize:&nbsp;<span id="resultImageFilesize-added">here</span></p>
+               <hr/>
+          <label>address:
+              <p id="street_number_added"></p>
+
+              <p id="route-address-added"></p>
+
+              <p id="city-added"></p>
+
+              <p id="postal_code-added"></p>
+
+              <p id="state-added"></p>
+
+              <p id="country-added"></p>
+          </lable>
+          <lable>message:
+            <p id="message-added"></p>
+          </label>
+          <lable>IMAGE:
+          <p id="image"></p>
+        </label>
+      </div><!-- // end preview section-->
+      <!-- POST CARD UPLOAD FORM-->
+        <label>upload image here!</p></label>
+
+            <form action="upload" method="post" enctype="multipart/form-data">
+              <input type="file" name="file"><br /><br />
+
+              <input type="submit" value="Upload">
+
+            </form>
+
+<!--GOOGLE AUTO SERACH BOX ADDRESS FORM-->
+        <div id="google-address">
+          <form id="google-postcard-form">
+            <table id="address">
+              <div id="locationField">
+            <input id="autocomplete" placeholder="Enter your address"
+             onFocus="geolocate()" type="text"></input>
+             <hr>
+                <tr>
+                  <td class="label">Street address</td>
+                  <td class="slimField"><input class="field" id="street_number"
+                        disabled="true"></input></td>
+                  <td class="wideField" colspan="2"><input class="field" id="route"
+                        disabled="true"></input></td>
+                </tr>
+                <tr>
+                  <td class="label">City</td>
+                  <td class="wideField" colspan="3"><input class="field" id="locality"
+                        disabled="true"></input></td>
+                </tr>
+                <tr>
+                  <td class="label">State</td>
+                  <td class="slimField"><input class="field"
+                        id="administrative_area_level_1" disabled="true"></input></td>
+                  <td class="label">Zip code</td>
+                  <td class="wideField"><input class="field" id="postal_code"
+                        disabled="true"></input></td>
+                </tr>
+                <tr>
+                  <td class="label">Country</td>
+                  <td class="wideField" colspan="3"><input class="field"
+                        id="country" disabled="true"></input></td>
+                </tr>
+                <tr>
+                  <td class="label">Message</td>
+                  <td class="wideField" colspan="3">
+                  <textarea class="class="field"" rows="3" id="message"></textarea>
+                    <button type="submit" class="btn btn-default" id="submit-postcard">submit</button>
+                  </td>
+                </tr>
+            </table>
+          </form>
+        </div>
+       </div>
+     </div>
+<!-- ///END POST CARD FORM/// -->
+
+<!-- AJAC CALL FOR SUBMITTING POSTCARD FORM-->
+
+<script>
+// this funcation is hwere i want data to be diplayed
+function displayGooglePostcard(data){
+    console.log(data);
+    $('#street-number-added').html(data.street_number);
+    $('#route-address-added').html(data.route);
+    $('#city-added').html(data.locality);
+    $('#postal-code-added').html(data.postal_code);
+    $('#state-added').html(data.postal_code);
+    $('#country-added').html(data.country);
+    $('#message-added').html(data.message);
+  }
+
+function googlePostcardForm(evt) {
+  evt.preventDefault();
+  var street_number = $('#street_number').val();
+  var route_address = $('#route').val();
+  var city = $('#locality').val();
+  var postal_code = $('#postal_code').val();
+  var state = $('#administrative_area_level_1').val();
+  var country = $('#country').val();
+  var message = $('#message').val();
+  console.log("googlePostcardForm")
+
+  $.post('/google-postcard-ajax', {"street_number": street_number, "route": route_address, "city": city, "administrative_area_level_1": state, "country": country, "message": message
+  }, (displayGooglePostcard));
+}
+
+$('#google-postcard-form').on('submit', googlePostcardForm);
+</script>
+
+<!-- /// END AJAX CALL FOR SUBMITTING POSTCARD FORM ///-->
+
+<!-- AJAX CALL FOR IMAGE FORM-->
+<script>
+function displayPostcardImage(data){
+    console.log(data);
+    $('#resultImageFilename-added').html(data.street_number);
+    $('#resultImageFilesize-added').html(data.route);
+
+
+function uploadPostcard(evt) {
+    evt.preventDefault();
+
+    $.post('/postcard-upload-ajax',{form_data}, displayPostcardImage);
+    var image = $('#image').val();
+        }
+      }
+
+      $('#postcard-upload').on('submit', displayPostcardImage);
 
 </script>
+
+
+<!--/// END AJAX CALL FOR IMAGE FORM ////-->
+
+
+
+
+<!--
+################################################################################
+
+ -->
+
+
+
 <script>
 // GOOGLE MAP
-
 // This example displays an address form, using the autocomplete feature
 // of the Google Places API to help users fill in the information.
-
 var placeSearch, autocomplete;
 var componentForm = {
   street_number: 'short_name',
@@ -253,28 +617,23 @@ var componentForm = {
   country: 'long_name',
   postal_code: 'short_name'
 };
-
 function initAutocomplete() {
   // Create the autocomplete object, restricting the search to geographical
   // location types.
   autocomplete = new google.maps.places.Autocomplete(
       /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
       {types: ['geocode']});
-
   // When the user selects an address from the dropdown, populate the address
   // fields in the form.
   autocomplete.addListener('place_changed', fillInAddress);
 }
-
 function fillInAddress() {
   // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
-
   for (var component in componentForm) {
     document.getElementById(component).value = '';
     document.getElementById(component).disabled = false;
   }
-
   // Get each component of the address from the place details
   // and fill the corresponding field on the form.
   for (var i = 0; i < place.address_components.length; i++) {
@@ -285,7 +644,6 @@ function fillInAddress() {
     }
   }
 }
-
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
 function geolocate() {
@@ -305,278 +663,23 @@ function geolocate() {
 }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
-        async defer></script>
-
-<!-- PROFILE PAGE-->
- <div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12 col-md-6">
-            <div class="col-md-8">
-                <div class="well well-sm">
-                    <div class="media">
-                        <a class="thumbnail pull-left" href="#" data-toggle="modal" data-target="#myModal" class="profilepicture">
-                        <img class="media-object" src="static/img/uma.jpg">
-                        </a>
-                        <div class="media-body">
-                        <h4 class="media-heading">Uma Petersen</h4>
-                        <strong><small>World Traveler</small></strong><br>
-                        <p>San Francisco, California</p>
-                        <p>"future belongs to those who beleive in beauity of their dreams.er</p>
-
-                                <p><span class="label label-info">10 photos</span> <span class="label label-primary">89 followers</span></p>
-                        <p>
-                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Countries</a>
-                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>States</a>
-                            <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Capitols</a>
-                             <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Landmark</span></a>
-                              <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Wonders</span></a>
-                        </p>
-                    </div>
-                </div>
-
-
-                        <div class="well well-sm">
-                  <div class="media">
-                    <center><a class="thumbnail center" href="#">
-                        <img class="media-object" src="static/img/adventurelist.png">
-                        </a></center>
-                          <div class="media-body">
-                            <div class="col-md-7">
-                              <h4 class="media-heading">Wanderlust List</h4>
-                            <ul id="adventure-list">
-                            {% for place in places %}
-                              <li>{{place}}</li>
-                            {% endfor %}
-
-                          </ul>
-                          <form id="newItemForm" action="/adventurelist">
-                            <input type="text" id="itemDescription" name="addventurelist" placeholder="Add description" required />
-                            <input type="submit" id="submit-button" value="add" title="Minmimum 1 letters or numbers." required/>
-                        </form>
-                            </div>
-                          </div>
-                    </div>
-                  </div>
-            </div>
-        </div>
-    </div>
-    <script>
-    // sending to my server
-// created functon called add adventure using ajax call to submit users new item on the list to be stored in the sever.
-// function addAdventure passed in evt
-//use a post method to route to sever which is form action="/adventurelist"
-// in order to pass info have to pass ajax as dictionary
-// pass fucntionn dta
-
-// method prepares the request and has three prams
-  // method get or post
-  // route path
-  // data  form is sending
-function addAdventure(evt) {
-  evt.preventDefault();
-  var new_item = $('#itemDescription').val();
-
-  $.post('/adventurelist', {'place':new_item}, function (data){
-    console.log(data);
-    $('#adventure-list').append("<li>"+ new_item +"</li>");
-  });
-}
-    </script>
-<!--LIST-->
-
-
-    <!-- Profile Modal -->
-                <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <header><img src="/static/img/logo.jpg" id="logo">
-                              <h4 class="modal-title" id="myModalLabel">Create A Postcard</h4>
-                            </header>
-                              <div class="modal-body">
-                               <form action='/postcard' method="POST" enctype="multipart/form-data">
-                                    <p><input type='file' name='passportpic' multiple=''>
-                                <input type='submit' value='upload'>
-                                    </p>
-                                </form> -->
-
-                             <!--  </div> -->
-                              <!--end modal body-->
-                     <!--    </div> -->
-                 <!--      </div> -->
-                      <!--end modal content-->
-                   <!--  </div> -->
-                    <!--end modal window-->
-
-
-    <!--SEECOND COL IN THE FIRST CONTAINER-->
-
-                    <div class="media-body">
-                    <div class="col-md-7">
-                    <center><h3>My Passport</h3></center>
-                    <table class="table">
-                    <tbody>
-                    <thead>
-                        <tr>
-                        <th data-field="states">Countries</th>
-                        <th data-field="states">States</th>
-                        <th data-field="capitols">Capitols</th>
-                        <th data-field="landmark">Landmarks</th>
-                        <th data-field="landmark">Wonders</th>
-                    <!--<th data-field="cities">Citites</th>-->
-                        </tr>
-                     </thead>
-                    </tbody>
-                            <tr>
-                            <td>5</td>
-                            <td>15</td>
-                            <td>21</td>
-                            <td>14</td>
-                            </tr>
-                    </table>
-                    </div>
-               </div>
-            </div>
-        </div>
-
-
-
-
-
-
-
-    <!--SEECOND COL IN THE FIRST CONTAINER-->
-    <div class="container-fluid" id="postcards">
-      <div class="row">
-        <div class="col-xs-12 col-md-8">
-            <div class="row">
-              <div class="col-md-7">
-                <div class="well well-sm">
-                  <div class="media">
-                    <center><a class="thumbnail center" href="#">
-                        <img class="media-object" src="static/img/dashboard.jpg">
-                        </a></center>
-                          <div class="media-body">
-                            <div class="col-md-8">
-                              <center><h3>My Postcards</h3></center>
-                                    <form action='/postcard' method="POST" enctype="multipart/form-data">
-                                      <p><input type='file' name='postcard' multiple=''>
-                                      <input type='submit' value='upload'></p>
-                                    </form>
-                            </div>
-                          </div>
-                    </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-    </div>
-</div>
-
-
-
-<form action="dashboard">
-  <label for="" class="">
-    Dashboard
-  </label>
-
-<div class="ui-widget input">
-      <label for="location">Landmarks</label>
-  <input type="text" id="location" class="input" placeholder="landmarks" required>
-</div>
-
-<div class="ui-widget input">
-      <label for="location">Wonders</label>
-  <input type="text" id="location" class="input" placeholder="wonders" required>
-</div>
-
-<div class="ui-widget input">
-      <label for="location">Cities</label>
-  <input type="text" id="location" class="input" placeholder="cities" required>
-</div>
-
-<div class="ui-widget input">
-      <label for="location">Capitals</label>
-  <input type="text" id="location" class="input" placeholder="state capitals" required>
-</div>
-
-<div class="ui-widget input">
-      <label for="location">Undiscovered</label>
-  <input type="text" id="location" class="input" placeholder="undiscovered" required>
-</div>
-
-  <div class="col-sm-offset-2 col-sm-10">
-    <button type="submit" class="btn btn-default">Update</button>
-  </div>
-
-</form>
-
+        async defer>
 
 </script>
 
 
 
 
-<script>
-  //location autofill
-$(function() {
-    // assigned var places to empty list
-   var places = [];
-      // jinja for place in places
-       {% for location in locations %}
-        // added new list item to end of the array
-     places.push("{{location.location}}");
-       {% endfor %}
-       // autocomplete #location
-$( "#location" ).autocomplete({
- source: availableTags
-});
-});
-</script>
 
-AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww
+ </script>
+    <!--DASHBOARD CUSTOM SEARCH API KEY-->
+<!--    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer> -->
+        <!--GOOGLE ADDRESS BOX API KEY-->
 
-
-
-
-          <td class="label">Description</td>
-        <td class="wideField" colspan="3">
-        <textarea class="class="field"" rows="3" id="country"></textarea>
-      </td>
-      </tr>
-      <div id="locationField">
-      <input id="autocomplete" placeholder="Enter your address"
-             onFocus="geolocate()" type="text"></input>
-    </div>
-
-    <table id="address">
-      <tr>
-        <td class="label">Street address</td>
-        <td class="slimField"><input class="field" id="street_number"
-              disabled="true"></input></td>
-        <td class="wideField" colspan="2"><input class="field" id="route"
-              disabled="true"></input></td>
-      </tr>
-      <tr>
-        <td class="label">City</td>
-        <td class="wideField" colspan="3"><input class="field" id="locality"
-              disabled="true"></input></td>
-      </tr>
-      <tr>
-        <td class="label">State</td>
-        <td class="slimField"><input class="field"
-              id="administrative_area_level_1" disabled="true"></input></td>
-        <td class="label">Zip code</td>
-        <td class="wideField"><input class="field" id="postal_code"
-              disabled="true"></input></td>
-      </tr>
-      <tr>
-        <td class="label">Country</td>
-        <td class="wideField" colspan="3"><input class="field"
-              id="country" disabled="true"></input></td>
-      </tr>
-    </table>
-
-
+<!--  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
+    async defer>
+ -->
 
 
 
@@ -588,7 +691,6 @@ AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww
 
 {% block footer %}
 {% endblock %}
-
 
 
 

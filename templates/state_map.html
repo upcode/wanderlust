@@ -35,6 +35,13 @@
         stroke-linecap: round;
         pointer-events: none;
       }
+      .subunit-boundary {
+        fill: none;
+        stroke: #777;
+        stroke-dasharray: 2,2;
+        stroke-linejoin: round;
+      }
+
 
 
         </style>
@@ -98,6 +105,9 @@
   var width = 960,
       height = 500,
       centered;
+
+
+
       //D3 Projection
 
   var projection = d3.geo.albersUsa()
@@ -107,6 +117,13 @@
   var path = d3.geo.path()
       .projection(projection);
 
+  var color = d3.scale.d3.scale.category20b().domain(d3.range(9)),
+    selectedColor = 0,
+    dragColor;
+
+  // var color1 = d3.scale.category20()
+  // var color2 = d3.scale.category20b()
+  // var color3 = d3.scale.category20c()
 
   // make an svg element
     // attached to body tag
@@ -117,82 +134,107 @@
   // append a rect to the svg
     // set hieght & width of rectangle
     // adding event handler, for function "clicked"
-  svg.append("rect")
-      .attr("class", "background")
-      .attr("width", width)
-      .attr("height", height)
-      .on("click", clicked);
+    svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", clicked);
 
-  var g = svg.append("g");
   // WHERE US MAP JOSON DATA IS
+  var g = svg.append("g");
   d3.json("static/d3mapdata/us.json", function(error, us) {
-    if (error) throw error;
-    g.append("g")
-        .attr("id", "states")
-      .selectAll("path")
-        .data(topojson.feature(us, us.objects.states).features)
-      .enter().append("path")
-        .attr("d", path)
-        .on("click", clicked);
+  if (error) throw error;
+  g.append("g")
+  .attr("id", "states")
+  .selectAll("path")
+  .data(topojson.feature(us, us.objects.states).features)
+  .enter().append("path")
+  .attr("d", path)
+  .on("click", clicked);
 
-    g.append("path")
-        .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-        .attr("id", "state-borders")
-        .attr("d", path);
+  g.append("path")
+  .datum(topojson.mesh(us, us.objects.states,
+  function(a, b) { return a !== b; }))
+  .attr("id", "state-borders")
+  .attr("d", path);
   });
 
+  svg.append("path")
+    .datum(topojson.feature(us, us.objects.places))
+    .attr("d", path)
+    .attr("class", "place");
 
-  //MAP FUNCTION CODE TO GET ID OF THE CODE
+  svg.selectAll(".place-label")
+    .data(topojson.feature(us, us.objects.places).features)
+  .enter().append("text")
+    .attr("class", "place-label")
+    .attr("transform", function(d) { return "translate(" + projection(d.geometry.coordinates) + ")"; })
+    .attr("dy", ".35em")
+    .text(function(d) { return d.properties.name; });
+  svg.selectAll(".place-label")
+    .attr("x", function(d) { return d.geometry.coordinates[0] > -1 ? 6 : -6; })
+    .style("text-anchor", function(d) { return d.geometry.coordinates[0] > -1 ? "start" : "end"; });
+
+
+//////////////////////////  MAP FUNCTION DODE ////////////////////////////////
+
+    // on click function user clicks the state and maps id with state name
   function clicked(d) {
-    var x, y, k;
-    //UMA'S STUFF TO VIEW MAP
-    console.log(d);
-    console.log(d.id);
-    console.log(state_name_dict[d.id]);
+      var x, y, k;
+      // console long to view map w/ inspect elements
+      console.log(d); // d is data that is mapped to state abbrv and state name
+      console.log(d.id);
+      console.log(state_name_dict[d.id]);
+      // pulls dic key and returns key and value pair
 
-
-
-    $.post('/test', {'key':'value'}, function(results){
-        console.log(results);
-        console.log("hi");
-
-    });
-  }
-
-
-
-
-    // if clicking on the center of a state "d"
-    if (d && centered !== d) {
-      var centroid = path.centroid(d);
-      x = centroid[0];
-      y = centroid[1];
-      k = 4;
-      centered = d;
-
-
-      //  on click changes svg elemeent to a new color
-      // var colors = [""]
-      var nextColor = this.style.fill == "blue" ? "magenta" : "blue";
-        d3.select(this).style("fill", nextColor);
-
-      // d3.select(this).style("fill", "magenta");
-
-    // if clicking elsewhere on the page
-    } else {
-      x = width / 2;
-      y = height / 2;
-      k = 1;
-      centered = null;
     }
 
-    g.selectAll("path")
-        .classed("active", centered && function(d) { return d === centered; });
-    g.transition()
-        .duration(750)
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-        .style("stroke-width", 1.5 / k + "px");
+        // if clicking on the center of a state "d"
+        if (d && centered !== d) {
+        var centroid = path.centroid(d);
+        x = centroid[0];
+        y = centroid[1];
+        k = 4;
+        centered = d;
 
+        // if clicking elsewhere on the page
+      } else {
+        x = width / 2;
+        y = height / 2;
+        k = 1;
+        centered = null;
+      }
+
+      g.selectAll("path")
+          .classed("active", centered && function(d) { return d === centered; });
+      g.transition()
+          .duration(750)
+          .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+          .style("stroke-width", 1.5 / k + "px");
+
+var paths = svg.append("path")
+ .attr("class", "states")
+ .datum(topojson.feature(us, us.objects.states))
+ .attr("d", path)
+ .style("fill", function(d, i) { return color(d.color = d3.max(neighbors[i], function(n) { return countries[n].color; }) + 1 | 0); })
+ .on('mouseover', function(d, i) {
+
+ var currentState = this;
+ var thoseStates = d3
+ .selectAll('path')[0]
+ .filter(function(state) {
+     return state !== currentState;
+         });
+
+  d3.selectAll(thoseStates)
+   .transition()
+   .duration(300)
+   .style({
+       'stroke-opacity': 1,
+       'stroke': '#f00'
+   });
+
+       });
 
 
   var state_name_dict = {

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="css/timeliner.css" type="text/css" media="screen">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/timeliner.min.js"></script>
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+
+<script>
+            $(document).ready(function() {
+                    $.timeliner({});
+            });
+    </script>
+
+
+
+<div id="timeline" class="timeline-container">
+    <div class="timeline-wrapper">
+        <h2 class="timeline-time">2015</h2>
+        <dl class="timeline-series">
+            <dt class="timeline-event" id="event01"><a>Hawaii</a></dt>
+            <dd class="timeline-event-content" id="event01EX">
+                <p>Content about the event goes here.</p>
+            </dd>
+            <dt class="timeline-event" id="event02"><a>Coachella</a></dt>
+            <dd class="timeline-event-content" id="event02EX">
+                <p>Content about the other event.</p>
+            </dd>
+        </dl>
+        <h2 class="timeline-time">2014</h2>
+        <dl class="timeline-series">
+            <dt class="timeline-event" id="event01"><a>Hawaii</a></dt>
+            <dd class="timeline-event-content" id="event01EX">
+                <p>Content about the event goes here.</p>
+            </dd>
+            <dt class="timeline-event" id="event02"><a>Coachella</a></dt>
+            <dd class="timeline-event-content" id="event02EX">
+                <p>Content about the other event.</p>
+            </dd>
+        </dl>
+        <h2 class="timeline-time">2013</h2>
+        <dl class="timeline-series">
+            <dt class="timeline-event" id="event01"><a>New York City</a></dt>
+            <dd class="timeline-event-content" id="event01EX">
+                <p>Content about the event goes here.</p>
+            </dd>
+            <dt class="timeline-event" id="event02"><a>Italy</a></dt>
+            <dd class="timeline-event-content" id="event02EX">
+                <p>Content about the other event.</p>
+            </dd>
+        </dl>
+        <h2 class="timeline-time">2012</h2>
+        <dl class="timeline-series">
+            <dt class="timeline-event" id="event01"><a>France</a></dt>
+            <dd class="timeline-event-content" id="event01EX">
+                <p>Content about the event goes here.</p>
+            </dd>
+            <dt class="timeline-event" id="event02"><a>England</a></dt>
+            <dd class="timeline-event-content" id="event02EX">
+                <p>Content about the other event.</p>
+            </dd>
+        </dl>
+
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}
