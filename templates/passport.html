@@ -417,6 +417,7 @@ $('#myTabs a[href="/timeline"]').tab('show') // Select third tab (0-indexed)
 <!-- AJAC CALL FOR SUBMITTING POSTCARD FORM-->
 
 <script>
+// Here is where the profile Info is stored in the HTML tags used add to remind me that jason file was returned and added value from the form to the HTML tags
 function profileInfo(data){
     console.log(data);
     $('#first-added').html(data.first);
@@ -428,6 +429,9 @@ function profileInfo(data){
     $('#about-added').html(data.about);
   }
 
+// Ajax request for profile form
+// passed evt prams and evt to prevent default of form submission
+// signed var names to ids of html form chained val function to get value of content of the html form
 function profile(evt) {
   evt.preventDefault();
   var first = $('#first').val();
@@ -437,12 +441,15 @@ function profile(evt) {
   var city = $('#city').val();
   var state = $('#state').val();
   var about = $('#about').val();
+
+  // console log in profile to test if call is working
   console.log("in profile")
+  // ajax call here with route sending ajax call too, data{} which is dictionary with key and value pairs and last , calling the function where data will be placed once ajax request is returned
   $.post('/profile', {'first':first,'last':last,'quote':quote,
  'city':city,'state':state,'about':about
   }, profileInfo);
 }
-
+// id tag for name of the form, using event handler on click, name of event handler which is submit and , passing in the function called profile.
 $("#myForm").on('submit', profile);
 </script>
 
@@ -601,6 +608,27 @@ function uploadPostcard(evt) {
 ################################################################################
 
  -->
+
+<!-- POST CARD -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Wanderlust App</title>
+      <!--CSS Animation Globe CSS-->
+      <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+      <link rel="stylesheet" href="http://cdn.jsdelivr.net/animatecss/2.1.0/animate.min.css"><!-- load animate -->
+      <!-- Bootstrap -->
+      <link rel="stylesheet" type="text/css" href="static/lib/bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="static/css/login.css">
+      <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+      <style>
+      html{
+        background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
+      }
+          .background {
+  fill: none;
+  pointer-events: all;
+}
+
+#states {
+  fill: #aaa;
+}
+
+#states .active {
+  fill: orange;
+}
+
+#state-borders {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+
+
+
+        </style>
+        </head><!--// END HEAD-->
+        <body><!--// BODY-->
+
+  <!--#######################   NAV BAR    ##################-->
+
+      <div id="navbar">
+       <!-- Navigation -->
+          <nav class="navbar navbar-default navbar-fixed-top topnav role="navigation"">
+              <div class="container-fluid">
+                  <div class="navbar-header">
+                      <a class="navbar-brand" href="/">
+                          <img src="/static/img/logo.jpg">
+                                  <ul class="nav navbar-nav navbar-right" style="display:inline: block, float: left">
+                                      {% if "user_id" in session %}
+                                      <li>
+                                          <a href="#about">Us Map</a>
+                                      </li>
+                                      <li>
+                                          <a href="#services">World Map</a>
+                                      </li>
+                                      <li>
+                                          <a href="#contact">My Passport</a>
+                                      </li>
+                                      <li>
+                                          <a href="#contact">My Postcards</a>
+                                      </li>
+                                      <li>
+                                          <a href="#contact">Contact</a>
+                                      </li>
+
+                                      <li>
+                                          <a href="/logout">Logout</a>
+
+                                      </li>
+
+                                      {% else %}
+                                      <li>
+                                          <a href="/login">Login</a>
+                                      </li>
+
+                                      {% endif %}
+
+                                      </li>
+
+                                  </ul>
+                        </div> <!-- collapsable navbar -->
+                    </div> <!-- navbar header -->
+                </nav>
+
+            </div>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
+<script>
+/// ###################US MAP SETTINGS ########################///
+
+// d == path
+// g == all svg elements
+// style = curson: pointer;
+// g class = legend
+
+// height and width of map
+// datum joing key to data taking a strin and binding it to the element
+// selection --> group== g --> element -->0  0 <--4<-- array<--data
+
+var width = 960,
+    height = 500,
+    centered;
+// type of map projection ie albersUsa
+
+var projection = d3.geo.albersUsa()
+    .scale(1070)
+    .translate([width / 2, height / 2]);
+//create svg path generator using the projection
+
+var path = d3.geo.path()
+    .projection(projection);
+
+//create a new svg element with the above dimensions
+// height and width is append to every svg element in the body tag
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+// appending every svg element as rect which then will be shape of a state
+
+svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", clicked);
+// assigning all svg elements in to one variable called "g"
+var g = svg.append("g");
+
+d3.json("/static/d3mapdata/us.json", function(error, us) {
+  if (error) throw error;
+// appending path to state and id and its name
+  g.append("g")
+      .attr("id", "states")
+    .selectAll("path")
+      .data(topojson.feature(us, us.objects.states).features)
+      // if you want to add new attr have append them after enter()
+    .enter().append("path")
+      .attr("d", path)
+      .on("click", clicked);
+// appending border shape to path
+  g.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+      .attr("id", "state-borders")
+      .attr("d", path);
+});
+
+
+
+// function draw(){
+
+//   d3.json("/static/d3mapdata/us.json", function(json) {
+//     g.selectAll("path")
+//     .data(json.features)
+//     .enter()
+//     .append("path")
+//     .attr("d", path)
+//     .on("click", click);
+
+//     g.selectAll("text")
+//     .data(json.features)
+//     .enter()
+//     .append("svg:text")
+//     .text(function(d){
+//         return d.properties.name;
+//     })
+//     .attr("x", function(d){
+//         return path.centroid(d)[0];
+//     })
+//     .attr("y", function(d){
+//         return  path.centroid(d)[1];
+//     })
+//     .attr("k", function(d){
+//         return path.centroid(d)[4];
+//     })
+//     .attr("text-anchor","middle")
+//     .attr('font-size','6pt');
+
+
+//   });
+// }
+
+
+
+
+////######## EVENT HANDLER ######### /////////
+
+function clicked(d) {
+  var x, y, k;
+    console.log(d);
+    console.log(d.id);
+    console.log(state_name_dict[d.id])
+
+
+function addState(evt) {
+  $.post('/state-map-ajax', {}, function (d){
+    console.log("added state");
+
+  });
+}
+$('d').on('click', clicked)
+
+
+
+  // $.post("/state-map-ajax", function( d ) {
+  // $( ".result" ).html( data );});
+
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 4;
+    centered = d;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
+
+  g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+
+  g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
+}
+
+
+
+
+
+var state_name_dict = {
+    1: ["AL", "Alabama"],
+    2: ["AK", "Alaska"],
+    4: ["AZ", "Arizona"],
+    5: ["AR",, "Arkansas"],
+    6: ["CA", "California"],
+    8: ["CO", "Colorado"],
+    9: ["CT", "Connecticut"],
+    10: ["DE", "Delaware"],
+    11: ["DC", "District of Washington"],
+    12: ["FL", "Florida"],
+    13: ["GA", "Georgia"],
+    15: ["HI", "Hawaii"],
+    16: ["ID", "Indiana"],
+    17: ["IL", "Illinois"],
+    18: ["IN", "Indiana"],
+    19: ["IA", "Iowa"],
+    20: ["KS", "Kansas"],
+    21: ["KY", "Kentucky"],
+    22: ["LA", "Louisiana"],
+    23: ["ME", "Maine"],
+    24: ["MD", "Maryland"],
+    25: ["MA", "Massachusetts"],
+    26: ["MI", "Michigan"],
+    27: ["MN", "Minnesota"],
+    28: ["MS", "Mississippi"],
+    29: ["MO", "Missouri"],
+    30: ["MT", "Montana"],
+    31: ["NE", "Nebraska"],
+    32: ["NV", "Nevada"],
+    33: ["NH", "New Hampshire"],
+    34: ["NJ", "New Jersey"],
+    35: ["NM", "New Mexico"],
+    36: ["NY", "New York"],
+    37: ["NC", "North Carolina"],
+    38: ["ND", "North Dakota"],
+    39: ["OH", "Ohio"],
+    40: ["OK", "Oklahoma"],
+    41: ["OR", "Oregon"],
+    42: ["PA", "Pennsylvania"],
+    44: ["RI", "Rhode Island"],
+    45: ["SC", "South Carolina"],
+    46: ["SD", "South Dakota"],
+    47: ["TN", "Tennessee"],
+    48: ["TX", "Texas"],
+    49: ["UT", "Utah"],
+    50: ["VT", "Vermont"],
+    51: ["VA", "Virginia"],
+    53: ["WA", "Washington"],
+    54: ["WV", "West Virginia"],
+    55: ["WI", "Wisconsin"],
+    56: ["WY", "Wyoming"]
+
+ };
+
+
+
+
+</script>
+
+<!--#######################    FOOTER   ########################-->
+    <div class="footer">
+
+      <footer class="footer">
+        <p><a href="../sticky-footer">Waunderlust</a></p>
+        <p class="text-muted">Copyright &copy; Uma Petersen 2015. All Rights Reserved</p>
+      </footer>
+               <!-- END FOOTER-->
+      </div><!--. // end container-->
+
+
+
+<!--  JQUERY AND JAVASCRRIPT SCRIPT CDN -->
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js">
+    </script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js">
+    </script>
+  </body><!--// END BODY-->
+</html><!-- // END HTML-->

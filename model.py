@@ -63,12 +63,13 @@ class D3_State_Map(db.Model):
 
     __tablename__ = "d3_state_maps"
 
-    d3statemap_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_state_map_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     state_code = db.Column(db.String(2), nullable=True, primary_key=True) # abbrevation
     state_name = db.Column(db.String(64), nullable=True)
     user_id = db.Column(db.ForeignKey('users.user_id'))
     visited_at = db.Column(db.DateTime, default=datetime.now, nullable=True)
     state_rating = db.Column(db.Integer)
+    state_id = db.Column(db.Integer) # what is in d3 map that links id to the state name and state abbrv
 
     def __repr__(self):
         """Provide helpful representation when printed."""

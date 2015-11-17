@@ -38,8 +38,10 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 def index():
     """ testing page"""
     # return render_template('index.html')
-    return render_template('timeline.html')
-
+    # return render_template('timeline.html')
+    # return render_template('teststatemap.html')
+    # return render_template('testmap.html')
+    # return render_template('amjavascriptmap.html')
 
 ##############################################################################
 # INDEX PAGE
@@ -241,8 +243,6 @@ def profile():
     # @app.route('/disply-profile-info', methods=['POST'])
 
 
-
-
 @app.route('/adventurelist', methods=['POST'])
 def process_list():
 
@@ -268,18 +268,19 @@ def dashboard():
     state = request.form.get["State"]
     zipcode = request.form.get["zip code"]
     country = request.form.get["country"]
-    des  = request.form.get["description"]
-    # return render_template("list.html")
+    des = request.form.get["description"]
 
     user_id = session["user_id"]
 
 ##############################################################################
 #AJAX Call for GOOGLE POSTCARD FORM
+
+
 @app.route('/google-postcard-ajax', methods=['POST'])
 def google_postcard_form_ajax():
     """ google address form that prepopulates address"""
 
-    #adding user sessipon
+    # adding user sessipon
     user_id = session["user_id"]
     # FROM HTML from all variables
     # from HTML form getting inputs from ajax call
@@ -335,44 +336,54 @@ def uploaded_postcard(filename):
                             # # STATE MAP # #
 ##############################################################################
 
+@app.route('/state-map')
+def state():
 
-@app.route('/state_map')
+    # return render_template('testmap.html')
+     return render_template('teststatemap.html')
+
+
+@app.route('/state-map-ajax')
 def state_map():
     """d3 state map where users can click on state and changes colors"""
 
-    return render_template("state_map.html")
+    # AJAX CALL FOR USER STATE VISIT
 
-    # get id from ajax request
-
-    # instance from db
-
-    # if it doesnt exist, make it
-
-    # if it does, delete it
-
-    # add user from profile session
+    # get current user from session
     user_id = session["user_id"]
-    new_state_visit = request.form['d.id']
-    print 'state_map', new_state_visit
 
+    # inputs from d3 state map from click function and consle logging
+    state_id = request.form.get('d.id') # id from d3 map
+    # state_color = request.form.get('state_color') # color of state
 
+    # print route and state_id, color, date state was visited and user_id
+    print 'state-map-ajax', state_id, user_id
 
-    new_state_visit = D3_State_Map(user_id=user_id, d3statemap_id=new_state_visit)
+    # query for db for user
+    # user is my instance, User is my class table look for the feild user_id in db and grab one if user_id == user_id
+    user = db.session.query(User).filter_by(user_id=int(user_id)).one()
+    user.state_id = state_id
+    # user.state_color = state_color
+    user.state_name = state_name
+    user.visited_at = visited_at
 
-    db.session.add(  new_state_visit)
     db.session.commit()
-    return "New state has been stored in DB"
+    # return json data which has key adn values
+    # removed this "state_color":state_color
+    user_state_map_info_data = {"state_id":state_id,"visited_at": visited_at}
+
+    # query DB for this user if the unser is none
+    print "state visit has been stored in DB"
+
+    ###make a dictionary, where the key is "first", value is first etc
+    return jsonify(user_state_map_info_data)
 
 
-# new_visit = User(user_id=user_id, d3statemap_id=state_id)
-
-# user_id= request.form['user_id']
-# state_id = request.form['d.id']
 
 
-# check to see if user has visited state by searching user_id and state_id
-# add conditions if user visited state add to db
-# if user been to state send message already visited
+
+
+
 
 @app.route('/test', methods=['POST'])
 def ajaxtest():

@@ -4,6 +4,67 @@
 <link rel="stylesheet" href="css/timeliner.css" type="text/css" media="screen">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/timeliner.min.js"></script>
+<style>
+/*TODO x asix horz
+y axis upz axis down
+-- to make front and back stacked user -->ablsoute postioning to keep
+-- user relative postiing keep front and back to parent container y axis*/
+/*
+divs were assigned class ".card"
+for divs with the class card will have relative postion to keep it fixed to parent container, padding at the bottom, it will float left width will be 25% and text will align center */
+..card {
+  position: relative;
+  float: left;
+  padding-bottom: 25%;
+  width: 25%;
+  text-align: center;
+}
+
+.card__front,
+.card__back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card__front,
+.card__back {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  -webkit-transition: -webkit-transform 0.3s;
+          transition: transform 0.3s;
+}
+
+.card__front {
+  background-color: #ff5078;
+}
+
+.card__back {
+  background-color: black;
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
+}
+
+.card__front {
+  background-color: #ff5078;
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+}
+
+/*// transistion on click*/
+.card.effect__click.flipped .card__front {
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
+}
+
+.card.effect__click.flipped .card__back {
+  -webkit-transform: rotateY(0);
+          transform: rotateY(0);
+}
+}
+</style>
 {% endblock %}
 
 {% block title %}
@@ -12,10 +73,10 @@
 {% block content %}
 
 
-<script>
-            $(document).ready(function() {
-                    $.timeliner({});
-            });
+// <script>
+//             $(document).ready(function() {
+//                     $.timeliner({});
+//             });
     </script>
 
 
@@ -70,6 +131,44 @@
 
     </div>
 </div>
+
+
+
+<!-- effect text in parent elent will be either hover or onlclick event to flip card  -->
+<div class="card effect__EFFECT">
+  <div class="card__front">
+    <span class="card__text">front</span>
+  </div>
+  <div class="card__back">
+    <span class="card__text">back</span>
+  </div>
+</div><!-- /card -->
+<script>
+(function() {
+  var cards = document.querySelectorAll(".card.effect__click");
+  for ( var i  = 0, len = cards.length; i < len; i++ ) {
+    var card = cards[i];
+    clickListener( card );
+  }
+
+  function clickListener(card) {
+    card.addEventListener( "click", function() {
+      var c = this.classList;
+      c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
+    });
+  }
+})();
+
+
+</script>
+
+
+
+
+
+
+
+
 
 
 
