@@ -10,49 +10,39 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask import Flask
 from flask.ext.jsonpify import jsonify
 from sqlalchemy import update
-# import config_file for external api
 
 # IMPORTED MODEL TABLES TO ROUTES
 from model import User, State_Landmark, World_100_City, World_100_Wonder
 from model import D3_World_Map, D3_State_Map, Postcard, AdventureList, connect_to_db, db
 # IMPORTED MODEL RELATIONSHIP TABLES TO ROUTES
-
 # from model import UserState, UserStateLandmark, UserCountry, UserTopWorldCity UserWorldWonder
 # from model import Postcard, UserPostcard, connect_to_db, db
 
-# this is the path to the upload directory
-UPLOAD_FOLDER = 'uploads/'
-# upload extensions that are allowed
-ALLOWED_EXTENSIONS = ['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif']
+##############################################################################
 app = Flask(__name__)
-SECRET_KEY = "not actually a secret"
+app.secret_key = 'RED PANDA'
 app.config.from_object(__name__)
 
-app.secret_key = 'RED PANDA'
 
+
+##############################################################################
+ALLOWED_EXTENSIONS = ['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif']
 app.config['UPLOAD_FOLDER'] = 'uploads'
+##############################################################################
 
-# For a given file, return whether it's an allowed type or not
+# INDEX PAGE
 
 @app.route('/index')
 def index():
-    """ testing page"""
+    """ Index page where I test few functions
+     and make sure routes are connected """
     # return render_template('index.html')
     # return render_template('timeline.html')
     # return render_template('teststatemap.html')
     # return render_template('testmap.html')
     # return render_template('amjavascriptmap.html')
+    # return render_template('mocpostcard.html')
 
-##############################################################################
-# INDEX PAGE
-
-
-
-@app.route('/')
-def wanderlust():
-    """Homepage."""
-    return render_template("wanderlust.html")
-#     # return render_template('google.html')
 
 
 ##############################################################################
@@ -63,11 +53,11 @@ def wanderlust():
 
 # FORM PROCESSING LOGIN
 
-# @app.route('/login', methods=['GET'])
-# def login_form():
-#     """Show login form."""
+@app.route('/', methods=['GET'])
+def wanderlust():
+    """Show login form."""
 
-#     return render_template("wanderlust.html")
+    return render_template("wanderlust.html")
 
 @app.route('/login-process', methods=['POST'])
 def process_login():
@@ -307,7 +297,6 @@ def google_postcard_form_ajax():
 
 ##############################################################################
 # UPLOAD IMAGE
-
 @app.route('/postcard-upload-ajax', methods=['GET', 'POST'])
 def postcard():
 
@@ -332,18 +321,19 @@ def uploaded_postcard(filename):
                                filename)
 
 
+
 ##############################################################################
                             # # STATE MAP # #
 ##############################################################################
 
-@app.route('/state-map')
-def state():
+@app.route('/state_map')
+def d3_state_map():
 
     # return render_template('testmap.html')
-     return render_template('teststatemap.html')
+     return render_template('state_map.html')
 
 
-@app.route('/state-map-ajax')
+@app.route('/state-map-ajax', methods=["POST"])
 def state_map():
     """d3 state map where users can click on state and changes colors"""
 
@@ -351,9 +341,11 @@ def state_map():
 
     # get current user from session
     user_id = session["user_id"]
+    print user_id
 
     # inputs from d3 state map from click function and consle logging
     state_id = request.form.get('d.id') # id from d3 map
+    print state_id
     # state_color = request.form.get('state_color') # color of state
 
     # print route and state_id, color, date state was visited and user_id

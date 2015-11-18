@@ -15,33 +15,28 @@
         background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
       }
 
+      path {
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
 
-    path {
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
+      .background {
+        fill: none;
+        stroke: #ddd;
+      }
 
-.background {
-  fill: none;
-  stroke: #ddd;
-}
-.background {
-  fill: ;
-  stroke: #ddd;
-}
-
-
-.foreground {
-  fill: none;
-  pointer-events: all;
-}
+      .foreground {
+        fill: none;
+        pointer-events: all;
+      }
 
         </style>
         </head><!--// END HEAD-->
         <body><!--// BODY-->
 
   <!--#######################   NAV BAR    ##################-->
-
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
       <div id="navbar">
        <!-- Navigation -->
           <nav class="navbar navbar-default navbar-fixed-top topnav role="navigation"">
@@ -91,30 +86,37 @@
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
 <script>
-
+// height and width of map
 var width = 960,
     height = 600;
 
+// project of state map
 var projection = d3.geo.albersUsa()
     .scale(1280)
     .translate([width / 2, height / 2]);
 
+// project path of map
 var path = d3.geo.path()
     .projection(projection);
 
+// color scale that is on top of the state map
+// 20 colors to choose from
 var color = d3.scale.category20c().domain(d3.range(20)),
     selectedColor = 0,
     dragColor;
-
+// when state is colored in filled state is appended to retrun list
+// when page is refreshed colored states are stored
 var components = color.domain().map(function() { return []; });
 
+// append color to body where svg element of each state with attribute height and witdth
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+// legend where colors are available for users to select
 var legend = svg.append("g")
     .attr("class", "legend")
-    .attr("transform", "translate(" + ((width - color.domain().length * 24) / 2) + ",10)")
+    .attr("transform", "translate(" + ((width - color.domain().length * 24) / 2) + ",20)")
     .style("cursor", "pointer")
   .selectAll("rect")
     .data(color.domain())
@@ -124,34 +126,37 @@ var legend = svg.append("g")
     .attr("height", 24 - 3)
     .style("stroke", function(d) { return d ? null : "#000"; })
     .style("fill", color)
-    .on("click", clicklegend);
+    .on("click", clicklegend); // click on the ledgen with color
 
 d3.select(self)
     .on("keydown", keydown)
     .node().focus();
 
 
-
-// LOAD US MAP DATA
-d3.json('static/d3mapdata/us.json', function(error, us) {
+// state map JSON data file
+d3.json("static/d3mapdata/us.json", function(error, us) {
   if (error) throw error;
 
   var bisectId = d3.bisector(function(d) { return d.id; }).left;
 
   var features = topojson.feature(us, us.objects.states).features;
-    // create paths for each state using the json data
-    // and the geo path generator to draw the shapes
+
+
   svg.append("path")
       .datum(topojson.mesh(us, us.objects.states))
       .attr("class", "background")
       .attr("d", path);
 
+
+// appending colors to each state
   var merge = svg.append("g")
       .attr("class", "merge")
     .selectAll("path")
       .data(components)
     .enter().append("path")
-      .style("fill", function(d, i) { return color(i); })
+      .style("fill", function(d, i) {
+         return color(i);
+       })
       .style("stroke", function(d, i) { return d3.lab(color(i)).darker(); });
 
   svg.append("g")
@@ -184,50 +189,132 @@ d3.json('static/d3mapdata/us.json', function(error, us) {
     if (feature && assign(feature, dragColor)) redraw();
   }
 
+// assign colors to state
+// when state is colored in state is changed to 1
+// uncolored states are are 0 meaning 0 fill and states with fill 0 --> changed to 1
+//feature = state
   function assign(feature, color) {
-    if (feature.color === color) return false;
-    if (feature.color !== null) {
-      var component = components[feature.color];
-      component.splice(bisectId(component, feature.id), 1);
-      feature.color = null;
+    // added variable visit if visit is = to feature.color return true == a visited state by user
+
+    // colors are array with indexes ie [blue1[1], blue2[2], blue3[3]]
+    var state = feature; // upcode
+
+    // if (Statevisit.color === color)  {
+
+    //   console.log(color, Statevisit)
+    //   return false; // upcode <-- retrun is done
+      // null means no color if have a color and click state it removes state and its color
+    // } // END
+        // if state color isnt a color //!== null --> no color ==null --> colored
+    // if (state.color !== null) {
+    if (state.color !== null) { // if state has no color --> click state state will then be null == color
+      var component = components[state.color];
+      component.splice(bisectId(component, state.id), 1);
+      state.color = null;
+      console.log("state has no color now"); // upcode
+
     }
-    if (color !== null) {
+
+    // 1 is color 0 is null or no color
+    if (color !== null) { // if color is filled
       var component = components[color];
-      component.splice(bisectId(component, feature.id), 0, feature);
-      feature.color = color;
-    }
+      // Locate the insertion point for x in array to maintain sorted order ie fixed array
+      component.splice(bisectId(component, state.id), 0, state);  // splace adds and removes items from the array in this case state color
+      state.color = color;
+      console.log("state is filled")
+      console.log(state, color);  // RETURNS state id and color id
+
+
+     }
+
     return true;
+
+
   }
+
+
+
+function showUsersVisitResults(result) {
+    alert(result);
+    console.log("success")
+
+}
+
+function submitStateVisit(feature, color) {
+  evt.preventDefault();
+
+  // var clickInputs = {
+  //   "feature": $("#feature.id").val(),
+  //   "color": $("#color.id").val()
+  // };
+
+  $.post("/state-map-ajax",
+         {"feature.id":feature.id, "color.id": feature.color},
+         showUsersVisitResults);
+}
+
+
+
+// AJAX OPTIONS:
+    // returns the id for all states which are colored.
+      // OPTION #1
+        // keep track in a global var, which states are already listed for this user.
+        // and only do ajax call with which state is new (e.g. not already in the var list)
+      // OPTION #2
+        // send all state id's to the server, and let the server add to the database for only those states which are new
+
+    //BEGAIN AJAX CALL
+
+
+          // function displayUserStatevisit(data)
+          //   alert("added state visit")
+          //   // $('#state.id').html(data.state_id),
+          // };
+
+      // // // route/ URL sending post ajax reqest {} data sending
+
+          // function PostUserStateVisit(evt){
+          //   evt.preventDefault();
+          //   var state_id = $('#state.id').val();
+          //   console.log('"State has been visited')
+          //   // ajax post request
+          //   $.post('/state-map-ajax', {'state.id':state_id}, function (state.id){
+          //     console.log("added state");
+
+
+
+
 
   function redraw() {
     merge.data(components).attr("d", function(d) { return path({type: "FeatureCollection", features: d}) || "M0,0"; });
     top.history.replaceState(null, null, "#" + features.map(function(d) { return d.color === null ? "0" : d.color + 1; }).join(""));
 
-  }
+          }
+          }); // END function
 
 
-});
 
 
-});
 
+// click function for choosing a color from legend where colors are displayed
+// user selects color and is able to fill in states with chosen color
 function clicklegend(d) {
   legend[0][selectedColor].style.stroke = null;
   legend[0][selectedColor = d].style.stroke = "#000";
 }
 
+
 function keydown() {
   if (d3.event.keyCode >= 48 && d3.event.keyCode < 58) {
     var i = d3.event.keyCode - 49;
-    if (i < 0) i = 10;
-    clicklegend(keydown);
-    console.log(keydown);
-    console.log(keydown.id);
-    console.log(state_name_dict[keydown.id]);
+    if (i < 0) i = 20;
+    clicklegend(i);
   }
 }
 
 d3.select(self.frameElement).style("height", height + "px");
+
+
 
 var state_name_dict = {
     1: ["AL", "Alabama"],

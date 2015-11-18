@@ -8,7 +8,6 @@
    <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
-    <script src="static/js/d3_world_map.js"></script>
 <!--   d3 World Map that unreels into flat map
  -->
  <div id="map"></div>
@@ -136,6 +135,7 @@ function ready(error, world, countryData) {
 
   countryData.forEach(function(d) {
     countryById[d.id] = d.name;
+
   });
 
   //Drawing countries on the globe
@@ -179,6 +179,7 @@ function ready(error, world, countryData) {
   .on("mouseout", function(d) {
     if (ortho === true) {
       infoLabel.style("display", "none");
+
     } else {
       zoneTooltip.style("display", "none");
     }
@@ -195,9 +196,16 @@ function ready(error, world, countryData) {
     d3.select(this).classed("focused", focused = d);
     infoLabel.text(countryById[d.id])
     .style("display", "inline");
+    console.log(d) // upcode
+    console.log(d.id) // upcode
+    console.log(countryById[d.id])
 
     var nextColor = this.style.fill == "blue" ? "magenta" : "blue";
         d3.select(this).style("fill", nextColor);
+        console.log(nextColor) // upcode console the color during a click event
+
+
+      // AJAX IN THIS SECTION
 
     //Transforming Globe to Map
 
@@ -219,6 +227,7 @@ function ready(error, world, countryData) {
     if (focused === d) return reset();
     g.selectAll(".focused").classed("focused", false);
     d3.select(this).classed("focused", focused = d);
+    console.log(d)
   }
 
   //Reset projection
@@ -227,6 +236,7 @@ function ready(error, world, countryData) {
     g.selectAll(".focused").classed("focused", focused = false);
     infoLabel.style("display", "none");
     zoneTooltip.style("display", "none");
+
 
     //Transforming Map to Globe
 
