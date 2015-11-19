@@ -69,7 +69,7 @@
 
                                       {% else %}
                                       <li>
-                                          <a href="/login">Login</a>
+                                          <a href="/">Login</a>
                                       </li>
 
                                       {% endif %}
@@ -211,6 +211,7 @@ d3.json("static/d3mapdata/us.json", function(error, us) {
       var component = components[state.color];
       component.splice(bisectId(component, state.id), 1);
       state.color = null;
+      removeStateVisit(state.id);
       console.log("state has no color now"); // upcode
 
     }
@@ -221,8 +222,10 @@ d3.json("static/d3mapdata/us.json", function(error, us) {
       // Locate the insertion point for x in array to maintain sorted order ie fixed array
       component.splice(bisectId(component, state.id), 0, state);  // splace adds and removes items from the array in this case state color
       state.color = color;
+      addingStateVisit(state.id);
       console.log("state is filled")
       console.log(state, color);  // RETURNS state id and color id
+
 
 
      }
@@ -230,9 +233,9 @@ d3.json("static/d3mapdata/us.json", function(error, us) {
     return true;
 
 
+
   }
-
-
+// TO DO CONNECT TO SEVER
 
 function showUsersVisitResults(result) {
     alert(result);
@@ -240,18 +243,36 @@ function showUsersVisitResults(result) {
 
 }
 
-function submitStateVisit(feature, color) {
-  evt.preventDefault();
+// function showUsersVisitResults(result) {
+//     alert(result);
+//     console.log("success")
+
+// }
+
+function addingStateVisit(feature) {
 
   // var clickInputs = {
   //   "feature": $("#feature.id").val(),
   //   "color": $("#color.id").val()
   // };
 
-  $.post("/state-map-ajax",
-         {"feature.id":feature.id, "color.id": feature.color},
+    $.post("/state-map-ajax-add",
+         {"feature_id":feature.id},
          showUsersVisitResults);
-}
+};
+
+
+function removeStateVisit(feature) {
+
+  // var clickInputs = {
+  //   "feature": $("#feature.id").val(),
+  //   "color": $("#color.id").val()
+  // };
+
+    $.post("/state-map-ajax-remove",
+         {"feature_id":feature.id},
+         showUsersVisitResults);
+};
 
 
 

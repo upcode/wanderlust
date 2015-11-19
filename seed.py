@@ -1,9 +1,10 @@
-from model import World_100_Wonder
-from model import World_100_City
-from model import State_Landmark
-from model import D3_State_Map
-from model import D3_World_Map
+# from model import World_100_Wonder
+# from model import World_100_City
+# from model import State_Landmark
+# from model import D3_State_Map
+# from model import D3_World_Map
 from model import connect_to_db, db
+from model import State
 from routes import app
 #  relationships
 
@@ -18,25 +19,26 @@ def debug():
 
     print msg
 
-###############################################################################
-# STATES
 
+
+# ###############################################################################
+# #D3 STATE
 
 def load_states():
     # open csv file (us_states)
-    us_states_file = open("data/us_states.csv")
+    d3states_file = open("data/d3state_data.csv")
     #read each line
-    for line in us_states_file:
+    for line in d3states_file:
         # split on ","   --> list
-        line_list = line.split(",")
+        line_list = line.split("|")
         # each item in list -->  remove whitespace .strip()
         for i in range(len(line_list)):
             line_list[i] = line_list[i].strip()
 
-        state_id, state_name, state_capital_name = line_list[0], line_list[1], line_list[2]
-        print "STATE_ID: %s, STATE_NAME: %s, STATE_CAPITAL_NAME: %s" % (state_id, state_name, state_capital_name)
+        state_id, state_abbrevation, state_name = line_list[0], line_list[1], line_list[2]
+        print "STATE_ID: %s STATE_ABBRREVATION: %s STATE_NAME: %s" % (state_id, state_abbrevation, state_name)
         # # make State(....) object
-        state = State(state_id=state_id, state_name=state_name, state_capital_name=state_capital_name)
+        state = State(state_abbrevation=state_abbrevation, state_id=state_id, state_name=state_name)
 
         # add to session
         db.session.add(state)
@@ -44,6 +46,7 @@ def load_states():
     db.session.commit()
 
     debug()
+
 
 ###############################################################################
 #USERS DID NOT USE
@@ -82,181 +85,183 @@ def load_states():
 #LANDMARKS
 
 
-def load_state_landmarks():
-    """opening csv file and parsing data to enter into database"""
-    # open csv file (state_landmarks)
-    state_landmark_file = open("data/us_state_landmarks.csv")
-    for line in state_landmark_file:
-        line_list = line.split("|")
+# def load_state_landmarks():
+#     """opening csv file and parsing data to enter into database"""
+#     # open csv file (state_landmarks)
+#     state_landmark_file = open("data/us_state_landmarks.csv")
+#     for line in state_landmark_file:
+#         line_list = line.split("|")
 
-        for i in range(len(line_list)):
-            line_list[i] = line_list[i].strip()
+#         for i in range(len(line_list)):
+#             line_list[i] = line_list[i].strip()
 
-        state_name, state_landmark_name = line_list[0], line_list[1]
-        # remove any extra "State" at end of state_name
-        if (state_name[-5:] == "State") or (state_name[-5:] == "state"):
-            state_name = state_name[0:-6]
+#         state_name, state_landmark_name = line_list[0], line_list[1]
+#         # remove any extra "State" at end of state_name
+#         if (state_name[-5:] == "State") or (state_name[-5:] == "state"):
+#             state_name = state_name[0:-6]
 
-        print "STATE_NAME: %s, STATE_LANDMARK_NAME: %s" % (state_name, state_landmark_name)
+#         print "STATE_NAME: %s, STATE_LANDMARK_NAME: %s" % (state_name, state_landmark_name)
 
-        # # for each state, get the state_code
-        # if state_name == "Washington D.C.":
-        #     state_id = "DC"
-        # else:
-        #     tup = db.session.query(d3_State_Map.state_code).filter(d3_State_Map.state_name == state_name).one()
-        #     state_id = tup[0]
+#         # # for each state, get the state_code
+#         # if state_name == "Washington D.C.":
+#         #     state_id = "DC"
+#         # else:
+#         #     tup = db.session.query(d3_State_Map.state_code).filter(d3_State_Map.state_name == state_name).one()
+#         #     state_id = tup[0]
 
-        # make State(....) object
-        landmark = State_Landmark(state_id=state_id, state_landmark_name=state_landmark_name)
+#         # make State(....) object
+#         landmark = State_Landmark(state_id=state_id, state_landmark_name=state_landmark_name)
 
-        # add to session
-        db.session.add(landmark)
-    # commit session
-    db.session.commit()
+#         # add to session
+#         db.session.add(landmark)
+#     # commit session
+#     db.session.commit()
 
-    debug()
+#     debug()
+
+# ###############################################################################
+# #CONTURIES
+
+
+# def load_countires():
+#     """opeing csv file and parsing data to enter into database"""
+#     # open csv file (users)
+#     country_file = open("data/countries.csv")
+#     #read each line
+#     #i = 0
+#     for line in country_file:
+#         #i += 1
+#         # split on "| "   --> list
+#         line_list = line.strip().split("|")
+#         #print "THE LENGTH IS", len(line_list)
+#         #print "i is", i
+#         #print "the line is", line
+#         for i in range(len(line_list)):
+#             line_list[i] = line_list[i].strip()
+#         country_name, country_capital_name = line_list[0], line_list[1]
+#         print "COUNTRY_NAME: %s, COUNTRY_CAPITAL_NAME: %s" % (country_name, country_capital_name)
+#         # make country(....) object
+#         country = Country(country_name=country_name, country_capital_name=country_capital_name)
+
+#         # add to session and store users from CSV file
+#         db.session.add(country)
+#     # commit session commits transaction
+#     db.session.commit()
+
+#     debug()
+
+
+# ###############################################################################
+# #WORLD CITY
+
+
+# def load_world_100_city():
+#     """opeing csv file and parsing data to enter into database"""
+#     # open csv file (users)
+#     city_file = open("data/world_100_best_cities.csv")
+#     #read each line
+#     #i = 0
+#     for line in city_file:
+#         #i += 1
+#         # split on "| "   --> list
+#         line_list = line.strip().split("|")
+#         #print "THE LENGTH IS", len(line_list)
+#         #print "i is", i
+#         #print "the line is", line
+#         for i in range(len(line_list)):
+#             line_list[i] = line_list[i].strip()
+#             world_city_name, world_country_name = line_list[0], line_list[1]
+#         print "WORLD_CITY_NAME: %s, WORLD_COUNTRY_NAME: %s" % (world_city_name, world_country_name)
+#         # make country(....) object
+#         world_100_city = World_100_City(world_city_name=world_city_name, world_country_name=world_country_name)
+
+#         # add to session and store users from CSV file
+#         db.session.add(world_100_city)
+#     # commit session commits transaction
+#     db.session.commit()
+
+#     debug()
+
+# ###############################################################################
+# #WONDERS
+
+
+# def load_world_100_wonders():
+#     """opeing csv file and parsing data to enter into database"""
+#     # open csv file (users)
+#     #city_list = []
+#     wonder_file = open("data/world_100_best_wonders.csv")
+#     for line in wonder_file:
+#         wonder_list = line.split()
+#         #wonder_list = wonder_list.strip()
+#         #city_list.append(line)
+#         for i in range(len(wonder_list)):
+#             wonder_list[i] = wonder_list[i].strip()
+#             world_wonder_name = wonder_list[0]
+#         print "WONDER_NAME: %s" % (world_wonder_name)
+#     wonder = World_100_Wonder(world_wonder_name=world_wonder_name)
+
+#     db.session.add(wonder)
+
+#     # commit session commits transaction
+#     db.session.commit()
+
+#     debug()
 
 ###############################################################################
-#CONTURIES
+# STATES
 
 
-def load_countires():
-    """opeing csv file and parsing data to enter into database"""
-    # open csv file (users)
-    country_file = open("data/countries.csv")
-    #read each line
-    #i = 0
-    for line in country_file:
-        #i += 1
-        # split on "| "   --> list
-        line_list = line.strip().split("|")
-        #print "THE LENGTH IS", len(line_list)
-        #print "i is", i
-        #print "the line is", line
-        for i in range(len(line_list)):
-            line_list[i] = line_list[i].strip()
-        country_name, country_capital_name = line_list[0], line_list[1]
-        print "COUNTRY_NAME: %s, COUNTRY_CAPITAL_NAME: %s" % (country_name, country_capital_name)
-        # make country(....) object
-        country = Country(country_name=country_name, country_capital_name=country_capital_name)
+# def load_states():
+#     # open csv file (us_states)
+#     us_states_file = open("data/us_states.csv")
+#     #read each line
+#     for line in us_states_file:
+#         # split on ","   --> list
+#         line_list = line.split(",")
+#         # each item in list -->  remove whitespace .strip()
+#         for i in range(len(line_list)):
+#             line_list[i] = line_list[i].strip()
 
-        # add to session and store users from CSV file
-        db.session.add(country)
-    # commit session commits transaction
-    db.session.commit()
+#         state_id, state_name, state_capital_name = line_list[0], line_list[1], line_list[2]
+#         print "STATE_ID: %s, STATE_NAME: %s, STATE_CAPITAL_NAME: %s" % (state_id, state_name, state_capital_name)
+#         # # make State(....) object
+#         state = State(state_id=state_id, state_name=state_name, state_capital_name=state_capital_name)
 
-    debug()
+#         # add to session
+#         db.session.add(state)
+#         # commit session
+#     db.session.commit()
 
+#     debug()
 
-###############################################################################
-#WORLD CITY
+# ###############################################################################
+# #D3 COUNTRIES
 
 
-def load_world_100_city():
-    """opeing csv file and parsing data to enter into database"""
-    # open csv file (users)
-    city_file = open("data/world_100_best_cities.csv")
-    #read each line
-    #i = 0
-    for line in city_file:
-        #i += 1
-        # split on "| "   --> list
-        line_list = line.strip().split("|")
-        #print "THE LENGTH IS", len(line_list)
-        #print "i is", i
-        #print "the line is", line
-        for i in range(len(line_list)):
-            line_list[i] = line_list[i].strip()
-            world_city_name, world_country_name = line_list[0], line_list[1]
-        print "WORLD_CITY_NAME: %s, WORLD_COUNTRY_NAME: %s" % (world_city_name, world_country_name)
-        # make country(....) object
-        world_100_city = World_100_City(world_city_name=world_city_name, world_country_name=world_country_name)
+# def load_d3_world_map_countries():
+#     # open csv file (us_states)
+#     d3file = open("data/d3countryseed.txt")
 
-        # add to session and store users from CSV file
-        db.session.add(world_100_city)
-    # commit session commits transaction
-    db.session.commit()
+#     #read each line
+#     for line in d3file:
+#         # split on ","   --> list
+#         line_list = line.split("|")
+#         # each item in list -->  remove whitespace .strip()
+#         for i in range(len(line_list)):
+#             line_list[i] = line_list[i].strip()
 
-    debug()
+#         d3_world_map_id, country_name = line_list[0], line_list[1]
+#         print "D3_WORLD_MAP_ID: %s, COUNTRY_NAME: %s" % (d3_world_map_id, country_name)
+#         # # make State(....) object
+#         d3_world_map = D3_World_Map(d3_world_map_id=d3_world_map_id, country_name=country_name)
 
-###############################################################################
-#WONDERS
+#         # add to session
+#         db.session.add(d3_world_map)
+#         # commit session
+#     db.session.commit()
 
-
-def load_world_100_wonders():
-    """opeing csv file and parsing data to enter into database"""
-    # open csv file (users)
-    #city_list = []
-    wonder_file = open("data/world_100_best_wonders.csv")
-    for line in wonder_file:
-        wonder_list = line.split()
-        #wonder_list = wonder_list.strip()
-        #city_list.append(line)
-        for i in range(len(wonder_list)):
-            wonder_list[i] = wonder_list[i].strip()
-            world_wonder_name = wonder_list[0]
-        print "WONDER_NAME: %s" % (world_wonder_name)
-    wonder = World_100_Wonder(world_wonder_name=world_wonder_name)
-
-    db.session.add(wonder)
-
-    # commit session commits transaction
-    db.session.commit()
-
-    debug()
-
-###############################################################################
-#D3 STATE
-
-def load_d3_states():
-    # open csv file (us_states)
-    d3states_file = open("data/d3state_data.csv")
-    #read each line
-    for line in d3states_file:
-        # split on ","   --> list
-        line_list = line.split("|")
-        # each item in list -->  remove whitespace .strip()
-        for i in range(len(line_list)):
-            line_list[i] = line_list[i].strip()
-
-        d3statemap_id, state_code, state_name = line_list[0], line_list[1], line_list[1]
-        print "D3STATEMAP_ID: %s, STATE_CODE: %s STATE_NAME: %s" % (d3statemap_id, state_code, state_name)
-        # # make State(....) object
-        d3_state_map = D3_State_Map(d3statemap_id=d3statemap_id, state_code=state_code, state_name=state_name)
-
-        # add to session
-        db.session.add(d3_state_map)
-        # commit session
-    db.session.commit()
-
-    debug()
-###############################################################################
-#D3 COUNTRIES
-
-
-def load_d3_world_map_countries():
-    # open csv file (us_states)
-    d3file = open("data/d3countryseed.txt")
-
-    #read each line
-    for line in d3file:
-        # split on ","   --> list
-        line_list = line.split("|")
-        # each item in list -->  remove whitespace .strip()
-        for i in range(len(line_list)):
-            line_list[i] = line_list[i].strip()
-
-        d3_world_map_id, country_name = line_list[0], line_list[1]
-        print "D3_WORLD_MAP_ID: %s, COUNTRY_NAME: %s" % (d3_world_map_id, country_name)
-        # # make State(....) object
-        d3_world_map = D3_World_Map(d3_world_map_id=d3_world_map_id, country_name=country_name)
-
-        # add to session
-        db.session.add(d3_world_map)
-        # commit session
-    db.session.commit()
-
-    debug()
+#     debug()
 
 
 ###############################################################################
@@ -276,5 +281,5 @@ if __name__ == "__main__":
 
     # load_world_100_city()
     # load_world_100_wonders()
-    load_d3_states()
-    load_d3_world_map_countries()
+    load_states()
+    # load_d3_world_map_countries()

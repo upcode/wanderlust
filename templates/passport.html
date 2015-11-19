@@ -46,6 +46,17 @@ html, body {
         margin: 0;
         padding: 0;
       }
+
+
+#postcard_container {
+  position: relative;
+  margin: 10px auto;
+  width: 450px;
+  height: 281px;
+  z-index: 1;
+}
+
+
 </style>
 
 
@@ -542,6 +553,45 @@ $("#myForm").on('submit', profile);
        </div>
      </div>
 <!-- ///END POST CARD FORM/// -->
+
+
+<!--
+
+Plan
+Put an image on top of a div inside a container.
+Put that in another container with perspective defined.
+When hovering on the outside container, add a rotate around the Y axis to the inside container.
+Code: -->
+
+
+<div id="postcard_container">
+<div id="postard_card" class="shadow">
+  <div class="front face">
+    <img src="/images/Cirques.jpg"/>
+  </div>
+  <div class="back face center">
+    <p>This is nice for exposing more information about an image.</p>
+    <p>Any content can go here.</p>
+  </div>
+</div>
+</div>
+
+
+<div id="postcard_container">
+<div id="postard_card" class="shadow">
+  <div class="front face">
+    <img src="/images/Cirques.jpg"/>
+  </div>
+  <div class="back face center">
+    <p>This is nice for exposing more information about an image.</p>
+    <p>Any content can go here.</p>
+  </div>
+</div>
+</div>
+
+
+
+
 
 <!-- AJAC CALL FOR SUBMITTING POSTCARD FORM-->
 

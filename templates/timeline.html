@@ -1,69 +1,50 @@
 {% extends "base.html" %}
 
 {% block head %}
-<link rel="stylesheet" href="css/timeliner.css" type="text/css" media="screen">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/timeliner.min.js"></script>
 <style>
-/*TODO x asix horz
-y axis upz axis down
--- to make front and back stacked user -->ablsoute postioning to keep
--- user relative postiing keep front and back to parent container y axis*/
-/*
-divs were assigned class ".card"
-for divs with the class card will have relative postion to keep it fixed to parent container, padding at the bottom, it will float left width will be 25% and text will align center */
-..card {
-  position: relative;
-  float: left;
-  padding-bottom: 25%;
-  width: 25%;
-  text-align: center;
-}
 
-.card__front,
-.card__back {
-  position: absolute;
-  top: 0;
-  left: 0;
+
+
+
+
+#f1_container {
+  position: relative;
+  margin: 10px auto;
+  width: 450px;
+  height: 281px;
+  z-index: 1;
+}
+#f1_container {
+  perspective: 1000;
+}
+#f1_card {
   width: 100%;
   height: 100%;
+  transform-style: preserve-3d;
+  transition: all 1.0s linear;
+}
+#f1_container:hover #f1_card {
+  transform: rotateY(180deg);
+  box-shadow: -5px 5px 5px #aaa;
+}
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+.face.back {
+  display: block;
+  transform: rotateY(180deg);
+  box-sizing: border-box;
+  padding: 10px;
+  color: white;
+  text-align: center;
+  background-color: #aaa;
 }
 
-.card__front,
-.card__back {
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-  -webkit-transition: -webkit-transform 0.3s;
-          transition: transform 0.3s;
-}
-
-.card__front {
-  background-color: #ff5078;
-}
-
-.card__back {
-  background-color: black;
-  -webkit-transform: rotateY(-180deg);
-          transform: rotateY(-180deg);
-}
-
-.card__front {
-  background-color: #ff5078;
-  -webkit-transform: rotateY(-180deg);
-  transform: rotateY(-180deg);
-}
-
-/*// transistion on click*/
-.card.effect__click.flipped .card__front {
-  -webkit-transform: rotateY(-180deg);
-          transform: rotateY(-180deg);
-}
-
-.card.effect__click.flipped .card__back {
-  -webkit-transform: rotateY(0);
-          transform: rotateY(0);
-}
-}
 </style>
 {% endblock %}
 
@@ -73,19 +54,31 @@ for divs with the class card will have relative postion to keep it fixed to pare
 {% block content %}
 
 
-// <script>
-//             $(document).ready(function() {
-//                     $.timeliner({});
-//             });
-    </script>
 
-
+<div id="f1_container">
+<div id="f1_card" class="shadow">
+  <div class="front face">
+    <img src="/static/pimg/nyc1.jpg"/>
+  </div>
+  <div class="back face center">
+    <p>This is nice for exposing more information about an image.</p>
+    <p>Any content can go here.</p>
+  </div>
+</div>
+</div>
+</a>
 
 <div id="timeline" class="timeline-container">
     <div class="timeline-wrapper">
         <h2 class="timeline-time">2015</h2>
         <dl class="timeline-series">
-            <dt class="timeline-event" id="event01"><a>Hawaii</a></dt>
+            <dt class="timeline-event" id="event01"><a>Hawaii
+
+
+
+
+
+            </dt>
             <dd class="timeline-event-content" id="event01EX">
                 <p>Content about the event goes here.</p>
             </dd>
@@ -135,40 +128,17 @@ for divs with the class card will have relative postion to keep it fixed to pare
 
 
 <!-- effect text in parent elent will be either hover or onlclick event to flip card  -->
-<div class="card effect__EFFECT">
-  <div class="card__front">
-    <span class="card__text">front</span>
-  </div>
-  <div class="card__back">
-    <span class="card__text">back</span>
-  </div>
-</div><!-- /card -->
-<script>
-(function() {
-  var cards = document.querySelectorAll(".card.effect__click");
-  for ( var i  = 0, len = cards.length; i < len; i++ ) {
-    var card = cards[i];
-    clickListener( card );
-  }
-
-  function clickListener(card) {
-    card.addEventListener( "click", function() {
-      var c = this.classList;
-      c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
-    });
-  }
-})();
-
-
-</script>
 
 
 
+https://davidwalsh.name/demo/css-flip.php
 
 
+http://www.jankoatwarpspeed.com/turn-postcard-photo-into-a-stunning-comment-form-using-css/
 
+http://callmenick.com/post/instantiation-patterns-in-javascript
 
-
+http://desandro.github.io/masonry/docs/intro.html
 
 
 

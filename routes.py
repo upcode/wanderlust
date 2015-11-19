@@ -10,10 +10,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask import Flask
 from flask.ext.jsonpify import jsonify
 from sqlalchemy import update
+from datetime import datetime
 
 # IMPORTED MODEL TABLES TO ROUTES
-from model import User, State_Landmark, World_100_City, World_100_Wonder
-from model import D3_World_Map, D3_State_Map, Postcard, AdventureList, connect_to_db, db
+from model import User, State, User_State, Postcard, AdventureList, connect_to_db, db
 # IMPORTED MODEL RELATIONSHIP TABLES TO ROUTES
 # from model import UserState, UserStateLandmark, UserCountry, UserTopWorldCity UserWorldWonder
 # from model import Postcard, UserPostcard, connect_to_db, db
@@ -36,6 +36,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 def index():
     """ Index page where I test few functions
      and make sure routes are connected """
+    return render_template('flipcard.html')
     # return render_template('index.html')
     # return render_template('timeline.html')
     # return render_template('teststatemap.html')
@@ -48,10 +49,7 @@ def index():
 ##############################################################################
                             # # LOGIN # #
 ##############################################################################
-# Route ("/login", methods=["POST"]) process login form
-# WHERE REQUEST GOES TO FORM HTML FROM action=/login needs to match route route("/login")
 
-# FORM PROCESSING LOGIN
 
 @app.route('/', methods=['GET'])
 def wanderlust():
@@ -132,7 +130,7 @@ def register_processed():
 
     if same_email_user:
         flash("Email is already registered. Please signin to your account")
-        return redirect("/login")
+        return redirect("/")
         # if this is None, (meaning email is not in db) -- this doesn't run.
         # if email is in the databse, this will run.
         # redirct to login flash message please sign this email is registered
@@ -141,7 +139,7 @@ def register_processed():
     same_username = User.query.filter(User.email == email).first()
     if same_username:
         flash("please pick another username")
-        return redirect("/login")
+        return redirect("/")
         # if have same username register with another username <-- flash
         # redirect login --> form
 
@@ -332,48 +330,114 @@ def d3_state_map():
     # return render_template('testmap.html')
      return render_template('state_map.html')
 
+# AJAX CALL FOR ADDING STATE VISIT TO DB
 
-@app.route('/state-map-ajax', methods=["POST"])
+@app.route('/state-map-ajax-add', methods=["POST"])
 def state_map():
-    """d3 state map where users can click on state and changes colors"""
+    """ state map where users can click on state and changes colors"""
+    # data is presented in DB
+    # DB: STATE_ID: 1 STATE_ABBRREVATION: AL STATE_NAME: Alabama
 
-    # AJAX CALL FOR USER STATE VISIT
+# AJAX CALL FOR USER STATE VISIT
 
     # get current user from session
     user_id = session["user_id"]
     print user_id
 
-    # inputs from d3 state map from click function and consle logging
-    state_id = request.form.get('d.id') # id from d3 map
+    # inputs from state map in console.log [feature.id] = state_id feature = state
+    state_id = request.form.get('feature_id')
     print state_id
-    # state_color = request.form.get('state_color') # color of state
 
-    # print route and state_id, color, date state was visited and user_id
-    print 'state-map-ajax', state_id, user_id
+    # print route and state_id, user_id
+    print 'state-map-ajax-add', state_id, user_id
 
-    # query for db for user
-    # user is my instance, User is my class table look for the feild user_id in db and grab one if user_id == user_id
-    user = db.session.query(User).filter_by(user_id=int(user_id)).one()
-    user.state_id = state_id
-    # user.state_color = state_color
-    user.state_name = state_name
-    user.visited_at = visited_at
+    # querying DB for user_session
+    # current_user == instance in User Model querying DB feild for user_id grab one if user_id == user_id
+    states_visited = db.session.query(User_State).filter_by(user_id=user_id).all()
+    # querying DB for state_id from user_session from Ajax post call filter DB by state_id and get one
+    state = db.session.query(State).filter_by(state_id=state_id).one()
+    print "cupcakes", state.state_name
 
+    user_state = User_State(state_id=state_id, user_id=user_id, visted_at=datetime.now())
+
+    return "success!"
+    # # CONDITONS:
+    #     # if user == to user_id in DB and state_id not in DB add state_id as a visit
+    # if current_user == user_id:
+    #     if state_id != state_id:
+
+    #         # query DB for state_name
+    #         state_name = db.session.query(State).filter_by(state_name=state_name).one()
+
+    #     flash("Congrulations on another state visit. %s has been added to your Dashboard" % state_name)
+    #     print(state_name)
+
+    #     # add user state visit to DB if user hasnt visited state
+    # db.session.add(state_id)
+    # db.seesion.commit
+
+    # #TODO: add count to by DB in HMTL hidden feild as count start at 0 and then increment each one
+
+
+    # # querying DB for user's state visit count. Updating user_state_count --> DB
+    # update_state_count = State.state_count + 1
+    # db.session.query(State).filter(D3_State_Map.state_id==state_id).update({D3_State_Map.state_count:update_state_count})
+    #     # updating count to DB
+    # db.seesion.commit()
+
+    # # return json data which has key values
+    # # removed this "state_color":state_color
+    # # yellow is vaibles i assigned and white is DB model variables
+    # user_state_map_info_data = {"state_id": state_id, "visited_at": visited_at, "update_state_count":state_count}
+    # ###make a dictionary, where the key is "first", value is first etc
+    # return jsonify(user_state_map_info_data)
+
+
+# AJAX CALL FOR ADDING STATE VISIT TO DB
+
+@app.route('/state-map-ajax-remove')
+def removeStateVisit():
+    """delete function for removing state visit"""
+    user_id = session["user_id"]
+    print user_id
+
+    print 'state-map-ajax-remove', state_id, user_id
+
+    current_user = db.session.query(D3_State_Map).filter_by(user_id=int(user_id)).first()
+    state_visit = db.session.query(D3_State_Map).filter_by(state_id=int(state_id)).one()
+    state_name = db.session.query(D3_State_Map).filter_by(state_name=state_name).one()
+    visited_at = db.session.query(D3_state_Map).filter_by(visit_at=visit_at).one()
+    print current_user, state_visit, state_name, visit_at
+
+    if current_user == user_id:
+        if state_id == state_id:
+            flash("State already been visited on %s" % visited_at)
+
+        else:
+            # if user clicks yes remove visit from DB
+            if state_id == state_id:
+                flash("State has visit has been removed")
+                return(state_id)
+
+
+    db.session.delete(state_id)
     db.session.commit()
-    # return json data which has key adn values
+
+    # querying DB for user's state visit count. Deleting user_state_count --> DB
+    delete_state_count = D3_State_Map.state_count + 1
+    db.session.query(D3_State_Map).filter(D3_State_Map.state_id==state_id).update({D3_State_Map.state_count:delete_state_count})
+        # updating count to DB
+    db.session.commit()
+
+    # return json data which has key values
     # removed this "state_color":state_color
-    user_state_map_info_data = {"state_id":state_id,"visited_at": visited_at}
-
-    # query DB for this user if the unser is none
-    print "state visit has been stored in DB"
-
-    ###make a dictionary, where the key is "first", value is first etc
+    # yellow is vaibles i assigned and white is DB model variables
+    user_state_map_info_data = {"state_id": state_id, "visited_at": visited_at, "update_state_count":state_count}
+        # make a dictionary, where the key is "first", value is first etc
     return jsonify(user_state_map_info_data)
 
 
-
-
-
+# AJAX CALL FOR LOAD USERS SESSION OF STATE MAP
 
 
 
