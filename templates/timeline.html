@@ -55,90 +55,47 @@
 
 
 
-<div id="f1_container">
-<div id="f1_card" class="shadow">
-  <div class="front face">
-    <img src="/static/pimg/nyc1.jpg"/>
-  </div>
-  <div class="back face center">
-    <p>This is nice for exposing more information about an image.</p>
-    <p>Any content can go here.</p>
-  </div>
-</div>
-</div>
-</a>
 
-<div id="timeline" class="timeline-container">
-    <div class="timeline-wrapper">
-        <h2 class="timeline-time">2015</h2>
-        <dl class="timeline-series">
-            <dt class="timeline-event" id="event01"><a>Hawaii
-
-
-
-
-
-            </dt>
-            <dd class="timeline-event-content" id="event01EX">
-                <p>Content about the event goes here.</p>
-            </dd>
-            <dt class="timeline-event" id="event02"><a>Coachella</a></dt>
-            <dd class="timeline-event-content" id="event02EX">
-                <p>Content about the other event.</p>
-            </dd>
-        </dl>
-        <h2 class="timeline-time">2014</h2>
-        <dl class="timeline-series">
-            <dt class="timeline-event" id="event01"><a>Hawaii</a></dt>
-            <dd class="timeline-event-content" id="event01EX">
-                <p>Content about the event goes here.</p>
-            </dd>
-            <dt class="timeline-event" id="event02"><a>Coachella</a></dt>
-            <dd class="timeline-event-content" id="event02EX">
-                <p>Content about the other event.</p>
-            </dd>
-        </dl>
-        <h2 class="timeline-time">2013</h2>
-        <dl class="timeline-series">
-            <dt class="timeline-event" id="event01"><a>New York City</a></dt>
-            <dd class="timeline-event-content" id="event01EX">
-                <p>Content about the event goes here.</p>
-            </dd>
-            <dt class="timeline-event" id="event02"><a>Italy</a></dt>
-            <dd class="timeline-event-content" id="event02EX">
-                <p>Content about the other event.</p>
-            </dd>
-        </dl>
-        <h2 class="timeline-time">2012</h2>
-        <dl class="timeline-series">
-            <dt class="timeline-event" id="event01"><a>France</a></dt>
-            <dd class="timeline-event-content" id="event01EX">
-                <p>Content about the event goes here.</p>
-            </dd>
-            <dt class="timeline-event" id="event02"><a>England</a></dt>
-            <dd class="timeline-event-content" id="event02EX">
-                <p>Content about the other event.</p>
-            </dd>
-        </dl>
-
-
+<div class="masonry-timeline">
+    <div class="posts-container">
+        <div class="posts">
+        </div>
+    </div>
+    <div class="dates-container">
+        <div class="dates"></div>
     </div>
 </div>
 
+<script src="libs/jquery.min.js"></script>
+<script src="libs/packery.min.js"></script>
+<script src="libs/moment.min.js"></script>
+<script src="random-data.js"></script>
+<script src="masonry-timeline.js"></script><!-- just for random data - don't include in the final solution -->
+<script>
+    $(document).ready(function () {
+        "use strict";
+        $('.masonry-timeline .posts').append(randomPosts(300));
+        $('.masonry-timeline').masonryTimeline();
+    });
+</script>
+</body>
+</html>
 
 
-<!-- effect text in parent elent will be either hover or onlclick event to flip card  -->
 
 
 
-https://davidwalsh.name/demo/css-flip.php
 
 
-http://www.jankoatwarpspeed.com/turn-postcard-photo-into-a-stunning-comment-form-using-css/
 
-http://callmenick.com/post/instantiation-patterns-in-javascript
 
-http://desandro.github.io/masonry/docs/intro.html
+
+
+
+
+
+
+
 
 
 

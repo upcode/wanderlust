@@ -9,7 +9,16 @@
       <link rel="stylesheet" type="text/css" href="static/lib/bootstrap/css/bootstrap.min.css">
       <link rel="stylesheet" type="text/css" href="static/css/login.css">
       <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script>
 
+      window.onload = function() {
+        console.log('Loaded..');
+
+      }
+
+      // $.get('element').('/request-user-state-map-ajax-load', data, complete)
+
+      </script>
       <style>
       html{
         background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
@@ -211,7 +220,7 @@ d3.json("static/d3mapdata/us.json", function(error, us) {
       var component = components[state.color];
       component.splice(bisectId(component, state.id), 1);
       state.color = null;
-      removeStateVisit(state.id);
+      removeStateVisit(state);
       console.log("state has no color now"); // upcode
 
     }
@@ -222,7 +231,7 @@ d3.json("static/d3mapdata/us.json", function(error, us) {
       // Locate the insertion point for x in array to maintain sorted order ie fixed array
       component.splice(bisectId(component, state.id), 0, state);  // splace adds and removes items from the array in this case state color
       state.color = color;
-      addingStateVisit(state.id);
+      addingStateVisit(state);
       console.log("state is filled")
       console.log(state, color);  // RETURNS state id and color id
 
@@ -235,75 +244,27 @@ d3.json("static/d3mapdata/us.json", function(error, us) {
 
 
   }
-// TO DO CONNECT TO SEVER
+// TO DO CONNECT TO SEVER USING AJAX
 
 function showUsersVisitResults(result) {
-    alert(result);
-    console.log("success")
-
+    console.log(result);
 }
 
-// function showUsersVisitResults(result) {
-//     alert(result);
-//     console.log("success")
-
-// }
-
 function addingStateVisit(feature) {
-
-  // var clickInputs = {
-  //   "feature": $("#feature.id").val(),
-  //   "color": $("#color.id").val()
-  // };
-
+    console.log("FEATURE.ID: " + feature.id);
     $.post("/state-map-ajax-add",
          {"feature_id":feature.id},
          showUsersVisitResults);
 };
 
-
 function removeStateVisit(feature) {
-
-  // var clickInputs = {
-  //   "feature": $("#feature.id").val(),
-  //   "color": $("#color.id").val()
-  // };
 
     $.post("/state-map-ajax-remove",
          {"feature_id":feature.id},
          showUsersVisitResults);
 };
 
-
-
-// AJAX OPTIONS:
-    // returns the id for all states which are colored.
-      // OPTION #1
-        // keep track in a global var, which states are already listed for this user.
-        // and only do ajax call with which state is new (e.g. not already in the var list)
-      // OPTION #2
-        // send all state id's to the server, and let the server add to the database for only those states which are new
-
-    //BEGAIN AJAX CALL
-
-
-          // function displayUserStatevisit(data)
-          //   alert("added state visit")
-          //   // $('#state.id').html(data.state_id),
-          // };
-
-      // // // route/ URL sending post ajax reqest {} data sending
-
-          // function PostUserStateVisit(evt){
-          //   evt.preventDefault();
-          //   var state_id = $('#state.id').val();
-          //   console.log('"State has been visited')
-          //   // ajax post request
-          //   $.post('/state-map-ajax', {'state.id':state_id}, function (state.id){
-          //     console.log("added state");
-
-
-
+//END AJAX CALL
 
 
   function redraw() {
@@ -312,9 +273,6 @@ function removeStateVisit(feature) {
 
           }
           }); // END function
-
-
-
 
 
 // click function for choosing a color from legend where colors are displayed

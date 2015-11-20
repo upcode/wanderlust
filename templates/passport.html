@@ -16,6 +16,8 @@
     <link rel="stylesheet" type="text/css" href="static/css/postcard.css">
      <link rel="stylesheet" type="text/css" href="static/css/passport-page-layout.css">
 
+<script src="/js/jquery.min.js" type="text/javascript"></script>
+<script src="/js/ajaxupload.js" type="text/javascript"></script>
 
 {% endblock %}
 
@@ -31,29 +33,58 @@ float:left;
 
 #postcards {
 float:right;
-
-border-style: solid;
-width: 500px;
-height:100px;
 }
 
 .dashboard {border-style: solid;
 width: 500px;
 height:100px;
 }
-html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
 
+/*CSS CODE for POSTCARD FLIP
+*/
+/*flipcard postion height and width presepetice which is css 3d element
+*/
+.flipcard {
+  postion: relative;
+  width: 220px;
+  height: 160px;
+  perspective: 600px;
+}
 
-#postcard_container {
-  position: relative;
-  margin: 10px auto;
-  width: 450px;
-  height: 281px;
-  z-index: 1;
+/*rotate postcard 180 degrees when hover font of postcard verticle flip
+*/
+
+/*rotate postcard 0 degrees when hover font of postcard verticle flip
+*/
+
+/*rotate postcard 180 degrees when hover font of postcard
+*/
+/*.flipcard.v .back{
+  transform: rotateX(-180deg);
+}*/
+/*rotate postcard 0 degrees when hover font of postcard
+*/
+.flipcard.h:hover .front, .flipcard.h.flip .front{
+  transform: rotateY(180deg);
+}
+.flipcard.h:hover .back, .flipcard.h.flip .back{
+  transform: rotateY(0deg);
+}
+.flipcard.h .back{
+  transform: rotateY(-180deg);
+}
+.flipcard .front, .flipcard .back
+{
+
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  transition: all 0.5s ease-in;
+  color: white;
+  background-color: #000;
+  padding: 10px;
+  backface-visibility: hidden;
 }
 
 
@@ -340,33 +371,6 @@ function addAdventure(evt) {
 <!-- AJAX CALL FOR ADVENTURE LIST  -->
 
 
-<!-- RIGHT SIDE WHERE TAB LIST -->
-  <!-- Nav tabs -->
-      <ul class="nav nav-tabs" role="tablist">
-
-        <li role="presentation" class="active"><a href="/world_map" aria-controls="World" role="tab" data-toggle="tab">World Map</a></li>
-
-        <li role="presentation"><a href="/state_map" aria-controls="U.S." role="tab" data-toggle="tab">U.S. Map</a></li>
-
-        <li role="presentation"><a href="/postcard" aria-controls="Postcards" role="tab" data-toggle="tab">Postcards</a></li>
-
-        <li role="presentation"><a href="/timeline" aria-controls="timeline" role="tab" data-toggle="tab">Timeline</a></li>
-
-      </ul>
-<!-- Tab panes -->
-      <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="world"></div>
-
-        <div role="tabpanel" class="tab-pane" id="us"></div>
-
-        <div role="tabpanel" class="tab-pane" id="postcard">...</div>
-
-        <div role="tabpanel" class="tab-pane" id="timeline">...</div>
-
-      </div>
-  </div><!-- /// END ROW-->
-</div><!-- /// END CONTAINER-->
-
 
 <!-- JAVSCRIPT BEGAIN JS NAV BAR TABS -->
 <script>
@@ -465,56 +469,110 @@ $("#myForm").on('submit', profile);
 </script>
 
 <!-- //// AJAC CALL FOR SUBMITTING POSTCARD FORM////-->
+<!--
 
 <div class="row">
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-      <img src="..." alt="...">
+        <h4>Postcard Address</h4>
       <div class="caption">
-        <h3>Postcards</h3>
-        <h3>My Postcards</h3>
-            <p>preview</p>
+            <label>Address:
+                <p id="street_number_added"></p>
+                 <p id="street_number_added"></p>
+                  <p id="route-address-added"></p>
+
+                  <p id="city-added"></p>
+
+                  <p id="postal_code-added"></p>
+
+                  <p id="state-added"></p>
+
+                  <p id="country-added"></p>
+            </label>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+        <h4>Left Side</h4>
+      <div class="caption">
+            <label>message:
+                  <p id="message-added"></p>
+            </label>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+
+
+
+
+<div class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+        <h4>Photo Preview</h4>
+      <div class="caption">
+
+            <label>Preview:
               <p>Result Filename:&nbsp;<span id="resultImageFilename-added"> here</span></p>
               </p>Result Filesize:&nbsp;<span id="resultImageFilesize-added">here</span></p>
-               <hr/>
-          <label>address:
-              <p id="street_number_added"></p>
+            </label>
 
-              <p id="route-address-added"></p>
 
-              <p id="city-added"></p>
+      </div>
+    </div>
+  </div>
+</div>
 
-              <p id="postal_code-added"></p>
 
-              <p id="state-added"></p>
 
-              <p id="country-added"></p>
-          </lable>
-          <lable>message:
-            <p id="message-added"></p>
-          </label>
-          <lable>IMAGE:
-          <p id="image"></p>
-        </label>
-      </div><!-- // end preview section-->
-      <!-- POST CARD UPLOAD FORM-->
-        <label>upload image here!</p></label>
+
+
+
+<div class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+        <h4>Image Upload</h4>
+      <div class="caption">
+        <label>upload image here!</label>
 
             <form action="upload" method="post" enctype="multipart/form-data">
               <input type="file" name="file"><br /><br />
 
               <input type="submit" value="Upload">
-
             </form>
 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <!--GOOGLE AUTO SERACH BOX ADDRESS FORM-->
-        <div id="google-address">
+
+<div class="row">
+  <div class="col-sm-6 col-md-6">
+    <div class="thumbnail">
+        <h4>Google Postcard Address</h4>
+      <div class="caption">
+            <label>Address:
+
+            </label>
+            <div id="google-address">
           <form id="google-postcard-form">
             <table id="address">
               <div id="locationField">
             <input id="autocomplete" placeholder="Enter your address"
              onFocus="geolocate()" type="text"></input>
-             <hr>
                 <tr>
                   <td class="label">Street address</td>
                   <td class="slimField"><input class="field" id="street_number"
@@ -540,10 +598,13 @@ $("#myForm").on('submit', profile);
                   <td class="wideField" colspan="3"><input class="field"
                         id="country" disabled="true"></input></td>
                 </tr>
+                <br/>
                 <tr>
+
                   <td class="label">Message</td>
                   <td class="wideField" colspan="3">
                   <textarea class="class="field"" rows="3" id="message"></textarea>
+                  <br/>
                     <button type="submit" class="btn btn-default" id="submit-postcard">submit</button>
                   </td>
                 </tr>
@@ -552,43 +613,12 @@ $("#myForm").on('submit', profile);
         </div>
        </div>
      </div>
-<!-- ///END POST CARD FORM/// -->
+    </div>
 
-
-<!--
-
-Plan
-Put an image on top of a div inside a container.
-Put that in another container with perspective defined.
-When hovering on the outside container, add a rotate around the Y axis to the inside container.
-Code: -->
-
-
-<div id="postcard_container">
-<div id="postard_card" class="shadow">
-  <div class="front face">
-    <img src="/images/Cirques.jpg"/>
-  </div>
-  <div class="back face center">
-    <p>This is nice for exposing more information about an image.</p>
-    <p>Any content can go here.</p>
+      </div>
+    </div>
   </div>
 </div>
-</div>
-
-
-<div id="postcard_container">
-<div id="postard_card" class="shadow">
-  <div class="front face">
-    <img src="/images/Cirques.jpg"/>
-  </div>
-  <div class="back face center">
-    <p>This is nice for exposing more information about an image.</p>
-    <p>Any content can go here.</p>
-  </div>
-</div>
-</div>
-
 
 
 
@@ -626,7 +656,92 @@ function googlePostcardForm(evt) {
 $('#google-postcard-form').on('submit', googlePostcardForm);
 </script>
 
-<!-- /// END AJAX CALL FOR SUBMITTING POSTCARD FORM ///-->
+<!-- ///END POST CARD FORM/// -->
+
+<!-- POSTCARD FLIPCARD--><!-- ////////////////////////////////////////////-->
+
+
+<div class="flipcard h">
+    <div class="front">
+      <img id="image"src="/static/pimg/nyc.jpg" height="140px" width="200px"/>
+      <p>New York City</p>
+    </div><!--// end front-->
+    <div class="back">
+    <label>Address:</label>
+                <p id="street_number_added"></p>
+                 <p id="street_number_added"></p>
+                  <p id="route-address-added"></p>
+
+                  <p id="city-added"></p>
+
+                  <p id="postal_code-added"></p>
+
+                  <p id="state-added"></p>
+
+                  <p id="country-added"></p>
+                  <p id="message-added"></p>
+
+    </div><!--// back postcard-->
+</div><!-- // end flipcard-->
+
+
+
+
+
+
+<!--    <img id="image"src="/static/pimg/nyc.jpg"/>
+ -->
+
+
+<!--
+         <div class="message">
+              <p id="message-added"></p>
+ -->
+     <!--      </div>
+          <div container="container" id="ajax-address">
+        <table id="address">
+          <tr>
+            <td class="label">Street address</td>
+            <td class="slimField"><p id="street_number_added"></p></td>
+            <td class="wideField" colspan="2"><p id="route-address-added"></p></td>
+          </tr>
+          <tr>
+            <td class="label">City</td>
+            <td class="wideField" colspan="3"><p id="city-added"></p></td>
+          </tr>
+          <tr>
+            <td class="label">State</td>
+            <td class="slimField"><p id="state-added"></p></td>
+            <td class="label">Zip code</td>
+            <td class="wideField"><p id="postal_code-added"></p></td>
+          </tr>
+          <tr>
+            <td class="label">Country</td>
+            <td class="wideField" colspan="3"><p id="country-added"></p></td>
+          </tr>
+        </table>
+    </div>
+  </div>
+</div>
+</div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- AJAX CALL FOR IMAGE FORM-->
 <script>
@@ -649,37 +764,7 @@ function uploadPostcard(evt) {
 </script>
 
 
-<!--/// END AJAX CALL FOR IMAGE FORM ////-->
-
-
-
-
-<!--
-################################################################################
-
- -->
-
-<!-- POST CARD -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!--///  AJAX CALL FOR GOOGLE FORM ////-->
 
 
 <script>
@@ -750,15 +835,15 @@ function geolocate() {
 
 
  </script>
-    <!--DASHBOARD CUSTOM SEARCH API KEY-->
+    <!--DASHBOARD CUSTOM SEARCH API KEY
 <!--    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
         async defer> -->
         <!--GOOGLE ADDRESS BOX API KEY-->
-
-<!--  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
+<!--
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
     async defer>
- -->
 
+ -->
 
 
 
