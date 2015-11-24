@@ -8,53 +8,46 @@
    <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="static/js/d3-world-map-js/queue.js"></script>
+    <script src="static/js/d3-world-map-js/topojson.js"></script>
+
+
 <!--   d3 World Map that unreels into flat map
  -->
  <div id="map"></div>
 <script>
 // d3 world map javascript
-
 // Map hight and width
 var mapWidth = 960,
   mapHeight = 500,
   focused = false,
   ortho = true,
   sens = 0.25;
-
 // world map projection
 var projectionGlobe = d3.geo.orthographic()
   .scale(240)
   .center([0, 0])
   .translate([mapWidth / 2, mapHeight / 2])
   .clipAngle(90);
-
 var projectionMap = d3.geo.equirectangular()
   .scale(145)
   .center([0, 0])
   .translate([mapWidth / 2, mapHeight / 2])
-
 var projection = projectionGlobe;
-
 var path = d3.geo.path()
   .projection(projection);
-
 var globe2map = interpolatedProjection(projectionGlobe, projectionMap),
 map2globe = interpolatedProjection(projectionMap, projectionGlobe);
-
 var svgMap = d3.select("div#map").append("svg")
   .attr("overflow", "hidden")
   .attr("width", mapWidth)
   .attr("height", mapHeight);
-
 // Tool Tip
 var zoneTooltip = d3.select("div#map").append("div").attr("class", "zoneTooltip"),
 pointLlabel = d3.select("div#map").append("div").attr("class", "pointLabel"),
 infoLabel = d3.select("div#map").append("div").attr("class", "infoLabel");
-
 var g = svgMap.append("g");
-
 //Unreelling transformation
-
 function animation(interProj) {
   defaultRotate();
   g.transition()
@@ -66,19 +59,16 @@ function animation(interProj) {
     };
   })
 }
-
 function interpolatedProjection(a, b) {
   var projection = d3.geo.projection(raw).scale(1),
   center = projection.center,
   translate = projection.translate,
   clip = projection.clipAngle,
   α;
-
   function raw(λ, φ) {
     var pa = a([λ *= 180 / Math.PI, φ *= 180 / Math.PI]), pb = b([λ, φ]);
     return [(1 - α) * pa[0] + α * pb[0], (α - 1) * pa[1] - α * pb[1]];
   }
-
   projection.alpha = function(_) {
     if (!arguments.length) return α;
     α = +_;
@@ -89,15 +79,12 @@ function interpolatedProjection(a, b) {
     if (ortho === true) {clip(180 - α * 90);}
     return projection;
   };
-
   delete projection.scale;
   delete projection.translate;
   delete projection.center;
   return projection.alpha(0);
 }
-
 //Rotate to default before animation
-
 function defaultRotate() {
   d3.transition()
   .duration(1500)
@@ -109,37 +96,30 @@ function defaultRotate() {
     };
   })
 };
-
 //Starter for function AFTER All transitions
-
 function endall(transition, callback) {
   var n = 0;
   transition
   .each(function() { ++n; })
   .each("end", function() { if (!--n) callback.apply(this, arguments); });
 }
-
 //Loading data
-
 queue()
-.defer(d3.json, "/static/d3mapdata/world-110m.json")
+.defer(d3.json, "/static/d3mapdata/world-countries.json")
 .defer(d3.tsv, "/static/d3mapdata/world-110m-country-names.tsv")
 .await(ready);
 
 function ready(error, world, countryData) {
-
   var countryById = {},
   countries = topojson.feature(world, world.objects.countries).features;
 
   //Adding countries by name
-
   countryData.forEach(function(d) {
     countryById[d.id] = d.name;
-
   });
 
-  //Drawing countries on the globe
 
+  //Drawing countries on the globe
   var world = g.selectAll("path").data(countries);
   world.enter().append("path")
   .attr("class", "mapData")
@@ -147,7 +127,6 @@ function ready(error, world, countryData) {
   .classed("ortho", ortho = true);
 
   //Drag event
-
   world.call(d3.behavior.drag()
     .origin(function() { var r = projection.rotate(); return {x: r[0] / sens, y: -r[1] / sens}; })
     .on("drag", function() {
@@ -164,7 +143,6 @@ function ready(error, world, countryData) {
     }))
 
   //Events processing
-
   world.on("mouseover", function(d) {
     if (ortho === true) {
       infoLabel.text(countryById[d.id])
@@ -179,7 +157,6 @@ function ready(error, world, countryData) {
   .on("mouseout", function(d) {
     if (ortho === true) {
       infoLabel.style("display", "none");
-
     } else {
       zoneTooltip.style("display", "none");
     }
@@ -200,15 +177,15 @@ function ready(error, world, countryData) {
     console.log(d.id) // upcode
     console.log(countryById[d.id])
 
-    var nextColor = this.style.fill == "blue" ? "magenta" : "blue";
+    var nextColor = this.style.fill == "blue" ? "green" : "blue";
         d3.select(this).style("fill", nextColor);
-        console.log(nextColor) // upcode console the color during a click event
-
-
+        console.log(nextColor)
+        console.log(countryData[d.id])
+        // upcode console the color during a click event
       // AJAX IN THIS SECTION
 
-    //Transforming Globe to Map
 
+    //Transforming Globe to Map
     if (ortho === true) {
       defaultRotate();
       setTimeout(function() {
@@ -220,26 +197,20 @@ function ready(error, world, countryData) {
       , 1600);
     }
   });
-
   //Adding extra data when focused
-
   function focus(d) {
     if (focused === d) return reset();
     g.selectAll(".focused").classed("focused", false);
     d3.select(this).classed("focused", focused = d);
     console.log(d)
+
   }
-
   //Reset projection
-
   function reset() {
     g.selectAll(".focused").classed("focused", focused = false);
     infoLabel.style("display", "none");
     zoneTooltip.style("display", "none");
-
-
     //Transforming Map to Globe
-
     projection = map2globe;
     path.projection(projection);
     animation(projection);
@@ -247,8 +218,8 @@ function ready(error, world, countryData) {
   }
 };
 
-var world_map_dict = {
 
+var countryData = {
 4: ["Afghanistan"],
 8: ["Albania"],
 12:  ["Algeria"],
@@ -424,11 +395,8 @@ var world_map_dict = {
 894: ["Zambia"],
 716: ["Zimbabwe"]
 };
-
 </script>
 
 </body>
 </html>
-
-
 

@@ -68,6 +68,33 @@ class State(db.Model):
         """Provide helpful representation when printed."""
 
         return "<State state_map_id=%s  state_abbrevation=%s state_name=%s, user_id=%s, visited_at=%s>" % (self.state_map_id, self.state_id, self. state_abbrevation, self.states_name, self.user_id, visited_at)
+        #############################################################################
+                ##### MODEL D3_State_Map  ####
+##############################################################################
+
+class User_State(db.Model):
+    """Relationship table for users and states: where users states will be recorded"""
+    #creating table name
+
+    __tablename__ = "user_states"
+
+    # defining what table will look like in DB
+
+    user_state_id = db.Column(db.Integer, autoincrement=True, nullable=True, primary_key=True)
+    user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
+    state_id = db.Column(db.ForeignKey('states.state_id'))
+    visited_at = db.Column(db.DateTime)
+    # Define the relationship to user table
+    user = db.relationship("User", backref=db.backref("user_states", order_by=user_id))
+    state = db.relationship("State", backref=db.backref("user_states", order_by=state_id))
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<User_State user_state_id=%s user_id=%s state_id=%s>" % (self.user_state_id, self.user_id, self.state_id)
+
+
+
 
 
 ##############################################################################
@@ -108,28 +135,43 @@ class Postcard(db.Model):
 #Associative Users and States
 
 
-class User_State(db.Model):
+class User_Country(db.Model):
     """Relationship table for users and states: where users states will be recorded"""
     #creating table name
 
-    __tablename__ = "user_states"
+    __tablename__ = "user_countries"
 
     # defining what table will look like in DB
 
-    user_state_id = db.Column(db.Integer, autoincrement=True, nullable=True, primary_key=True)
+    user_country_id = db.Column(db.Integer, autoincrement=True, nullable=True, primary_key=True)
     user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
-    state_id = db.Column(db.ForeignKey('states.state_id'))
+    country_id = db.Column(db.ForeignKey('countries.country_id'))
     visited_at = db.Column(db.DateTime)
     # Define the relationship to user table
-    user = db.relationship("User", backref=db.backref("user_states", order_by=user_id))
-    state = db.relationship("State", backref=db.backref("user_states", order_by=state_id))
+    user = db.relationship("User", backref=db.backref("user_countries", order_by=user_id))
+    country = db.relationship("Country", backref=db.backref("user_countries", order_by=country_id))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<User_State user_state_id=%s user_id=%s state_id=%s>" % (self.user_state_id, self.user_id, self.state_id)
+        return "<User_Country user_country_id=%s user_id=%s country_id=%s>" % (self.user_country_id, self.user_id, self.country_id)
 
 
+
+class Country(db.Model):
+    """D3_State_Map Table has all the:
+    DB output: STATE_ID: 1 STATE_ABBRREVATION: AL STATE_NAME: Alabama
+    """
+
+    __tablename__ = "countries"
+    country_id = db.Column(db.Integer, primary_key=True) # d3 console.log id is same as in db
+    country_name = db.Column(db.String(64), nullable=True)
+
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Country country_id=%s country_name=%s, user_id=%s, visited_at=%s>" % (self.country_id, self.country_id, self.country_name, self.user_id, visited_at)
 
 
 
@@ -146,7 +188,7 @@ def connect_to_db(app):
     # Configure to use our POSTGRES database
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgressql:///localhost/wdatabasedb'
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wdatabase.db'
     # Prepare SQLAlchemy for connection
     db.app = app
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

@@ -1,0 +1,58 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <div class="col-md-12">
+                <div class="well well-sm">
+                    <div class="media">
+                        <div class="media-body">
+                      <h4>Google Postcard Address</h4>
+                        <form id="google-postcard-form" action="" method=post enctype=multipart/form-data>
+                          <table id="address">
+                            <div id="locationField">
+                            <input id="autocomplete" placeholder="Enter your address"
+                            onFocus="geolocate()" type="text"></input>
+                              <tr>
+                                <td class="label">Street address</td>
+                                <td class="slimField"><input class="field" id="street_number"
+                                      disabled="true"></input></td>
+                                <td class="wideField" colspan="2"><input class="field" id="route"
+                                      disabled="true"></input></td>
+                              </tr>
+                              <tr>
+                                <td class="label">City</td>
+                                <td class="wideField" colspan="3"><input class="field" id="locality"
+                                      disabled="true"></input></td>
+                              </tr>
+                              <tr>
+                                <td class="label">State</td>
+                                <td class="slimField"><input class="field"
+                                      id="administrative_area_level_1" disabled="true"></input></td>
+                                <td class="label">Zip code</td>
+                                <td class="wideField"><input class="field" id="postal_code"
+                                      disabled="true"></input></td>
+                              </tr>
+                              <tr>
+                                <td class="label">Country</td>
+                                <td class="wideField" colspan="3"><input class="field"
+                                      id="country" disabled="true"></input></td>
+                              </tr>
+                              <br/>
+                              <tr>
+
+                                <td class="label">Message</td>
+                                <td class="wideField" colspan="3">
+                                <textarea class="class="field"" rows="3" id="message"></textarea>
+                                  <input type=file name=file>
+                                  <input type=submit value=Upload>
+                                <br/>
+                                  <button type="submit" class="btn btn-default" value="upload" id="submit-postcard">submit</button>
+                                </td>
+                              </tr>
+                          </table>
+                        </form>
+          </div>
+        </div>
+    </div><!-- end media body-->
+  </div>
+</div>
+

@@ -2,7 +2,7 @@
 ##############################################################################
                 ##### CONTROLLER, ROUTES, VIEW  ####
 ##############################################################################
-import os.path
+import os
 from flask import Flask, render_template, redirect, url_for, request, flash, session
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy import update
@@ -10,12 +10,12 @@ from flask import send_from_directory
 from werkzeug import secure_filename
 from flask_debugtoolbar import DebugToolbarExtension
 from flask import Flask
-from flask.ext.jsonpify import jsonify
+from flask import jsonify
 from datetime import datetime
-
+#from flas import photo_templates
 
 # IMPORTED MODEL TABLES TO ROUTES
-from model import User, State, User_State, Postcard, AdventureList, connect_to_db, db
+from model import User, State, User_State, Postcard, AdventureList, Country, User_Country, connect_to_db, db
 app = Flask(__name__)
 
 UPLOAD_FOLDER = '/uploads'
@@ -26,25 +26,35 @@ UPLOAD_FOLDER = '/uploads'
 app.config.from_object(__name__)
 ##############################################################################
 app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 app.secret_key = 'RED PANDA'
-ALLOWED_EXTENSIONS = ['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif']
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 ##############################################################################
 # INDEX PAGE
-
+# @app.route('/unit-test')
+# def test_unit_test():
+#     # always start with underscore
 
 @app.route('/index')
 def index():
     """ Index page where I test few functions
      and make sure routes are connected """
-    return render_template('flipcard.html')
+
+    # return render_template('map_IV.html')
+    # return render_template('ajaxphoto.html')
+
+    # return render_template('flipcard.html')
     # return render_template('index.html')
     # return render_template('timeline.html')
     # return render_template('teststatemap.html')
     # return render_template('testmap.html')
     # return render_template('amjavascriptmap.html')
     # return render_template('mocpostcard.html')
+
+    # return render_template('timeline.html')
+
+    return render_template('photoupload.html')
 
 
 ##############################################################################
@@ -181,6 +191,7 @@ def profile():
     state = request.form.get('state', None)
     quote = request.form.get('quote', None)
     about = request.form.get('about', None)
+
 
     print "profile", first, last, city, state, quote, about
 
@@ -370,69 +381,215 @@ def google_postcard_form_ajax():
 
     return jsonify(postcard_data)
 
+@app.route('/timeline', methods=['GET', 'POST'])
+def time():
+    return render_template("timeline.html")
+#     user_id = session["user_id"]
+#     new_item = request.form['postcard']
+#     print "timeline", new_item
+
+#     new_list_item = AdventureList(user_id=user_id, adventure_item=new_item)
+
+#     db.session.add(new_list_item)
+#     db.session.commit()
+#     return "New adventure has been stored in DB"
+
+
+
 ##############################################################################
                  # # IMAGE UPLAOD FORM ROUTE # #
 ##############################################################################
 
-# UPLOAD IMAGE
 
-# @app.route('/ajax_upload')
-# def pic():
-#     """List the uploads."""
-#     # uploads = Upload.query.all()
-#     # return render_template('list.html', uploads=uploads)
-#     render_template('/pic.html')
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-#     return
+@app.route('/passport', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(filename)
+            # return jsonify({"success":True})
+            return redirect('/timeline')
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form action="" method=post enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+    '''
 
-# @app.route('/upload', methods=['GET', 'POST'])
-# def upload():
-#     """Upload a new file."""
-#     if request.method == 'POST':
-#         save(request.files['upload'])
-#         return redirect(url_for('passport'))
-#     return render_template('upload.html')
-
-
-# @app.route('/delete/<int:id>', methods=['POST'])
-# def remove(id):
-#     """Delete an uploaded file."""
-#     upload = Upload.query.get_or_404(id)
-#     delete(upload)
-#     return redirect(url_for('index'))
-
-
-
-# @app.route('/postcard-upload-ajax', methods=['GET', 'POST'])
-# def postcard():
-
-#     def allowed_file(filename):
-#         return '.' in filename and \
-#         filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-#     if request.method == 'POST':
-#         file = request.files['passport'] # should be passport
-#         if file and allowed_file(file.filename):
-#             filename = secure_filename(file.filename)
-#             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#             return redirect(url_for('/passport',
-#                                     filename=filename))
-
-#     return render_template('passport.html')
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 
+# @app.route('/timeline/<filename>' methods=["POST"])
+# def timeline_image(user):
+#     """uploaded postcards sent to timeline"""
+#     # get info from postcard and save it to DB
 
+#     user_id = session["user_id"]
+
+#     street_number = request.form.get('street_number')
+#     route_address = request.form.get('route')
+#     city = request.form.get('locality')
+#     postal_code = request.form.get('postal_code')
+#     state = request.form.get("state")
+#     country = request.form.get('country')
+#     message = request.form.get('message', None)
+#     image = request.form.get('image')
+
+#     user = db.session.query(Postcard).filter_by(user_id)
+#     new_user_postcards = db.session.query(User_Postcard).filter_by(user_id=user_id).all()
+
+#     db.session.add(new_user_postcard)
+#     db.session.commit()
+#     return redirect("timeline.html", )
+
+
+#     def timeline_load():
+#         """query db for users postcard and loading all users timeline postcards to timeline"""
+
+
+#     user_id = session['user_id']
+#    # query to find users previous postcard items and loads when user logs into account page
+#     postcards = db.session.query(PostcardList.postcard_item).filter(PostcardList.user_id == user_id).all()
+
+#     # take users adventure list and loads their list when page loads
+#     new_postcard_list = []
+#     for item in places:
+#         new_postcard_list.append(item[0])
+
+#     print new_postcard_list
+
+#     return render_template('timeline.html', postcards=new_place_item)
+
+#     db.session.add(new_postcard_item)
+#     db.session.commit()
+#     return "New adventure has been stored in DB"
+
+
+
+
+    #TODO:
+    # query DB to post user_pictures on timeline when load
+    # get image url id from html form
+        # image_id = request.form.get("imge")
+        # postcard = db.session.query(image_id.postcard).all())
+            # get a list of all the postcards.all --> return list of tuples
+        # styles = db.sessionselquery.(style1.styles) # two styles
+    # random num = range(len(postcards)) [0, 1,2]
+        # get url
+        # for item in random_num
+        # item = styles[randint(len(styes))]
+        # styles[randint][style1, style1, style2, styl1, styl2,]
 
 
 
 ##############################################################################
                             # # WORLD MAP # #
 ##############################################################################
-@app.route('/world_map')
-def world_map():
-    """d3 state map where users can click on country and changes colors"""
+# @app.route('/world_map')
+# def d3_world_map():
+#     """d3 state map where users can click on country and changes colors"""
 
-    return render_template("world_map.html")
+#     return render_template("world_map.html")
+
+
+
+
+# @app.route('/country-ajax-add', methods=["POST"])
+# def world_map():
+#     """ state map where users can click on state and changes colors
+#     """
+
+#     # AJAX CALL FOR USER STATE VISIT
+
+#     # get current user from session
+#     user_id = session["user_id"]
+#     print user_id
+
+#     # inputs from state map in console.log [feature.id] = state_id feature = state
+#     country_id = request.form['mapData.id']
+#     print country_id
+
+
+
+#     country = db.session.query(Country).filter_by(country_id=country_id).one()
+
+
+#     user_country_obj = User_Country(country_id=country_id, user_id=user_id, visited_at=datetime.now())
+
+
+#     # TODO: make the object be added
+#     db.session.add(user_country_obj)
+#     db.session.commit()
+
+
+# #     # TODO: query datbase for the information to go into this json
+
+#     user_country_json_data = {"country_id": country.country_id, "country_name": country.country_name, "visited_at": user_country_obj.visited_at}
+
+
+#     return jsonify(user_country_json_data)
+
+
+# @app.route('/country-ajax-remove', methods=['POST'])
+# def removeCountryVisit():
+#     """delete function for removing state visit"""
+
+#     user_id = session["user_id"]
+#     print user_id
+
+#     country_id = request.form.get('mapData.id')
+#     country = db.session.query(Country).filter_by(country_id=country_id).one()
+
+#     user_country_obj = db.session.query(User_Country).filter(User_Country.user_id == user_id, User_Country.country_id == country_id).first()
+#     print user_country_obj
+
+#     user_country_json_data = "error"
+
+#     if user_country_obj:
+
+#         db.session.delete(user_country_obj)
+#         db.session.commit()
+
+#         user_country_json_data = {"country_id": country_id, "country_name": country.country_name, "visited_at": user_country_obj.visited_at}
+
+
+#     return jsonify(user_country_json_data)
+
+
+###############################################################################
+# @app.route('/request-user-world-map-ajax-load', methods=['POST'])
+# def get_users_states():
+
+#     user_id = session['user_id']
+
+#     #query user in DB for this session
+#     user_states_visits = db.session.query(User_State).filter_by(user_id=user_id).all()
+#     # querying users states in User_States Table
+#     user_state_json_data = db.session.query(User_State).filter_by(state_id=state_id, state_name=state_name, user_id=user_id)
+#     if request.method == 'POST':
+#         user_states_data = json.loads(request.form.get('data'))
+
+#     # convert python object to json
+#     user_state_json_data = json.dumps(obj)
+#     print 'json: %s' % user_state_json_data
+#     # convert json to python object
+#     user_state_json_data = json.loads(user_state_json_data)
+
+#     return render_template('state_map.html', json=user_states_data )
+
+
 
 ##############################################################################
 

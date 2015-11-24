@@ -1,0 +1,163 @@
+<div class="flipcard h">
+    <div class="front">
+      <img id="image"src="/static/pimg/nyc.jpg" height="318px" width="477px"/>
+    </div><!--// end front-->
+
+    <div id="postcardback" class="back">
+    <div class="row">
+      <div id="header">
+       <center>Postcard</center>
+       </div><!--end header-->
+    </div><!--end row-->
+    <div id="row1" class="row">
+      <div id="stamp">
+        <img src="/static/img/stamp2.jpg" height="60" width="60" >
+      </div><!--end stamp-->
+    </div><!-- // end row-->
+    <div id="row2" class="row">
+        <div class="col-md-4">
+            <div id="address">
+              <label>message:</label>
+
+            </div><!-- end address-->
+        </div><!-- end col-md-4-->
+        <div class="col-md-4">
+          <div id="message">
+            <label>Address:</label>
+
+
+              <p id="street_number_added"></p>
+
+                <p id="street_number_added"></p>
+
+                <p id="route-address-added"></p>
+
+                <p id="city-added"></p>
+
+                <p id="postal_code-added"></p>
+
+                <p id="state-added"></p>
+
+                <p id="country-added"></p>
+        </div><!-- end message-->
+      </div><!--end col-->
+      </div><!-- end row2-->
+    </div><!--end postcard back-->
+
+
+
+
+
+<div class="flipcard h">
+    <div class="front">
+      <img id="image"src="/static/pimg/nyc.jpg" height="318px" width="477px"/>
+    </div><!--// end front-->
+
+    <div id="postcardback" class="back">
+    <div class="row">
+      <div id="header">
+       <center>Postcard</center>
+       <div id="stamp">
+        <img src="/static/img/stamp2.jpg" height="80" width="80" >
+      </div>
+       </div><!--end header-->
+    </div><!--end row-->
+    <div class="row">
+      <div class="container">
+          <div class="row">
+              <div class="col-xs-4">
+                  Container Left: Message
+                  <label>message:</label>
+                  <p id="message_added"></p>
+              </div>
+              <div class="col-xs-4">
+            Container Right: Address
+            <label>Address:</label>
+             <p id="street_number_added"></p>
+
+                <p id="street_number_added"></p>
+
+                <p id="route-address-added"></p>
+
+                <p id="city-added"></p>
+
+                <p id="postal_code-added"></p>
+
+                <p id="state-added"></p>
+
+                <p id="country-added"></p>
+              </div>
+          </div>
+      </div>
+    </div><!-- // end row-->
+</div><!--end postcard back-->
+
+
+
+<form action="" method=post enctype=multipart/form-data>
+            <input type=file name=file>
+            <input type=submit value=Upload>
+      </form>
+      <button type="submit" class="btn btn-default" id="submit-postcard">submit</button>
+
+
+<div class="media-body">
+    <div class="col-md-7">
+        <h4 class="media-heading">Image Upload</h4>
+          <form action="" method=post enctype=multipart/form-data>
+            <input type=file name=file>
+            <input type=submit value=Upload>
+          </form>
+    <div>
+      <label>Preview:
+        <p>Result Filename:&nbsp;<span id="resultImageFilename-added"> here</span></p>
+        </p>Result Filesize:&nbsp;<span id="resultImageFilesize-added">here</span></p>
+      </label>
+    </div>
+
+
+<div class="imagepage">
+  <div class="postcard">
+    {for r in a_random_string %}
+    <postcard generator>
+    {{ a_random_list }}
+    <img style = >
+</div>
+</div>
+
+.flipcard {
+  postion: relative;
+  width: 477px;
+  height: 318px;
+  perspective: 600px;
+}
+
+#postcardback {
+    background-image: url("/static/img/p.jpg");
+    background-repeat: no-repeat;
+    width: 477px;
+    height: 318px;
+}
+
+.flipcard.h:hover .front, .flipcard.h.flip .front{
+  transform: rotateY(180deg);
+}
+.flipcard.h:hover .back, .flipcard.h.flip .back{
+  transform: rotateY(0deg);
+}
+.flipcard.h .back{
+  transform: rotateY(-180deg);
+}
+.flipcard .front, .flipcard .back
+{
+
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  transition: all 0.5s ease-in;
+  color: black;
+  background-color: black;
+  padding: 10px;
+  backface-visibility: hidden;
+}

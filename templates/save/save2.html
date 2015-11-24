@@ -1,0 +1,450 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <div class="col-md-12">
+                <div class="well well-sm">
+
+                    <div class="media">
+                        <a class="thumbnail pull-left" href="#" data-toggle="modal" data-target="#myModal" class="profilepicture">
+                        <img class="media-object" src="static/img/uma.jpg"></a>
+
+                          <div class="media-body">
+                            <h4 id="name" class="media-heading"><span id="first-added">Uma Petersen</span><span id="last-name"></h4>
+                              <strong><small id="username-added"></small>World Traveler</strong><br>
+                                <p id="city-added">San Francisco</p>
+
+                                <p id="state-added">California</p>
+
+                                <p id="quote-added"></p>
+
+                                <p id="about-added"></p>
+
+                                <p><span class="label label-info">10 photos</span></p>
+
+                                <p> <span class="label label-primary">89 followers</span></p>
+                                <p>
+                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Countries</a>
+                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>States</a>
+                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Capitols</a>
+                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Landmark</span></a>
+                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Wonders</span></a>
+                                </p>
+                          </div><!-- end media body-->
+<!-- // ended profile picture container -->
+                    <div class="well well-sm">
+
+                          <div class="media-body">
+                              <div class="col-md-7">
+                                <h4 class="media-heading">Wanderlust List</h4>
+                                  <ul id="adventure-list">
+                                    {% for place in places %}
+                                      <li>{{place}}</li>
+                                    {% endfor %}
+                                  </ul>
+                                    <form id="adventurelist" action="">
+                                      <input type="text" id="itemDescription" name="addventurelist" placeholder="Add description" required />
+                                      <input type="submit" id="submit-button" value="add" title="Minmimum 1 letters or numbers." required/>
+                                    </form>
+                              </div><!--// end col-7-->
+                          </div><!-- end // media body-->
+                        </div><!-- // end well well-sm-->
+                    </div><!-- // media -->
+                  </div><!-- well well-sm -->
+                </div><!-- //col-md-12-->
+            </div><!-- // col-xs-12 col-md-2-->
+
+<!-- AJAX CALL FOR ADVENTURE LIST  -->
+ <script>
+function addAdventure(evt) {
+  evt.preventDefault();
+  var new_item = $('#itemDescription').val();
+  $.post('/adventurelist', {'place':new_item}, function (data){
+    console.log(data);
+    $('#adventure-list').append("<li>"+ new_item +"</li>");
+  });
+}
+</script>
+<!-- AJAX CALL FOR ADVENTURE LIST  -->
+
+
+
+<!-- JAVSCRIPT BEGAIN JS NAV BAR TABS -->
+<script>
+$('#myTabs a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+
+$('#myTabs a[href="/world_map]').tab('show') // Select tab by name
+$('#myTabs a[href="/state_map"]').tab('show') // Select first tab
+$('#myTabs a[href="/postcard"]').tab('show') // Select last tab
+$('#myTabs a[href="/timeline"]').tab('show') // Select third tab (0-indexed)
+</script>
+<!-- JAVSCRIPT END JS FOR NAV BAR TABS -->
+
+<!-- <div id="hidden-div" class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img src="..." alt="...">
+      <div class="caption">
+        <h3>Acount Profile</h3>
+        <form id="myForm" action="" method="POST">
+
+            <label>Firstname:
+                <input type="text" name="first" id="first"/>
+            </label>
+            <label>
+              Lastname:
+                <input type="text" name="last" id="last" />
+            </label>
+              <label>
+              Username:
+                <input type="text" name="username" id="username"/>
+
+              </label>
+              <label>
+                Quote:
+                  <input type="text" name="quote" id="quote" />
+              </label>
+              <label>
+                City:
+                  <input type="text" name="city" id="city" />
+              </label>
+              <label>
+                State:
+                  <input type="text" name="state" id="state" />
+              </label>
+              <label>
+                About:
+                  <textarea name="about" id="about"></textarea>
+              </label>
+                <button type="submit" class="btn btn-default">submit</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- AJAC CALL FOR SUBMITTING POSTCARD FORM-->
+
+<script>
+function profileInfo(data){
+    console.log(data);
+    $('#first-added').html(data.first);
+    $('#last-added').html(data.last);
+    $('#username-added').html(data.username);
+    $('#city-added').html(data.city);
+    $('#state-added').html(data.state);
+    $('#quote-added').html(data.quote);
+    $('#about-added').html(data.about);
+  }
+
+function profile(evt) {
+  evt.preventDefault();
+  var first = $('#first').val();
+  var last = $('#last').val();
+  var username = $('#username').val();
+  var quote = $('#quote').val();
+  var city = $('#city').val();
+  var state = $('#state').val();
+  var about = $('#about').val();
+
+  $.post('/profile', {'first':first,'last':last,'quote':quote,
+ 'city':city,'state':state,'about':about
+  }, profileInfo);
+}
+$("#myForm").on('submit', profile);
+</script>
+
+<!-- //// END GOOGLE POSTCARD FORM AJAX ////-->
+<!-- GOOGLE ADDRESS FORM BOX AND PHOTO UPLOAD BOX-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <div class="col-md-8">
+                <div class="well well-sm">
+                    <div class="media">
+<!--                         <div class="media-body">
+ -->
+
+    <div id="locationField">
+      <input id="autocomplete" placeholder="Enter your address"
+             onFocus="geolocate()" type="text"></input>
+    </div>
+
+<table id="address">
+      <tr>
+        <td class="label">Street address</td>
+        <td class="slimField"><input class="field" id="street_number"
+              disabled="true"></input></td>
+        <td class="wideField" colspan="2"><input class="field" id="route"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">City</td>
+        <td class="wideField" colspan="3"><input class="field" id="locality"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">State</td>
+        <td class="slimField"><input class="field"
+              id="administrative_area_level_1" disabled="true"></input></td>
+        <td class="label">Zip code</td>
+        <td class="wideField"><input class="field" id="postal_code"
+              disabled="true"></input></td>
+      </tr>
+      <tr>
+        <td class="label">Country</td>
+        <td class="wideField" colspan="3"><input class="field"
+              id="country" disabled="true"></input></td>
+      </tr>
+      <tr><td <textarea class="field" id="message"></textarea></td></tr>
+
+      <button type="submit" class="btn btn-default" id="submit-postcard">submit</button>
+
+  </table>
+
+
+
+                        </div>
+                      </div>
+                  </div><!-- end media body-->
+                </div>
+<!-- // ended profile picture container -->
+<!--
+<div class="well well-sm">
+ -->
+
+ <div class="well well-sm">
+
+        <div class="media-body">
+          <div class="col-md-7">
+
+
+            <div class="flipcard h">
+    <div class="front">
+      <img id="image"src="/static/pimg/nyc.jpg" height="290px" width="450px"/>
+    </div><!--// end front-->
+
+    <div id="postcardback" class="back">
+    <div class="row">
+      <div id="header">
+       <center>Postcard</center>
+       <div id="stamp">
+        <img src="/static/img/stamp2.jpg" height="80" width="80" >
+      </div>
+       </div><!--end header-->
+    </div><!--end row-->
+    <div class="row">
+      <div class="container">
+          <div class="row">
+              <div class="col-xs-4">
+                  Container Left: Message
+                  <label>message:</label>
+                  <p id="message_added"></p>
+              </div>
+              <div class="col-xs-4">
+            Container Right: Address
+            <label>Address:</label>
+             <p id="street_number_added"></p>
+
+                <p id="street_number_added"></p>
+
+                <p id="route-address-added"></p>
+
+                <p id="city-added"></p>
+
+                <p id="postal_code-added"></p>
+
+                <p id="state-added"></p>
+
+                <p id="country-added"></p>
+              </div>
+          </div>
+      </div>
+    </div><!-- // end row-->
+</div><!--end postcard back-->
+
+
+                </div><!--// end col-7-->
+            </div><!-- end // media body-->
+          </div><!-- // end well well-sm-->
+      </div><!-- // media -->
+    </div><!-- well well-sm -->
+  </div><!-- //col-md-12-->
+</div><!-- // col-xs-12 col-md-2-->
+
+
+<!--GOOGLE AUTO SERACH BOX ADDRESS FORM-->
+
+
+
+
+
+<!-- AJAC CALL FOR SUBMITTING POSTCARD FORM-->
+
+<script>
+// this funcation is hwere i want data to be diplayed
+function displayGooglePostcard(data){
+    console.log(data);
+    $('#street-number-added').html(data.street_number);
+    $('#route-address-added').html(data.route);
+    $('#city-added').html(data.locality);
+    $('#postal-code-added').html(data.postal_code);
+    $('#state-added').html(data.postal_code);
+    $('#country-added').html(data.country);
+    $('#message-added').html(data.message);
+    $('#image-added').html(data.message);
+
+  }
+
+function googlePostcardForm(evt) {
+  evt.preventDefault();
+  var street_number = $('#street_number').val();
+  var route_address = $('#route').val();
+  var city = $('#locality').val();
+  var postal_code = $('#postal_code').val();
+  var state = $('#administrative_area_level_1').val();
+  var country = $('#country').val();
+  var message = $('#message').val();
+  var image = $('#image').val();
+
+  console.log("googlePostcardForm")
+
+  $.post('/google-postcard-ajax', {"street_number": street_number, "route": route_address, "city": city, "administrative_area_level_1": state, "country": country, "message": message, "image": image
+  }, (displayGooglePostcard));
+}
+
+$('#google-postcard-form').on('submit', googlePostcardForm);
+</script>
+
+<!-- ///END POST CARD FORM/// -->
+
+<!-- POSTCARD FLIPCARD--><!-- ////////////////////////////////////////////-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="container">
+    <div class="row">
+        <div class="col-xs-4">
+            Container Left: Message
+            <label>message:</label>
+            <p id="message_added"></p>
+
+
+        </div>
+        <div class="col-xs-4">
+            Container Right: Address
+            <label>Address:</label>
+
+        </div>
+    </div>
+</div>
+ -->
+
+
+
+
+<!-- AJAX CALL FOR IMAGE FORM-->
+<script>
+function displayPostcardImage(data){
+    console.log(data);
+    $('#resultImageFilename-added').html(data.street_number);
+    $('#resultImageFilesize-added').html(data.route);
+
+
+function uploadPostcard(evt) {
+    evt.preventDefault();
+
+    $.post('/postcard-upload-ajax',{form_data}, displayPostcardImage);
+    var image = $('#image').val();
+        }
+      }
+
+      $('#postcard-upload').on('submit', displayPostcardImage);
+
+</script>
+
+
+<!--///  END AJAX CALL FOR GOOGLE FORM ////-->
+
+<!--///  GOOGLE AUTO-SEARCH FORM -->
+
+<script>
+var placeSearch, autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+};
+function initAutocomplete() {
+  autocomplete = new google.maps.places.Autocomplete(
+      (document.getElementById('autocomplete')),
+      {types: ['geocode']});
+  autocomplete.addListener('place_changed', fillInAddress);
+}
+function fillInAddress() {
+  var place = autocomplete.getPlace();
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false;
+  }
+
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    if (componentForm[addressType]) {
+      var val = place.address_components[i][componentForm[addressType]];
+      document.getElementById(addressType).value = val;
+    }
+  }
+}
+
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+</script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer>
+
+</script>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+
+
+
+
+
+

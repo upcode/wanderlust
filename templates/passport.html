@@ -4,20 +4,12 @@
 {% block head %}
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!--EXTERNAL JS FILE FOR UPDATING USERS INFO-->
-    <script src="static/js/profile-info.js"></script>
-    <!--EXTERNAL JS FILE FOR ADVENTURE LIST-->
-    <script src="static/js/adventurelist.js"></script>
     <!--JQUERY AND AJAX SCRIPT -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-    <!-- EXTERNAL JS FILE FOR GOOGLE ADDRESS FORM -->
-    <script type="text/javascript" src="static/js/google-address-form.js"></script>
-  <!-- EXTERNAL CSS FILE FOR GOOGLE ADDRESS FORM -->
-    <link rel="stylesheet" type="text/css" href="static/css/postcard.css">
-     <link rel="stylesheet" type="text/css" href="static/css/passport-page-layout.css">
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/ajaxupload.js" type="text/javascript"></script>
+    <link href="/static/css/wanderlust.css" rel="stylesheet">
 
-<script src="/js/jquery.min.js" type="text/javascript"></script>
-<script src="/js/ajaxupload.js" type="text/javascript"></script>
 
 {% endblock %}
 
@@ -35,35 +27,20 @@ float:left;
 float:right;
 }
 
-.dashboard {border-style: solid;
-width: 500px;
-height:100px;
-}
-
-/*CSS CODE for POSTCARD FLIP
-*/
-/*flipcard postion height and width presepetice which is css 3d element
-*/
 .flipcard {
   postion: relative;
-  width: 220px;
-  height: 160px;
+  width: 477px;
+  height: 310px;
   perspective: 600px;
 }
 
-/*rotate postcard 180 degrees when hover font of postcard verticle flip
-*/
+#postcardback {
+    background-image: url("/static/img/p.jpg");
+    background-repeat: no-repeat;
+    width: 477px;
+    height: 318px;
+}
 
-/*rotate postcard 0 degrees when hover font of postcard verticle flip
-*/
-
-/*rotate postcard 180 degrees when hover font of postcard
-*/
-/*.flipcard.v .back{
-  transform: rotateX(-180deg);
-}*/
-/*rotate postcard 0 degrees when hover font of postcard
-*/
 .flipcard.h:hover .front, .flipcard.h.flip .front{
   transform: rotateY(180deg);
 }
@@ -81,229 +58,129 @@ height:100px;
   height: 100%;
   box-sizing: border-box;
   transition: all 0.5s ease-in;
-  color: white;
-  background-color: #000;
+  color: black;
+  background-color: black;
   padding: 10px;
   backface-visibility: hidden;
 }
 
 
+#stamp {
+  position: absolute;
+  top:-70;
+  right:0;
+  padding-right: 30px;
+  height: -60px;
+  width: -70px;
+}
+
+
+#right-address {
+  float: right;
+  margin: 10px;
+  padding-right: 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#left-message {
+  float: left;
+  margin: 10px;
+  padding-left: -80px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 </style>
 
+<style>
+#locationField, #controls {
+        position: relative;
+        width: 390px;
+      }
+      #autocomplete {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 50%;
+      }
+      .label {
+        text-align: right;
+        font-weight: bold;
+        width: 100px;
+        color: #303030;
+      }
+      #address {
+        border: 1px solid #000090;
+/*        background-color: #f0f0ff;
+*/        width: 380px;
+        padding-right: 2px;
+      }
+      #address td {
+        font-size: 10pt;
+      }
+      .field {
+        width: 90%;
+      }
+      .slimField {
+        width: 80px;
+      }
+      .wideField {
+        width: 100px;
+      }
+      #locationField {
+        height: 20px;
+        margin-bottom: 3px;
+      }
+</style>
+<!-- STYLE FOR WHOLE BODY OF THE PAGE -->
+<style>
+body,
+html {
+margin:0;
+padding:0;
+color:#000;
+        background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
+}
 
-   <!--
-################################################################################
--->
+#wrap {
+margin:0 auto;
+background: url(http://www.daba.in.rs/tf/pp_wordpress/wp-content/themes/penandpaper/lib/images/furley_bg.png);
 
-   <!--
-################################################################################
--->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="http://d3js.org/topojson.v1.min.js"></script>
-    <script src="http://d3js.org/queue.v1.min.js"></script>
-    <script src="static/js/d3_world_map.js"></script>
+}
+#sidebar {
+  float: left;
+
+}
+</style>
+
+<!-- ##################################################################### -->
 <!-- World Map that unreels into flat map-->
 <div class="container-fluid">
     <div class="row">
          <div class="col-md-6 col-md-offset-1">
+          <div id="map">
+    <link href="/static/css/passport/cssIV.css" rel="stylesheet">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="static/js/mapIV.js"></script>
+  </div>
 
-  <div id="map"></div>
+
   </div>
 </div>
- <script>
-// ##########  D3 WORLD MAP JAVASCRIPT BELOW  ########//
 
-// Map hight and width
-var mapWidth = 860,
-  mapHeight = 400,
-  focused = false,
-  ortho = true,
-  sens = 0.25;
-// world map projection
-var projectionGlobe = d3.geo.orthographic()
-  .scale(140)
-  .center([0, 0])
-  .translate([mapWidth / 2, mapHeight / 2])
-  .clipAngle(90);
-var projectionMap = d3.geo.equirectangular()
-  .scale(145)
-  .center([0, 0])
-  .translate([mapWidth / 2, mapHeight / 2])
-var projection = projectionGlobe;
-var path = d3.geo.path()
-  .projection(projection);
-var globe2map = interpolatedProjection(projectionGlobe, projectionMap),
-map2globe = interpolatedProjection(projectionMap, projectionGlobe);
-var svgMap = d3.select("div#map").append("svg")
-  .attr("overflow", "hidden")
-  .attr("width", mapWidth)
-  .attr("height", mapHeight);
-// Tool Tip
-var zoneTooltip = d3.select("div#map").append("div").attr("class", "zoneTooltip"),
-pointLlabel = d3.select("div#map").append("div").attr("class", "pointLabel"),
-infoLabel = d3.select("div#map").append("div").attr("class", "infoLabel");
-var g = svgMap.append("g");
-//Unreelling transformation
-function animation(interProj) {
-  defaultRotate();
-  g.transition()
-  .duration(7500)
-  .tween("projection", function() {
-    return function(_) {
-      interProj.alpha(_);
-      g.selectAll("path").attr("d", path);
-    };
-  })
-}
-function interpolatedProjection(a, b) {
-  var projection = d3.geo.projection(raw).scale(1),
-  center = projection.center,
-  translate = projection.translate,
-  clip = projection.clipAngle,
-  α;
-  function raw(λ, φ) {
-    var pa = a([λ *= 180 / Math.PI, φ *= 180 / Math.PI]), pb = b([λ, φ]);
-    return [(1 - α) * pa[0] + α * pb[0], (α - 1) * pa[1] - α * pb[1]];
-  }
-  projection.alpha = function(_) {
-    if (!arguments.length) return α;
-    α = +_;
-    var ca = a.center(), cb = b.center(),
-    ta = a.translate(), tb = b.translate();
-    center([(1 - α) * ca[0] + α * cb[0], (1 - α) * ca[1] + α * cb[1]]);
-    translate([(1 - α) * ta[0] + α * tb[0], (1 - α) * ta[1] + α * tb[1]]);
-    if (ortho === true) {clip(180 - α * 90);}
-    return projection;
-  };
-  delete projection.scale;
-  delete projection.translate;
-  delete projection.center;
-  return projection.alpha(0);
-}
-//Rotate to default before animation
-function defaultRotate() {
-  d3.transition()
-  .duration(1500)
-  .tween("rotate", function() {
-    var r = d3.interpolate(projection.rotate(), [0, 0]);
-    return function(t) {
-      projection.rotate(r(t));
-      g.selectAll("path").attr("d", path);
-    };
-  })
-};
-//Starter for function AFTER All transitions
-function endall(transition, callback) {
-  var n = 0;
-  transition
-  .each(function() { ++n; })
-  .each("end", function() { if (!--n) callback.apply(this, arguments); });
-}
-//Loading data
-queue()
-.defer(d3.json, "/static/d3mapdata/world-110m.json")
-.defer(d3.tsv, "/static/d3mapdata/world-110m-country-names.tsv")
-.await(ready);
-function ready(error, world, countryData) {
-  var countryById = {},
-  countries = topojson.feature(world, world.objects.countries).features;
-  //Adding countries by name
-  countryData.forEach(function(d) {
-    countryById[d.id] = d.name;
-  });
-  //Drawing countries on the globe
-  var world = g.selectAll("path").data(countries);
-  world.enter().append("path")
-  .attr("class", "mapData")
-  .attr("d", path)
-  .classed("ortho", ortho = true);
-  //Drag event
-  world.call(d3.behavior.drag()
-    .origin(function() { var r = projection.rotate(); return {x: r[0] / sens, y: -r[1] / sens}; })
-    .on("drag", function() {
-      var λ = d3.event.x * sens,
-      φ = -d3.event.y * sens,
-      rotate = projection.rotate();
-      //Restriction for rotating upside-down
-      φ = φ > 30 ? 30 :
-      φ < -30 ? -30 :
-      φ;
-      projection.rotate([λ, φ]);
-      g.selectAll("path.ortho").attr("d", path);
-      g.selectAll(".focused").classed("focused", focused = false);
-    }))
-  //Events processing
-  world.on("mouseover", function(d) {
-    if (ortho === true) {
-      infoLabel.text(countryById[d.id])
-      .style("display", "inline");
-    } else {
-      zoneTooltip.text(countryById[d.id])
-      .style("left", (d3.event.pageX + 7) + "px")
-      .style("top", (d3.event.pageY - 15) + "px")
-      .style("display", "block");
-    }
-  })
-  .on("mouseout", function(d) {
-    if (ortho === true) {
-      infoLabel.style("display", "none");
-    } else {
-      zoneTooltip.style("display", "none");
-    }
-  })
-  .on("mousemove", function() {
-    if (ortho === false) {
-      zoneTooltip.style("left", (d3.event.pageX + 7) + "px")
-      .style("top", (d3.event.pageY - 15) + "px");
-    }
-  })
-  .on("click", function(d) {
-    if (focused === d) return reset();
-    g.selectAll(".focused").classed("focused", false);
-    d3.select(this).classed("focused", focused = d);
-    infoLabel.text(countryById[d.id])
-    .style("display", "inline");
-    //Transforming Globe to Map
-    if (ortho === true) {
-      defaultRotate();
-      setTimeout(function() {
-        projection = globe2map;
-        path.projection(projection);
-        animation(projection);
-        g.selectAll(".ortho").classed("ortho", ortho = false);
-      }
-      , 1600);
-    }
-  });
-  //Adding extra data when focused
-  function focus(d) {
-    if (focused === d) return reset();
-    g.selectAll(".focused").classed("focused", false);
-    d3.select(this).classed("focused", focused = d);
-  }
-  //Reset projection
-  function reset() {
-    g.selectAll(".focused").classed("focused", focused = false);
-    infoLabel.style("display", "none");
-    zoneTooltip.style("display", "none");
-    //Transforming Map to Globe
-    projection = map2globe;
-    path.projection(projection);
-    animation(projection);
-    g.selectAll("path").classed("ortho", ortho = true);
-  }
-};
-</script>
-
-<!--
-################################################################################
-
--->
+<!--####################################################################-->
 <!-- PROFILE SIDE CONTAINER WITH WANDERLIST -->
+    <div id="header">
+      <div id="wheader"><h1><center>Explore . Dream . Discover.</center></h1></div>
+    </div>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12 col-md-2">
+
+ <div class="container-fluid">
+ <div class="row">
+        <div class="col-md-4">
             <div class="col-md-12">
                 <div class="well well-sm">
 
@@ -312,15 +189,19 @@ function ready(error, world, countryData) {
                         <img class="media-object" src="static/img/uma.jpg"></a>
 
                           <div class="media-body">
-                            <h4 id="name" class="media-heading"><span id="first-added"></span><span id="last-name"></h4>
-                              <strong><small id="username-added"></small></strong><br>
-                                <p id="city-added"></p>
+                            <tr><td><h4 id="name" class="media-heading"><span id="first-added"><center>Uma Petersen</center></span><span id="last-name"></h4></td></tr>
+                              <tr><td><strong><small id="username-added"></small>World Traveler</strong></td></tr>
+                              <br>
+                                <tr>
+                                  <td><label id="city-added">San Francisco</label></td>,<td><label id="state-added">California</label></td></tr>
 
-                                <p id="state-added"></p>
+                                <tr><td><p id="quote-added"><i>"The future belongs to those who believe in the beauty of their dreams."--E.R.</i></p></td></tr>
 
-                                <p id="quote-added"></p>
+                                <tr><td><label>About Me:</label><p id="about-added">
+                                <p>Lust for the world</p>
+                                "Twenty years from now you will be more disappointed by the thungs you didn't do than by the ones you did do. So throw off the bowlines, sail away from the safe harbor" --Mark Twain
 
-                                <p id="about-added"></p>
+                                </p></td></tr>
 
                                 <p><span class="label label-info">10 photos</span></p>
 
@@ -330,9 +211,8 @@ function ready(error, world, countryData) {
                                   <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>States</a>
                                   <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star"></span>Capitols</a>
                                   <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Landmark</span></a>
-                                  <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-star">Wonders</span></a>
-                                </p>
-                          </div><!-- end media body-->
+
+                          </div>
 <!-- // ended profile picture container -->
                     <div class="well well-sm">
 
@@ -355,224 +235,25 @@ function ready(error, world, countryData) {
                   </div><!-- well well-sm -->
                 </div><!-- //col-md-12-->
             </div><!-- // col-xs-12 col-md-2-->
-
-<!-- AJAX CALL FOR ADVENTURE LIST  -->
- <script>
-
-function addAdventure(evt) {
-  evt.preventDefault();
-  var new_item = $('#itemDescription').val();
-  $.post('/adventurelist', {'place':new_item}, function (data){
-    console.log(data);
-    $('#adventure-list').append("<li>"+ new_item +"</li>");
-  });
-}
-</script>
-<!-- AJAX CALL FOR ADVENTURE LIST  -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <div class="col-md-12">
+                <div class="well well-sm">
+                    <div class="media">
+                        <div class="media-body">
 
 
-
-<!-- JAVSCRIPT BEGAIN JS NAV BAR TABS -->
-<script>
-$('#myTabs a').click(function (e) {
-  e.preventDefault()
-  $(this).tab('show')
-})
-
-$('#myTabs a[href="/world_map]').tab('show') // Select tab by name
-$('#myTabs a[href="/state_map"]').tab('show') // Select first tab
-$('#myTabs a[href="/postcard"]').tab('show') // Select last tab
-$('#myTabs a[href="/timeline"]').tab('show') // Select third tab (0-indexed)
-</script>
-<!-- JAVSCRIPT END JS FOR NAV BAR TABS -->
-
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="..." alt="...">
-      <div class="caption">
-        <h3>Acount Profile</h3>
-        <form id="myForm" action="" method="POST">
-
-            <label>Firstname:
-                <input type="text" name="first" id="first"/>
-            </label>
-            <label>
-              Lastname:
-                <input type="text" name="last" id="last" />
-            </label>
-              <label>
-              Username:
-                <input type="text" name="username" id="username"/>
-
-              </label>
-              <label>
-                Quote:
-                  <input type="text" name="quote" id="quote" />
-              </label>
-              <label>
-                City:
-                  <input type="text" name="city" id="city" />
-              </label>
-              <label>
-                State:
-                  <input type="text" name="state" id="state" />
-              </label>
-              <label>
-                About:
-                  <textarea name="about" id="about"></textarea>
-              </label>
-                <button type="submit" class="btn btn-default">submit</button>
-          </form>
-      </div>
-    </div>
   </div>
-</div>
-
-<!-- AJAC CALL FOR SUBMITTING POSTCARD FORM-->
-
-<script>
-// Here is where the profile Info is stored in the HTML tags used add to remind me that jason file was returned and added value from the form to the HTML tags
-function profileInfo(data){
-    console.log(data);
-    $('#first-added').html(data.first);
-    $('#last-added').html(data.last);
-    $('#username-added').html(data.username);
-    $('#city-added').html(data.city);
-    $('#state-added').html(data.state);
-    $('#quote-added').html(data.quote);
-    $('#about-added').html(data.about);
-  }
-
-// Ajax request for profile form
-// passed evt prams and evt to prevent default of form submission
-// signed var names to ids of html form chained val function to get value of content of the html form
-function profile(evt) {
-  evt.preventDefault();
-  var first = $('#first').val();
-  var last = $('#last').val();
-  var username = $('#username').val();
-  var quote = $('#quote').val();
-  var city = $('#city').val();
-  var state = $('#state').val();
-  var about = $('#about').val();
-
-  // console log in profile to test if call is working
-  console.log("in profile")
-  // ajax call here with route sending ajax call too, data{} which is dictionary with key and value pairs and last , calling the function where data will be placed once ajax request is returned
-  $.post('/profile', {'first':first,'last':last,'quote':quote,
- 'city':city,'state':state,'about':about
-  }, profileInfo);
-}
-// id tag for name of the form, using event handler on click, name of event handler which is submit and , passing in the function called profile.
-$("#myForm").on('submit', profile);
-</script>
-
-<!-- //// AJAC CALL FOR SUBMITTING POSTCARD FORM////-->
-<!--
-
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-        <h4>Postcard Address</h4>
-      <div class="caption">
-            <label>Address:
-                <p id="street_number_added"></p>
-                 <p id="street_number_added"></p>
-                  <p id="route-address-added"></p>
-
-                  <p id="city-added"></p>
-
-                  <p id="postal_code-added"></p>
-
-                  <p id="state-added"></p>
-
-                  <p id="country-added"></p>
-            </label>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- <div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-        <h4>Left Side</h4>
-      <div class="caption">
-            <label>message:
-                  <p id="message-added"></p>
-            </label>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 
 
-
-
-
-
-
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-        <h4>Photo Preview</h4>
-      <div class="caption">
-
-            <label>Preview:
-              <p>Result Filename:&nbsp;<span id="resultImageFilename-added"> here</span></p>
-              </p>Result Filesize:&nbsp;<span id="resultImageFilesize-added">here</span></p>
-            </label>
-
-
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-        <h4>Image Upload</h4>
-      <div class="caption">
-        <label>upload image here!</label>
-
-            <form action="upload" method="post" enctype="multipart/form-data">
-              <input type="file" name="file"><br /><br />
-
-              <input type="submit" value="Upload">
-            </form>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-<!--GOOGLE AUTO SERACH BOX ADDRESS FORM-->
-
-<div class="row">
-  <div class="col-sm-6 col-md-6">
-    <div class="thumbnail">
         <h4>Google Postcard Address</h4>
-      <div class="caption">
-            <label>Address:
-
-            </label>
-            <div id="google-address">
           <form id="google-postcard-form">
             <table id="address">
               <div id="locationField">
-            <input id="autocomplete" placeholder="Enter your address"
-             onFocus="geolocate()" type="text"></input>
+              <input id="autocomplete" placeholder="Enter your address"
+              onFocus="geolocate()" type="text"></input>
                 <tr>
                   <td class="label">Street address</td>
                   <td class="slimField"><input class="field" id="street_number"
@@ -610,16 +291,11 @@ $("#myForm").on('submit', profile);
                 </tr>
             </table>
           </form>
+          </div>
         </div>
-       </div>
-     </div>
-    </div>
-
-      </div>
-    </div>
+    </div><!-- end media body-->
   </div>
 </div>
-
 
 
 
@@ -636,6 +312,7 @@ function displayGooglePostcard(data){
     $('#state-added').html(data.postal_code);
     $('#country-added').html(data.country);
     $('#message-added').html(data.message);
+
   }
 
 function googlePostcardForm(evt) {
@@ -647,6 +324,7 @@ function googlePostcardForm(evt) {
   var state = $('#administrative_area_level_1').val();
   var country = $('#country').val();
   var message = $('#message').val();
+
   console.log("googlePostcardForm")
 
   $.post('/google-postcard-ajax', {"street_number": street_number, "route": route_address, "city": city, "administrative_area_level_1": state, "country": country, "message": message
@@ -657,120 +335,140 @@ $('#google-postcard-form').on('submit', googlePostcardForm);
 </script>
 
 <!-- ///END POST CARD FORM/// -->
-
-<!-- POSTCARD FLIPCARD--><!-- ////////////////////////////////////////////-->
-
-
-<div class="flipcard h">
-    <div class="front">
-      <img id="image"src="/static/pimg/nyc.jpg" height="140px" width="200px"/>
-      <p>New York City</p>
-    </div><!--// end front-->
-    <div class="back">
-    <label>Address:</label>
-                <p id="street_number_added"></p>
-                 <p id="street_number_added"></p>
-                  <p id="route-address-added"></p>
-
-                  <p id="city-added"></p>
-
-                  <p id="postal_code-added"></p>
-
-                  <p id="state-added"></p>
-
-                  <p id="country-added"></p>
-                  <p id="message-added"></p>
-
-    </div><!--// back postcard-->
-</div><!-- // end flipcard-->
-
-
-
-
-
-
-<!--    <img id="image"src="/static/pimg/nyc.jpg"/>
- -->
-
-
+<!-- // ended profile picture container -->
 <!--
-         <div class="message">
-              <p id="message-added"></p>
+<div class="well well-sm">
  -->
-     <!--      </div>
-          <div container="container" id="ajax-address">
-        <table id="address">
-          <tr>
-            <td class="label">Street address</td>
-            <td class="slimField"><p id="street_number_added"></p></td>
-            <td class="wideField" colspan="2"><p id="route-address-added"></p></td>
-          </tr>
-          <tr>
-            <td class="label">City</td>
-            <td class="wideField" colspan="3"><p id="city-added"></p></td>
-          </tr>
-          <tr>
-            <td class="label">State</td>
-            <td class="slimField"><p id="state-added"></p></td>
-            <td class="label">Zip code</td>
-            <td class="wideField"><p id="postal_code-added"></p></td>
-          </tr>
-          <tr>
-            <td class="label">Country</td>
-            <td class="wideField" colspan="3"><p id="country-added"></p></td>
-          </tr>
-        </table>
-    </div>
-  </div>
-</div>
-</div>
-</div> -->
+
+ <div class="well well-sm">
+
+        <div class="media-body">
+          <div class="col-md-7">
+
+
+    <div class="flipcard h">
+    <div class="front">
+      <img id="image"src="/static/pimg/nyc.jpg" height="290px" width="450px"/>
+    </div><!--// end front-->
+
+    <div id="postcardback" class="back">
+    <div class="row">
+      <div id="header">
+       <center>Postcard</center>
+       <div id="stamp">
+        <img src="/static/img/stamp2.jpg" height="80" width="80" >
+      </div>
+       </div><!--end header-->
+    </div><!--end row-->
+    <div class="row">
+      <div class="container">
+          <div class="row">
+              <div id="left-message" class="col-xs-4">
+
+                  <label>message:</label>
+                  <p id="message-added"></p>
+              </div>
+              <div id="right-address" class="col-xs-4">
+            <label>Address:</label>
+             <p id="street-number-added"></p>
+
+                <p id="street-number-added"></p>
+
+                <p id="route-address-added"></p>
+
+                <p id="city-added"></p>
+
+                <p id="postal-code-added"></p>
+
+                <p id="state-added"></p>
+
+                <p id="country-added"></p>
+
+              </div>
+          </div>
+      </div>
+    </div><!-- // end row-->
+</div><!--end postcard back-->
+
+
+                </div><!--// end col-7-->
+            </div><!-- end // media body-->
+          </div><!-- // end well well-sm-->
+      </div><!-- // media -->
+    </div><!-- well well-sm -->
+  </div><!-- //col-md-12-->
+</div><!-- // col-xs-12 col-md-2-->
 
 
 
 
+<div class="media-body">
+    <div class="col-md-7">
+        <h4 class="media-heading">Image Upload</h4>
+          <form action="" method=post enctype=multipart/form-data>
+            <input type=file name=file>
+            <input type=submit value=Upload>
+          </form>
+    <div>
+
+<!--   TESTING GOOGLE FORM UPLOAD -->
+<form id="google-postcard-form" action="" method=post enctype=multipart/form-data>
+            <table id="address">
+              <div id="locationField">
+              <input id="autocomplete" placeholder="Enter your address"
+              onFocus="geolocate()" type="text"></input>
+                <tr>
+                  <td class="label">Street address</td>
+                  <td class="slimField"><input class="field" id="street_number"
+                        disabled="true"></input></td>
+                  <td class="wideField" colspan="4"><input class="field" id="route"
+                        disabled="true"></input></td>
+                </tr>
+                <tr>
+                  <td class="label">City</td>
+                  <td class="wideField" colspan="4"><input class="field" id="locality"
+                        disabled="true"></input></td>
+                </tr>
+                <tr>
+                  <td class="label">State</td>
+                  <td class="slimField"><input class="field"
+                        id="administrative_area_level_1" disabled="true"></input></td>
+                  <td class="label">Zip code</td>
+                  <td class="wideField"><input class="field" id="postal_code"
+                        disabled="true"></input></td>
+                </tr>
+                <tr>
+                  <td class="label">Country</td>
+                  <td class="wideField" colspan="4"><input class="field"
+                        id="country" disabled="true"></input></td>
+                </tr>
+                <tr>
+
+                  <td class="label">Message</td>
+                  <td class="wideField" colspan="4">
+                  <textarea class="class="field"" rows="4" id="message"></textarea>
+
+                    <input type="submit" class="btn btn-default" value=Upload id="submit-postcard"></input>
+                  </td>
+                </tr>
+                <div>          <input type=file name=file></div>
+
+
+            </table>
+</form>
+<!--   TESTING GOOGLE FORM UPLOAD -->
+
+
+</div><!-- end sidebar-->
+
+</div><!-- // END WRAPER-->
 
 
 
 
+<!--///  GOOGLE AUTO-SEARCH FORM -->
 
-
-
-
-
-
-
-
-
-
-<!-- AJAX CALL FOR IMAGE FORM-->
 <script>
-function displayPostcardImage(data){
-    console.log(data);
-    $('#resultImageFilename-added').html(data.street_number);
-    $('#resultImageFilesize-added').html(data.route);
-
-
-function uploadPostcard(evt) {
-    evt.preventDefault();
-
-    $.post('/postcard-upload-ajax',{form_data}, displayPostcardImage);
-    var image = $('#image').val();
-        }
-      }
-
-      $('#postcard-upload').on('submit', displayPostcardImage);
-
-</script>
-
-
-<!--///  AJAX CALL FOR GOOGLE FORM ////-->
-
-
-<script>
-// GOOGLE MAP
-// This example displays an address form, using the autocomplete feature
-// of the Google Places API to help users fill in the information.
 var placeSearch, autocomplete;
 var componentForm = {
   street_number: 'short_name',
@@ -781,24 +479,18 @@ var componentForm = {
   postal_code: 'short_name'
 };
 function initAutocomplete() {
-  // Create the autocomplete object, restricting the search to geographical
-  // location types.
   autocomplete = new google.maps.places.Autocomplete(
-      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+      (document.getElementById('autocomplete')),
       {types: ['geocode']});
-  // When the user selects an address from the dropdown, populate the address
-  // fields in the form.
   autocomplete.addListener('place_changed', fillInAddress);
 }
 function fillInAddress() {
-  // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
   for (var component in componentForm) {
     document.getElementById(component).value = '';
     document.getElementById(component).disabled = false;
   }
-  // Get each component of the address from the place details
-  // and fill the corresponding field on the form.
+
   for (var i = 0; i < place.address_components.length; i++) {
     var addressType = place.address_components[i].types[0];
     if (componentForm[addressType]) {
@@ -807,8 +499,7 @@ function fillInAddress() {
     }
   }
 }
-// Bias the autocomplete object to the user's geographical location,
-// as supplied by the browser's 'navigator.geolocation' object.
+
 function geolocate() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -825,31 +516,12 @@ function geolocate() {
   }
 }
 </script>
+
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
         async defer>
 
 </script>
-
-
-
-
-
- </script>
-    <!--DASHBOARD CUSTOM SEARCH API KEY
-<!--    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
-        async defer> -->
-        <!--GOOGLE ADDRESS BOX API KEY-->
-<!--
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACeycrJBhijX_wyuGd8cGqo8VUIfT2Aww&signed_in=true&libraries=places&callback=initAutocomplete"
-    async defer>
-
- -->
-
-
-
-
-
-
 {% endblock %}
 
 {% block footer %}

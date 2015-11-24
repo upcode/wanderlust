@@ -37,6 +37,13 @@
       .foreground {
         fill: none;
         pointer-events: all;
+
+        .label {
+  font-weight: bold;
+  text-anchor: middle;
+  cursor: default;
+}
+
       }
 
         </style>
@@ -99,6 +106,9 @@
 var width = 960,
     height = 600;
 
+
+// var usDataText = ["static/d3mapdata/us.json"];
+
 // project of state map
 var projection = d3.geo.albersUsa()
     .scale(1280)
@@ -107,6 +117,7 @@ var projection = d3.geo.albersUsa()
 // project path of map
 var path = d3.geo.path()
     .projection(projection);
+
 
 // color scale that is on top of the state map
 // 20 colors to choose from
@@ -147,14 +158,15 @@ d3.json("static/d3mapdata/us.json", function(error, us) {
   if (error) throw error;
 
   var bisectId = d3.bisector(function(d) { return d.id; }).left;
-
   var features = topojson.feature(us, us.objects.states).features;
+  console.dir(us);
 
 
   svg.append("path")
       .datum(topojson.mesh(us, us.objects.states))
       .attr("class", "background")
       .attr("d", path);
+
 
 
 // appending colors to each state
